@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">Busi Believers Logo</title>
+  <desc id="desc">Two letter B shapes forming a heart with a cross at the center</desc>
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50"/>
+      <stop offset="100%" stop-color="#2980b9"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="16" fill="url(#g)"/>
+  <path fill="#fff" d="M32 26c12 0 22 9 22 21 0 7-3 13-9 17 8 4 12 11 12 19 0 12-10 21-23 21H20V26h12zm-2 14h-6v20h6c6 0 10-4 10-10s-4-10-10-10zm0 32h-6v24h6c7 0 12-5 12-12s-5-12-12-12z"/>
+  <path fill="#fff" d="M88 26c-12 0-22 9-22 21 0 7 3 13 9 17-8 4-12 11-12 19 0 12 10 21 23 21h14V26H88zm2 14h6v20h-6c-6 0-10-4-10-10s4-10 10-10zm0 32h6v24h-6c-7 0-12-5-12-12s5-12 12-12z"/>
+  <rect x="58" y="18" width="4" height="84" rx="2" fill="#f1c40f"/>
+  <rect x="42" y="58" width="36" height="4" rx="2" fill="#f1c40f"/>
+</svg>

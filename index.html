@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Busi Believers Incorporated</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #2980b9;
+            --gold: #f1c40f;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -13,7 +18,9 @@
             line-height: 1.6;
         }
         header {
-            background: #2c3e50;
+            background: linear-gradient(120deg, var(--primary), var(--accent));
+            background-size: 200% 200%;
+            animation: gradientShift 12s ease-in-out infinite alternate;
             color: #fff;
             padding: 40px 20px;
             text-align: center;
@@ -26,19 +33,44 @@
             margin-bottom: 20px;
         }
         h1, h2 {
-            color: #2c3e50;
+            color: var(--primary);
         }
         .button {
             display: inline-block;
-            background: #2980b9;
+            background: var(--accent);
             color: #fff;
             padding: 12px 20px;
             text-decoration: none;
             border-radius: 5px;
             margin-top: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 14px rgba(41, 128, 185, 0.25);
+        }
+        .logo-wrap {
+            display: inline-flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .logo {
+            width: 96px;
+            height: 96px;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+            animation: floatIn 1.4s ease forwards;
+            opacity: 0;
+        }
+        .logo.secondary {
+            width: 72px;
+            height: 72px;
+            animation-delay: 0.25s;
         }
         footer {
-            background: #2c3e50;
+            background: var(--primary);
             color: #fff;
             text-align: center;
             padding: 20px;
@@ -47,16 +79,44 @@
         ul {
             margin-left: 20px;
         }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            animation: fadeUp 0.9s ease forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .card:nth-of-type(2) { animation-delay: 0.1s; }
+        .card:nth-of-type(3) { animation-delay: 0.2s; }
+        .card:nth-of-type(4) { animation-delay: 0.3s; }
+        .card:nth-of-type(5) { animation-delay: 0.4s; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes floatIn {
+            0% { opacity: 0; transform: translateY(18px) scale(0.96); }
+            60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes gradientShift {
+            from { background-position: 0% 50%; }
+            to { background-position: 100% 50%; }
+        }
     </style>
 </head>
 <body>
 
 <header>
+    <div class="logo-wrap">
+        <img class="logo" src="assets/logo.svg" alt="Busi Believers logo">
+        <img class="logo secondary" src="assets/logo.svg" alt="Busi Believers mark">
+    </div>
     <h1>Busi Believers Incorporated</h1>
     <p>A Faith-Based Ministry Restoring Trust, Fairness, and Hope</p>
 </header>
 
-<section>
+<section class="card">
     <h2>Our Mission</h2>
     <p>
         Busi Believers Incorporated is a faith-based nonprofit ministry dedicated to glorifying God by serving individuals
@@ -65,7 +125,7 @@
     </p>
 </section>
 
-<section>
+<section class="card">
     <h2>What We Do</h2>
     <p>
         We walk alongside those we serve, not just to resolve immediate needs, but to build lasting relationships.
@@ -80,7 +140,7 @@
     </ul>
 </section>
 
-<section>
+<section class="card">
     <h2>Who We Serve</h2>
     <p>
         We primarily serve individuals facing financial or personal hardship, while also supporting small businesses
@@ -88,7 +148,7 @@
     </p>
 </section>
 
-<section>
+<section class="card">
     <h2>Our Faith</h2>
     <p>
         Our work is rooted in Christian faith and biblical principles of stewardship, integrity, service, and love.
@@ -96,7 +156,7 @@
     </p>
 </section>
 
-<section>
+<section class="card">
     <h2>Support Our Ministry</h2>
     <p>Your donation helps us serve individuals and small businesses in need, providing mentorship, education, and practical support.</p>
 
@@ -107,7 +167,7 @@
     </p>
 </section>
 
-<section>
+<section class="card">
     <h2>Contact Us</h2>
     <p>
         <strong>Email:</strong> <a href="mailto:admin@busib.net">admin@busib.net</a><br>
