@@ -3,6 +3,490 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Busi Believers Incorporated | BUSI</title>
+  <meta name="description" content="BUSI — Bonding Using Stewardship and Integrity. A Christian service ministry providing practical help, stewardship education, and relationship-centered support." />
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.10);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --accent: #4da3ff;
+      --accent2: #7dd3fc;
+      --border: rgba(255,255,255,0.14);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1050px;
+    }
+
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(1200px 500px at 20% 0%, rgba(77,163,255,0.25), transparent 60%),
+        radial-gradient(900px 500px at 80% 10%, rgba(125,211,252,0.18), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a{ color:inherit; }
+    .container{ max-width: var(--max); margin:0 auto; padding: 0 18px; }
+
+    /* Top Nav */
+    .nav{
+      position: sticky; top:0; z-index: 50;
+      background: rgba(11,18,32,0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 0;
+      gap: 12px;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .brand img{
+      width: 36px; height: 36px; border-radius: 10px;
+      object-fit: cover; border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+    }
+    .brand strong{ font-size: 14px; letter-spacing: 0.2px; }
+    .nav-links{
+      display:flex; gap: 10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .nav-links a{
+      text-decoration:none;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .nav-links a:hover{
+      color: var(--text);
+      border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* Hero */
+    .hero{
+      padding: 42px 0 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .hero-card{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+      padding: 22px;
+    }
+    .hero h1{ margin: 0 0 8px; font-size: 32px; letter-spacing: 0.2px; }
+    .hero p{ margin: 0 0 10px; color: var(--muted); }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size: 12px; color: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      margin-bottom: 12px;
+    }
+    .actions{
+      display:flex; gap: 10px; flex-wrap:wrap; margin-top: 14px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      text-decoration:none;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      cursor:pointer;
+    }
+    .btn:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(77,163,255,0.95), rgba(125,211,252,0.85));
+      border-color: rgba(77,163,255,0.45);
+      color: #061023;
+    }
+    .btn.primary:hover{
+      filter: brightness(1.02);
+    }
+    .hero-media{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position: relative;
+      min-height: 260px;
+    }
+    .hero-media img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter: saturate(1.02) contrast(1.02);
+    }
+    .overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(11,18,32,0.25), rgba(11,18,32,0.72));
+    }
+    .media-caption{
+      position:absolute; left:16px; right:16px; bottom:14px;
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
+    }
+
+    /* Sections */
+    .section{ padding: 16px 0; }
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      padding: 18px;
+    }
+    .card h2{ margin: 0 0 8px; font-size: 18px; }
+    .card p{ margin: 0; color: var(--muted); }
+    .card ul{ margin: 10px 0 0 18px; color: var(--muted); }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .image-card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      overflow:hidden;
+      position: relative;
+      min-height: 220px;
+    }
+    .image-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .image-card .tag{
+      position:absolute; top: 12px; left: 12px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(11,18,32,0.65);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Forms */
+    form{ margin-top: 10px; }
+    label{ display:block; margin: 12px 0 6px; color: rgba(255,255,255,0.86); font-size: 13px; }
+    input, textarea{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      outline: none;
+    }
+    input::placeholder, textarea::placeholder{ color: rgba(255,255,255,0.50); }
+    input:focus, textarea:focus{
+      border-color: rgba(77,163,255,0.55);
+      box-shadow: 0 0 0 4px rgba(77,163,255,0.12);
+    }
+
+    .form-actions{ margin-top: 12px; display:flex; gap: 10px; flex-wrap:wrap; }
+
+    .note{
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.68);
+      border-left: 3px solid rgba(125,211,252,0.60);
+      padding-left: 10px;
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 24px;
+      padding: 22px 0 40px;
+      color: rgba(255,255,255,0.72);
+      border-top: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.08);
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .mini{
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.62);
+    }
+
+    /* Mobile */
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns: 1fr; }
+      .split{ grid-template-columns: 1fr; }
+      .footer-grid{ grid-template-columns: 1fr; }
+      .nav-links{ display:none; } /* clean mobile */
+      .hero h1{ font-size: 28px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <!-- Put your logo file in the repo root as: logo.png -->
+        <img src="logo.png" alt="BUSI Logo" onerror="this.style.display='none'">
+        <div>
+          <strong>Busi Believers Incorporated</strong><br>
+          <span class="mini">BUSI — Bonding Using Stewardship and Integrity</span>
+        </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#what">What We Do</a>
+        <a href="#volunteer">Volunteer</a>
+        <a href="#contact">Contact</a>
+        <a href="#donate">Donate</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div id="top" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <div class="badge">Christian Service Ministry • San Antonio, TX</div>
+        <h1>Restoring hope through practical help, stewardship, and Christ-centered relationships.</h1>
+        <p>
+          We serve primarily individuals in need by walking alongside them with integrity, mentorship,
+          and volunteer-led support — building bonds that last.
+        </p>
+
+        <div class="actions">
+          <a class="btn primary" href="#contact">Request Support</a>
+          <a class="btn" href="#volunteer">Volunteer With Us</a>
+          <a class="btn" href="#donate">Support the Ministry</a>
+        </div>
+
+        <p class="note">
+          <strong>501(c)(3) tax-exempt status pending with the IRS.</strong>
+        </p>
+      </div>
+
+      <div class="hero-media" aria-label="Ministry image">
+        <!-- Put a hero image in the repo root as: hero.jpg -->
+        <img src="hero.jpg" alt="BUSI ministry service" onerror="this.style.display='none'">
+        <div class="overlay"></div>
+        <div class="media-caption">
+          BUSI exists to serve with stewardship, integrity, and compassion.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VALUE CARDS -->
+  <div class="section">
+    <div class="container grid-3">
+      <div class="card">
+        <h2>Stewardship</h2>
+        <p>We help people take practical steps toward stability — with wisdom, planning, and support.</p>
+      </div>
+      <div class="card">
+        <h2>Integrity</h2>
+        <p>We serve transparently, responsibly, and with accountability — doing what’s right.</p>
+      </div>
+      <div class="card">
+        <h2>Bonding</h2>
+        <p>We build relationships through consistent follow-up, encouragement, and mentorship.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT WE DO -->
+  <div id="what" class="section">
+    <div class="container split">
+      <div class="card">
+        <h2>What We Do</h2>
+        <p>
+          BUSI provides relationship-centered support that meets immediate needs while helping individuals
+          establish goals and rebuild trust in God and others.
+        </p>
+        <ul>
+          <li>Practical assistance through volunteer-led service</li>
+          <li>Stewardship education grounded in biblical principles</li>
+          <li>Mentorship and follow-up relationships</li>
+          <li>Support navigating challenges and setting goals</li>
+        </ul>
+        <p class="note"><strong>All services are provided without required fees.</strong></p>
+      </div>
+
+      <div class="image-card">
+        <!-- Put a service photo in the repo root as: service.jpg -->
+        <img src="service.jpg" alt="Practical service" onerror="this.style.display='none'">
+        <div class="tag">Practical Assistance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOLUNTEER -->
+  <div id="volunteer" class="section">
+    <div class="container split">
+      <div class="image-card">
+        <!-- Put a volunteer photo in the repo root as: volunteers.jpg -->
+        <img src="volunteers.jpg" alt="Volunteers" onerror="this.style.display='none'">
+        <div class="tag">Volunteer Sign-Up</div>
+      </div>
+
+      <div class="card">
+        <h2>Volunteer With Us</h2>
+        <p>
+          If you feel led to serve through stewardship, integrity, and relationship-based ministry,
+          sign up below. We’ll contact you with next steps.
+        </p>
+
+        <!-- IMPORTANT:
+             Create a NEW Formspree form for volunteers.
+             Then replace the action URL below with that volunteer endpoint.
+        -->
+        <form action="https://formspree.io/f/REPLACE_WITH_VOLUNTEER_FORM_ID" method="POST">
+          <input type="hidden" name="_subject" value="New BUSI Volunteer Sign-Up">
+          <input type="text" name="_gotcha" style="display:none">
+
+          <label for="vname">Full Name</label>
+          <input id="vname" type="text" name="name" placeholder="Full Name" required>
+
+          <label for="vemail">Email Address</label>
+          <input id="vemail" type="email" name="email" placeholder="Email Address" required>
+
+          <label for="vphone">Phone Number</label>
+          <input id="vphone" type="tel" name="phone" placeholder="Phone Number">
+
+          <label for="vinterests">Areas of Interest</label>
+          <textarea id="vinterests" name="interests" rows="4"
+            placeholder="Examples: practical service, mentorship, prayer, outreach, administration"></textarea>
+
+          <div class="form-actions">
+            <button class="btn primary" type="submit">Sign Up to Volunteer</button>
+            <a class="btn" href="#contact">Questions? Contact Us</a>
+          </div>
+
+          <p class="note">
+            Volunteers may be asked to confirm availability and complete basic onboarding.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="section">
+    <div class="container split">
+      <div class="card">
+        <h2>Contact Us</h2>
+        <p>Have questions or need assistance? Send a message and we’ll get back to you.</p>
+
+        <!-- Your existing Formspree CONTACT endpoint -->
+        <form action="https://formspree.io/f/xjgvyknj" method="POST">
+          <input type="hidden" name="_subject" value="New message from BUSI website">
+          <input type="text" name="_gotcha" style="display:none">
+
+          <label for="cname">Full Name</label>
+          <input id="cname" type="text" name="name" placeholder="Full Name" required>
+
+          <label for="cemail">Email Address</label>
+          <input id="cemail" type="email" name="email" placeholder="Email Address" required>
+
+          <label for="cmessage">Message</label>
+          <textarea id="cmessage" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+
+          <div class="form-actions">
+            <button class="btn primary" type="submit">Send Message</button>
+            <a class="btn" href="mailto:admin@busib.net">Email Us</a>
+          </div>
+        </form>
+
+        <p class="note">
+          Email: <strong>admin@busib.net</strong> • Phone: <strong>888-287-4215</strong><br>
+          Address: <strong>3003 Martin Luther King, San Antonio, Texas 78220</strong>
+        </p>
+      </div>
+
+      <div class="card" id="donate">
+        <h2>Support the Ministry</h2>
+        <p>Your support helps us serve individuals through practical assistance, mentorship, and stewardship.</p>
+
+        <p class="note"><strong>501(c)(3) tax-exempt status pending with the IRS.</strong></p>
+
+        <!-- PayPal Donate Button (replace hosted_button_id when ready) -->
+        <form action="https://www.paypal.com/donate" method="post" target="_top">
+          <input type="hidden" name="hosted_button_id" value="[YOUR_PAYPAL_BUTTON_ID]" />
+          <button class="btn primary" type="submit">Donate with PayPal</button>
+        </form>
+
+        <p style="margin-top:12px;color:rgba(255,255,255,0.75);">
+          Or donate via Zelle: <strong>admin@busib.net</strong>
+        </p>
+
+        <p class="mini" style="margin-top:10px;">
+          Donor receipts and acknowledgments will be provided. If you need a custom receipt for your records, contact us.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <strong>Busi Believers Incorporated</strong><br>
+        <span class="mini">BUSI — Bonding Using Stewardship and Integrity</span>
+        <p class="mini" style="margin-top:10px;">
+          A Texas faith-based nonprofit ministry serving individuals through stewardship, integrity, and Christ-centered relationships.
+        </p>
+      </div>
+
+      <div>
+        <p class="mini" style="margin:0;">
+          © 2026 Busi Believers Incorporated<br>
+          San Antonio, Texas<br>
+          501(c)(3) tax-exempt status pending
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Busi Believers Incorporated | BUSI Ministry</title>
   <style>
     body {
