@@ -405,6 +405,98 @@
       </div>
     </div>
   </div>
+  <!-- REQUEST SUPPORT -->
+<div id="support" class="section">
+  <div class="container split">
+    <div class="card">
+      <h2>Request Support</h2>
+      <p>
+        If you’re going through a difficult season and need practical assistance, guidance,
+        or someone to walk alongside you, you can submit a request below.
+      </p>
+
+      <p class="note">
+        We do our best to respond as quickly as possible. If you are in immediate danger,
+        please call 911 or your local emergency services.
+      </p>
+
+      <!-- IMPORTANT:
+           Create a NEW Formspree form for support requests.
+           Replace the action URL below with your SUPPORT endpoint.
+      -->
+      <form action="https://formspree.io/f/REPLACE_WITH_SUPPORT_FORM_ID" method="POST">
+        <input type="hidden" name="_subject" value="BUSI Support Request">
+        <input type="hidden" name="_next" value="https://busib.net/thanks.html">
+        <input type="text" name="_gotcha" style="display:none">
+
+        <label for="sname">Full Name</label>
+        <input id="sname" type="text" name="name" placeholder="Full Name" required>
+
+        <label for="sphone">Phone Number</label>
+        <input id="sphone" type="tel" name="phone" placeholder="Phone Number">
+
+        <label for="semail">Email Address</label>
+        <input id="semail" type="email" name="email" placeholder="Email Address" required>
+
+        <label for="scity">City</label>
+        <input id="scity" type="text" name="city" placeholder="City (ex: San Antonio)">
+
+        <label for="stype">What kind of support are you requesting?</label>
+        <select id="stype" name="support_type" required
+          style="width:100%;padding:11px 12px;border-radius:14px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.92);outline:none;">
+          <option value="" disabled selected>Select one</option>
+          <option>Practical assistance (home/repair/basic needs)</option>
+          <option>Guidance / mentorship / goal-setting</option>
+          <option>Stewardship / budgeting / planning</option>
+          <option>Prayer support</option>
+          <option>Other</option>
+        </select>
+
+        <label for="sdetails">Briefly describe what you need help with</label>
+        <textarea id="sdetails" name="details" rows="6"
+          placeholder="Share what’s going on and what kind of help would be most helpful." required></textarea>
+
+        <label for="scontact">Best way to reach you</label>
+        <select id="scontact" name="preferred_contact"
+          style="width:100%;padding:11px 12px;border-radius:14px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.92);outline:none;">
+          <option>Email</option>
+          <option>Phone call</option>
+          <option>Text message</option>
+        </select>
+
+        <label for="savailability">Best times to contact you</label>
+        <input id="savailability" type="text" name="availability" placeholder="Example: Weekdays after 5pm">
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit">Submit Support Request</button>
+          <a class="btn" href="#contact">General Contact</a>
+        </div>
+
+        <p class="note">
+          Submitting this form does not guarantee assistance, but it helps us understand your needs and follow up appropriately.
+        </p>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>How BUSI Helps</h2>
+      <p>
+        BUSI is a faith-based ministry focused on relationship-centered support. We aim to help with immediate needs
+        while also building long-term encouragement and stewardship.
+      </p>
+      <ul>
+        <li>Practical help through volunteers and community partners</li>
+        <li>Mentorship, accountability, and follow-up</li>
+        <li>Stewardship education and goal-setting</li>
+        <li>Prayer and encouragement</li>
+      </ul>
+
+      <p class="note">
+        <strong>Emergency needs:</strong> If you are unsafe or in crisis, please contact local emergency services right away.
+      </p>
+    </div>
+  </div>
+</div>
 
   <!-- CONTACT -->
   <div id="contact" class="section">
