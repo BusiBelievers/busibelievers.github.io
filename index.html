@@ -633,3 +633,35 @@
       </div>
 
       <div>
+<script>
+  (function () {
+    const btn = document.getElementById('navToggle');
+    const menu = document.getElementById('mobileNav');
+    if (!btn || !menu) return;
+
+    function closeMenu() {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = '☰';
+    }
+
+    function toggleMenu() {
+      const isOpen = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+      btn.textContent = isOpen ? '✕' : '☰';
+    }
+
+    btn.addEventListener('click', toggleMenu);
+
+    menu.addEventListener('click', (e) => {
+      if (e.target && e.target.tagName === 'A') closeMenu();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) closeMenu();
+    });
+  })();
+</script>
+
+</body>
+</html>
