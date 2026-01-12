@@ -245,12 +245,59 @@
 
     /* Mobile */
     @media (max-width: 900px){
-      .hero-grid{ grid-template-columns: 1fr; }
-      .grid-3{ grid-template-columns: 1fr; }
-      .split{ grid-template-columns: 1fr; }
-      .footer-grid{ grid-template-columns: 1fr; }
-      .nav-links{ display:none; } /* clean mobile */
-      .hero h1{ font-size: 28px; }
+  .hero-grid{ grid-template-columns: 1fr; }
+  .grid-3{ grid-template-columns: 1fr; }
+  .split{ grid-template-columns: 1fr; }
+  .footer-grid{ grid-template-columns: 1fr; }
+  .hero h1{ font-size: 28px; }
+
+  /* Mobile nav toggle */
+  .nav-links{ display:none; }
+
+  .nav-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.92);
+    cursor: pointer;
+  }
+  .nav-toggle:hover{
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.22);
+  }
+
+  .nav-menu{
+    display:none;
+    padding: 10px 0 14px;
+  }
+  .nav-menu.open{ display:block; }
+
+  .nav-menu a{
+    display:block;
+    text-decoration:none;
+    font-size: 14px;
+    color: rgba(255,255,255,0.86);
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    margin-top: 8px;
+  }
+  .nav-menu a:hover{
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.18);
+  }
+}
+
+/* Desktop: hide hamburger + mobile menu */
+.nav-toggle{ display:none; }
+.nav-menu{ display:none; }
+
     }
   </style>
 </head>
@@ -269,13 +316,43 @@
       </a>
 
       <div class="nav-links">
-  <a href="#what">What We Do</a>
-  <a href="#support">Request Support</a>
-  <a href="#volunteer">Volunteer</a>
-  <a href="#contact">Contact</a>
-  <a href="#donate">Donate</a>
-</div>
+  <!-- NAV -->
+<div class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top">
+      <img src="logo.png" alt="BUSI Logo" onerror="this.style.display='none'">
+      <div>
+        <strong>Busi Believers Incorporated</strong><br>
+        <span class="mini">BUSI — Bonding Using Stewardship and Integrity</span>
+      </div>
+    </a>
 
+    <div class="nav-links">
+      <a href="#what">What We Do</a>
+      <a href="#support">Request Support</a>
+      <a href="#volunteer">Volunteer</a>
+      <a href="#contact">Contact</a>
+      <a href="#donate">Donate</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobileNav">
+      ☰
+    </button>
+  </div>
+
+  <!-- MOBILE MENU (must be OUTSIDE nav-inner) -->
+  <div class="container nav-menu" id="mobileNav">
+    <a href="#what">What We Do</a>
+    <a href="#support">Request Support</a>
+    <a href="#volunteer">Volunteer</a>
+    <a href="#contact">Contact</a>
+    <a href="#donate">Donate</a>
+  </div>
+</div>
+        
       </div>
     </div>
   </div>
