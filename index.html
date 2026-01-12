@@ -245,7 +245,7 @@
     }
 
     /* Mobile */
-    @media (max-width: 900px){
+@media (max-width: 900px){
   .hero-grid{ grid-template-columns: 1fr; }
   .grid-3{ grid-template-columns: 1fr; }
   .split{ grid-template-columns: 1fr; }
@@ -296,10 +296,11 @@
 }
 
 /* Desktop: hide hamburger + mobile menu */
-.nav-toggle{ display:none; }
-.nav-menu{ display:none; }
+@media (min-width: 901px){
+  .nav-toggle{ display:none; }
+  .nav-menu{ display:none; }
+}
 
-    }
   </style>
 </head>
 
@@ -308,7 +309,6 @@
   <div class="nav">
     <div class="container nav-inner">
       <a class="brand" href="#top">
-        <!-- Put your logo file in the repo root as: logo.png -->
         <img src="logo.png" alt="BUSI Logo" onerror="this.style.display='none'">
         <div>
           <strong>Busi Believers Incorporated</strong><br>
@@ -317,45 +317,31 @@
       </a>
 
       <div class="nav-links">
-  <!-- NAV -->
-<div class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="#top">
-      <img src="logo.png" alt="BUSI Logo" onerror="this.style.display='none'">
-      <div>
-        <strong>Busi Believers Incorporated</strong><br>
-        <span class="mini">BUSI — Bonding Using Stewardship and Integrity</span>
+        <a href="#what">What We Do</a>
+        <a href="#support">Request Support</a>
+        <a href="#volunteer">Volunteer</a>
+        <a href="#contact">Contact</a>
+        <a href="#donate">Donate</a>
       </div>
-    </a>
 
-    <div class="nav-links">
+      <button class="nav-toggle" id="navToggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobileNav">
+        ☰
+      </button>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div class="container nav-menu" id="mobileNav">
       <a href="#what">What We Do</a>
       <a href="#support">Request Support</a>
       <a href="#volunteer">Volunteer</a>
       <a href="#contact">Contact</a>
       <a href="#donate">Donate</a>
     </div>
-
-    <button class="nav-toggle" id="navToggle"
-      aria-label="Open menu"
-      aria-expanded="false"
-      aria-controls="mobileNav">
-      ☰
-    </button>
   </div>
 
-  <!-- MOBILE MENU (must be OUTSIDE nav-inner) -->
-  <div class="container nav-menu" id="mobileNav">
-    <a href="#what">What We Do</a>
-    <a href="#support">Request Support</a>
-    <a href="#volunteer">Volunteer</a>
-    <a href="#contact">Contact</a>
-    <a href="#donate">Donate</a>
-  </div>
-</div>
-
-
-        
   <!-- HERO -->
   <div id="top" class="hero">
     <div class="container hero-grid">
@@ -557,6 +543,7 @@
   <a class="btn" href="#contact">General Contact</a>
 </div>
 </form>
+    </div>
 
       <div class="card">
   <h2>How BUSI Helps</h2>
