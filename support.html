@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Support Busi Believers</title>
+
+<title>Support Busi Believers Incorporated</title>
 
 <style>
 
 body{
 font-family:Arial;
-text-align:center;
 background:#0b1220;
 color:white;
+text-align:center;
 padding:60px;
 }
 
@@ -20,14 +21,26 @@ display:inline-block;
 padding:14px 28px;
 background:#d4af37;
 color:black;
-text-decoration:none;
 font-weight:bold;
 border-radius:10px;
-margin-top:20px;
+text-decoration:none;
+margin:10px;
+border:none;
+cursor:pointer;
+}
+
+.amount{
+margin:10px;
+}
+
+input[type="number"]{
+padding:12px;
+border-radius:8px;
+border:none;
+width:120px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -39,22 +52,32 @@ Your support helps provide mentorship, stewardship education,
 and community assistance for individuals and small businesses.
 </p>
 
-<!-- PayPal Button -->
+<h2>Select a Donation Amount</h2>
 
 <form action="https://www.paypal.com/donate" method="post" target="_top">
 
-<input type="hidden" name="business" value="admin@busib.net">
-
+<input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
 <input type="hidden" name="currency_code" value="USD">
 
+<button class="btn" name="amount" value="10">$10</button>
+<button class="btn" name="amount" value="25">$25</button>
+<button class="btn" name="amount" value="50">$50</button>
+<button class="btn" name="amount" value="100">$100</button>
+
+<div class="amount">
+<p>Custom Amount</p>
+
+<input type="number" name="amount" placeholder="$">
+
 <button class="btn" type="submit">
-Donate with PayPal
+Donate
 </button>
+</div>
 
 </form>
 
 <p style="margin-top:40px;">
-Thank you for supporting our mission.
+Thank you for supporting the BUSI mission.
 </p>
 
 </body>
