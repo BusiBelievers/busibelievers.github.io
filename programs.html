@@ -74,25 +74,15 @@ Building Unity, Stewardship, and Integrity.
 
 <h2>Participant Documents</h2>
 
-<p style="color:var(--muted)">
-Download the required forms to begin the BUSI program.
-</p>
+<h2 style="margin-top:40px">Request Assistance</h2>
 
-<a class="btn" href="busi_participant_intake_form.pdf">Participant Intake Form</a>
-  
-<h3 id="request-help" style="margin-top:40px">Request Assistance</h3>
-
-  <p style="max-width:600px;margin:auto;color:var(--muted)">
+<p style="max-width:600px;margin:auto;color:var(--muted)">
 If you are experiencing hardship and need assistance with home repairs,
-vehicle repairs, or other essential needs, please submit the form below.
-A member of the BUSI team will review your request.
+vehicle repairs, property maintenance, or other essential needs,
+please complete the request form below.
 </p>
-  <p style="font-size:14px;color:var(--muted)">
-All requests are reviewed by BUSI volunteers. Assistance depends on
-available resources, volunteers, and project scope.
-</p>
-  
-<form action="https://formspree.io/f/mykkygdo" method="POST" style="max-width:500px;margin:20px auto;">
+
+<form action="https://formspree.io/f/mykkygdo" method="POST" style="max-width:600px;margin:30px auto;">
 
 <input type="text" name="name" placeholder="Full Name" required
 style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
@@ -103,7 +93,23 @@ style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;
 <input type="text" name="phone" placeholder="Phone Number"
 style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
 
-<textarea name="message" placeholder="Describe the help you need"
+<input type="text" name="address" placeholder="Home Address"
+style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
+
+<select name="assistance_type"
+style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
+
+<option value="">Type of Assistance Needed</option>
+<option>Home Repair</option>
+<option>Vehicle Repair</option>
+<option>Tree Trimming</option>
+<option>Lawn Care</option>
+<option>Plumbing</option>
+<option>Other</option>
+
+</select>
+
+<textarea name="description" placeholder="Describe the assistance needed"
 style="width:100%;padding:12px;height:120px;margin-bottom:12px;border-radius:8px;border:none;"></textarea>
 
 <input type="hidden" name="_next" value="https://busib.net/thanks.html">
