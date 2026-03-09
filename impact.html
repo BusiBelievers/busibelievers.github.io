@@ -11,6 +11,10 @@ Our mission is to restore faith, responsibility, and opportunity within
 the communities we serve.
 </p>
 
+</div>
+
+</section>
+
  <section id="tracker">
 
 <div class="container">
@@ -79,3 +83,33 @@ volunteer service, and community partnerships.
 </div>
 
 </div>
+
+<h3 id="homes">0</h3>
+<h3 id="vehicles">0</h3>
+<h3 id="trees">0</h3>
+<h3 id="volunteers">0</h3>
+
+<script>
+
+function animateValue(id, start, end, duration) {
+let obj = document.getElementById(id);
+let range = end - start;
+let current = start;
+let increment = end > start ? 1 : -1;
+let stepTime = Math.abs(Math.floor(duration / range));
+let timer = setInterval(function() {
+current += increment;
+obj.textContent = current;
+if (current == end) {
+clearInterval(timer);
+}
+}, stepTime);
+}
+
+animateValue("homes", 0, 5, 1500);
+animateValue("vehicles", 0, 3, 1500);
+animateValue("trees", 0, 8, 1500);
+animateValue("volunteers", 0, 18, 1500);
+
+</script>
+
