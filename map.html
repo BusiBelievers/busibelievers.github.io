@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BUSI Community Project Map | Busi Believers</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0b1220;
+color:white;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+#map{
+height:500px;
+margin-top:30px;
+border-radius:16px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>BUSI Community Assistance Map</h1>
+
+<p style="max-width:700px;margin:auto">
+This map shows community projects completed or in progress through
+Busi Believers Incorporated volunteers and community partners.
+</p>
+
+<div id="map"></div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([29.4241, -98.4936], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+var project1 = L.marker([29.438, -98.476]).addTo(map)
+.bindPopup("BUSI-001<br>Tree Removal Assistance");
+
+var project2 = L.marker([29.401, -98.465]).addTo(map)
+.bindPopup("BUSI-002<br>Vehicle Repair Assistance");
+
+var project3 = L.marker([29.392, -98.452]).addTo(map)
+.bindPopup("BUSI-003<br>Home Repair Project");
+
+</script>
+
+</body>
+</html>
