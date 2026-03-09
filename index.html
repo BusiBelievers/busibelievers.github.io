@@ -936,5 +936,16 @@ updateCounter();
 });
 
 </script>
+
+ <script>
+
+const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+
+if(urlParams.has('project')){
+document.getElementById("project").value = urlParams.get('project');
+}
+
+</script>
+ 
 </body>
 </html>
