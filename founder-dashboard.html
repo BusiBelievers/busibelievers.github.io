@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BUSI Founder Control Center</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0b1220;
+color:white;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.card h2{
+margin-top:0;
+}
+
+.btn{
+display:inline-block;
+padding:10px 18px;
+background:#d4af37;
+color:black;
+border-radius:8px;
+text-decoration:none;
+margin-top:10px;
+font-weight:bold;
+}
+
+input, select{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+border:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 style="text-align:center">BUSI Founder Control Center</h1>
+
+<p style="text-align:center;max-width:700px;margin:auto">
+Central operations dashboard for Busi Believers Incorporated.
+Manage assistance cases, volunteers, projects, and community impact.
+</p>
+
+<div class="grid">
+
+<div class="card">
+
+<h2>Create New Case</h2>
+
+<input id="caseID" placeholder="Case Number (BUSI-020)">
+
+<input id="projectName" placeholder="Project Name">
+
+<input id="location" placeholder="City / Area">
+
+<select id="status">
+<option>Pending Review</option>
+<option>Approved</option>
+<option>In Progress</option>
+<option>Completed</option>
+</select>
+
+<button class="btn" onclick="addCase()">Create Case</button>
+
+</div>
+
+<div class="card">
+
+<h2>Case Status Tracker</h2>
+
+<p>View all participant cases and their current status.</p>
+
+<a class="btn" href="case-status.html">Open Case Tracker</a>
+
+</div>
+
+<div class="card">
+
+<h2>Volunteer Dispatch</h2>
+
+<p>View active projects where volunteers are needed.</p>
+
+<a class="btn" href="volunteer-board.html">Open Volunteer Board</a>
+
+</div>
+
+<div class="card">
+
+<h2>Community Impact</h2>
+
+<p>View BUSI impact statistics and project outcomes.</p>
+
+<a class="btn" href="impact.html">Open Impact Dashboard</a>
+
+</div>
+
+<div class="card">
+
+<h2>Impact Map</h2>
+
+<p>View BUSI service locations across the city.</p>
+
+<a class="btn" href="impact-map.html">Open Impact Map</a>
+
+</div>
+
+<div class="card">
+
+<h2>Project Archive</h2>
+
+<p>Review completed community projects.</p>
+
+<a class="btn" href="completed-projects.html">View Archive</a>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+function saveCases(){
+localStorage.setItem("busiCases", JSON.stringify(cases));
+}
+
+function addCase(){
+
+let caseID = document.getElementById("caseID").value;
+let project = document.getElementById("projectName").value;
+let location = document.getElementById("location").value;
+let status = document.getElementById("status").value;
+
+cases.push({caseID, project, location, status});
+
+saveCases();
+
+alert("BUSI Case Created");
+
+}
+
+</script>
+
+</body>
+</html>
