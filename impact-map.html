@@ -104,5 +104,17 @@ Volunteer Mechanics: 2"
 
 </script>
 
+ const params = new URLSearchParams(window.location.search);
+
+const caseID = params.get("case");
+
+if(caseID && cases[caseID]){
+
+map.setView(cases[caseID].getLatLng(), 15);
+
+cases[caseID].openPopup();
+
+}
+ 
 </body>
 </html>
