@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>BUSI Community Impact Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0b1220;
+color:white;
+margin:0;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+#map{
+height:500px;
+border-radius:16px;
+margin-top:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>BUSI Community Impact Map</h1>
+
+<p>
+Projects completed by Busi Believers volunteers throughout San Antonio.
+</p>
+
+<div id="map"></div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([29.4241, -98.4936], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+/* Example BUSI Projects */
+
+L.marker([29.438, -98.49]).addTo(map)
+.bindPopup("BUSI Home Repair Project");
+
+L.marker([29.41, -98.47]).addTo(map)
+.bindPopup("BUSI Tree Removal");
+
+L.marker([29.39, -98.51]).addTo(map)
+.bindPopup("BUSI Vehicle Assistance");
+
+</script>
+
+</body>
+</html>
