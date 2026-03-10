@@ -82,14 +82,14 @@ iconAnchor: [12, 41]
  
 var cases = {
 
-"BUSI-006": L.marker([29.438, -98.49]).addTo(map)
-.bindPopup("<b>BUSI-006</b><br>Tree Removal"),
+"BUSI-006": L.marker([29.438, -98.49], {icon: greenIcon}).addTo(map)
+.bindPopup("<b>BUSI-006</b><br>Tree Removal<br>Status: Completed"),
 
-"BUSI-007": L.marker([29.41, -98.47]).addTo(map)
-.bindPopup("<b>BUSI-007</b><br>Lawn Care"),
+"BUSI-007": L.marker([29.41, -98.47], {icon: blueIcon}).addTo(map)
+.bindPopup("<b>BUSI-007</b><br>Lawn Care<br>Status: Active"),
 
-"BUSI-008": L.marker([29.39, -98.51]).addTo(map)
-.bindPopup("<b>BUSI-008</b><br>Vehicle Assistance")
+"BUSI-008": L.marker([29.39, -98.51], {icon: yellowIcon}).addTo(map)
+.bindPopup("<b>BUSI-008</b><br>Vehicle Assistance<br>Status: Pending")
 
 };
 
