@@ -151,7 +151,27 @@ View Community Project Gallery
 </div>
 
 </section>
+ 
+<section>
 
+<div class="container">
+
+<h2>BUSI Community Impact Map</h2>
+
+<p style="max-width:700px;margin:auto">
+This map highlights community projects coordinated through
+Busi Believers Incorporated across San Antonio.
+</p>
+
+<div id="map" style="height:500px;margin-top:40px;border-radius:16px;"></div>
+
+</div>
+
+</section>
+
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+ 
 <script>
 
 /* Load BUSI case database */
@@ -199,7 +219,40 @@ document.getElementById("completed").innerText = completed;
 document.getElementById("active").innerText = active;
 
 </script>
+ 
+<script>
 
+/* Create BUSI Map */
+
+var map = L.map('map').setView([29.4241, -98.4936], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+/* Load BUSI case database */
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+/* Add markers for each project */
+
+cases.forEach(c => {
+
+let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
+let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
+
+L.marker([lat, lng]).addTo(map)
+.bindPopup(`
+<b>${c.caseID}</b><br>
+Project: ${c.project}<br>
+Location: ${c.location}<br>
+Status: ${c.status}
+`);
+
+});
+
+</script>
+ 
 </body>
 </html>
 
