@@ -105,6 +105,28 @@ cases[caseID].openPopup();
 
 }
 
+ var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+var div = L.DomUtil.create('div', 'info legend');
+
+div.innerHTML =
+
+"<b>BUSI Project Status</b><br><br>" +
+
+"<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png' width='15'> Completed<br>" +
+
+"<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png' width='15'> Active<br>" +
+
+"<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png' width='15'> Pending";
+
+return div;
+
+};
+
+legend.addTo(map);
+ 
 </script>
  
 </body>
