@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BUSI Community Service Network</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0b1220;
+color:white;
+margin:0;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+#map{
+height:600px;
+border-radius:16px;
+margin-top:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>BUSI Community Service Network</h1>
+
+<p>
+Explore active community assistance projects coordinated by
+Busi Believers Incorporated.
+</p>
+
+<div id="map"></div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+var map = L.map('map').setView([29.4241, -98.4936], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+/* marker colors */
+
+var greenIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var blueIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var yellowIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+/* load BUSI cases */
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+cases.forEach(c => {
+
+let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
+let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
+
+let icon = yellowIcon;
+
+if(c.status === "Approved") icon = blueIcon;
+if(c.status === "In Progress") icon = blueIcon;
+if(c.status === "Completed") icon = greenIcon;
+
+L.marker([lat,lng],{icon:icon}).addTo(map)
+.bindPopup(
+"<b>"+c.caseID+"</b><br>"+
+"Project: "+c.project+"<br>"+
+"Location: "+c.location+"<br>"+
+"Status: "+c.status+"<br><br>"+
+"<a href='marketplace.html'>View Project</a>"
+);
+
+});
+
+</script>
+
+</body>
+</html>
