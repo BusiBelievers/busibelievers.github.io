@@ -230,10 +230,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
-/* Load BUSI case database */
-
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
-
 /* Add markers for each project */
 
 cases.forEach(c => {
