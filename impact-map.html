@@ -80,18 +80,22 @@ iconSize: [25, 41],
 iconAnchor: [12, 41]
 });
  
-var cases = {
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-"BUSI-006": L.marker([29.438, -98.49], {icon: greenIcon}).addTo(map)
-.bindPopup("<b>BUSI-006</b><br>Tree Removal<br>Status: Completed"),
+cases.forEach(c => {
 
-"BUSI-007": L.marker([29.41, -98.47], {icon: blueIcon}).addTo(map)
-.bindPopup("<b>BUSI-007</b><br>Lawn Care<br>Status: Active"),
+let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
+let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
 
-"BUSI-008": L.marker([29.39, -98.51], {icon: yellowIcon}).addTo(map)
-.bindPopup("<b>BUSI-008</b><br>Vehicle Assistance<br>Status: Pending")
+L.marker([lat, lng]).addTo(map)
+.bindPopup(`
+<b>${c.caseID}</b><br>
+Project: ${c.project}<br>
+Location: ${c.location}<br>
+Status: ${c.status}
+`);
 
-};
+});
 
 /* Auto zoom when case link is used */
 
