@@ -78,9 +78,13 @@ to Busi Believers Incorporated.
 <script>
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
-
-let container = document.getElementById("caseContainer");
-
+  
+let container = document.getElementById("caseContainer")
+  
+if(cases.length === 0){
+container.innerHTML = "<p style='text-align:center;margin-top:30px;color:rgba(255,255,255,0.7)'>No cases available yet.</p>";
+}
+  
 cases.forEach(c => {
 
 let statusClass = "pending";
