@@ -253,3 +253,30 @@ return "BUSI-" + number;
 document.getElementById("caseNumber").value = generateCaseNumber();
 
 </script>
+
+<script>
+
+function generateCaseNumber(){
+
+let lastCase = localStorage.getItem("busiCaseNumber");
+
+if(!lastCase){
+lastCase = 1;
+}else{
+lastCase = parseInt(lastCase) + 1;
+}
+
+localStorage.setItem("busiCaseNumber", lastCase);
+
+let caseID = "BUSI-" + String(lastCase).padStart(3,'0');
+
+document.getElementById("caseNumber").value = caseID;
+
+}
+
+generateCaseNumber();
+
+</script>
+
+</body>
+</html>
