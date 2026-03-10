@@ -71,37 +71,43 @@ Participants can view the status of assistance requests submitted
 to Busi Believers Incorporated.
 </p>
 
-<div class="card">
-
-<h3>
-<a href="impact-map.html?case=BUSI-010">
-BUSI-010
-</a>
-</h3>
-
-<p><strong>Project:</strong> Tree Removal Assistance</p>
-
-<p><strong>Location:</strong> San Antonio</p>
-
-<p><strong>Status:</strong> <span class="status approved">Approved</span></p>
-
-</div>
-
-<div class="card">
-
-<h3>BUSI-011</h3>
-
-<p><strong>Project:</strong> Lawn Care Assistance</p>
-
-<p><strong>Location:</strong> San Antonio</p>
-
-<p><strong>Status:</strong> <span class="status pending">Pending Review</span></p>
-
-</div>
-
+<div id="caseContainer"></div>
+  
 </div>
 
 <script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+let container = document.getElementById("caseContainer");
+
+cases.forEach(c => {
+
+let statusClass = "pending";
+
+if(c.status === "Approved") statusClass = "approved";
+if(c.status === "In Progress") statusClass = "progress";
+if(c.status === "Completed") statusClass = "completed";
+
+container.innerHTML += `
+<div class="card">
+
+<h3>
+<a href="impact-map.html?case=${c.caseID}">
+${c.caseID}
+</a>
+</h3>
+
+<p><strong>Project:</strong> ${c.project}</p>
+
+<p><strong>Location:</strong> ${c.location}</p>
+
+<p><strong>Status:</strong> <span class="status ${statusClass}">${c.status}</span></p>
+
+</div>
+`;
+
+});
 
 function searchCase(){
 
@@ -121,7 +127,7 @@ card.style.display = "none";
 
 }
 
-</script>
+</script>  
   
 </body>
 </html>
