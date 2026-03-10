@@ -83,10 +83,12 @@ your request and contact you regarding next steps.
   
 <h2 style="margin-top:40px">Request Assistance</h2>
 
-<form action="https://formspree.io/f/mykkygdo" method="POST" style="max-width:600px;margin:30px auto;">
-<input type="hidden" id="caseNumber" name="caseNumber">
+<form id="busiRequestForm">
   
+<input type="hidden" id="caseNumber" name="caseNumber">
+
 <input type="text" name="name" placeholder="Full Name" required
+    
 style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
 
 <input type="email" name="email" placeholder="Email Address" required
@@ -275,6 +277,48 @@ document.getElementById("caseNumber").value = caseID;
 }
 
 generateCaseNumber();
+
+</script>
+
+<script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+function generateCaseNumber(){
+
+let number = cases.length + 1;
+return "BUSI-" + number.toString().padStart(3,"0");
+
+}
+
+document.getElementById("busiRequestForm")
+.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+let form = e.target;
+
+let caseID = generateCaseNumber();
+
+let project = form.assistance_type.value;
+let location = form.address.value;
+
+let newCase = {
+caseID: caseID,
+project: project,
+location: location,
+status: "Pending Review"
+};
+
+cases.push(newCase);
+
+localStorage.setItem("busiCases", JSON.stringify(cases));
+
+alert("Request Submitted. Your Case Number is " + caseID);
+
+form.reset();
+
+});
 
 </script>
 
