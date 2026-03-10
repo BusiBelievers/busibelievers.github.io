@@ -50,8 +50,6 @@ Projects completed by Busi Believers volunteers throughout San Antonio.
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
- 
-<script>
 
 var map = L.map('map').setView([29.4241, -98.4936], 11);
 
@@ -74,7 +72,7 @@ var cases = {
 
 };
 
-/* Auto zoom when case is opened */
+/* Auto zoom when case link is used */
 
 const params = new URLSearchParams(window.location.search);
 const caseID = params.get("case");
@@ -82,24 +80,11 @@ const caseID = params.get("case");
 if(caseID && cases[caseID]){
 
 map.setView(cases[caseID].getLatLng(), 15);
-
 cases[caseID].openPopup();
 
 }
 
 </script>
-
- const params = new URLSearchParams(window.location.search);
-
-const caseID = params.get("case");
-
-if(caseID && cases[caseID]){
-
-map.setView(cases[caseID].getLatLng(), 15);
-
-cases[caseID].openPopup();
-
-}
  
 </body>
 </html>
