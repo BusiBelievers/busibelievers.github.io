@@ -273,7 +273,41 @@ font-size:28px;
 }
 #highlights{
 padding-top:20px;
-} 
+}
+
+ .menu-toggle{
+display:none;
+background:none;
+border:none;
+color:white;
+font-size:28px;
+cursor:pointer;
+}
+
+@media (max-width: 800px){
+
+.menu-toggle{
+display:block;
+}
+
+.nav-menu{
+display:none;
+flex-direction:column;
+width:100%;
+margin-top:10px;
+}
+
+.nav-menu a{
+padding:10px;
+border-top:1px solid var(--border);
+}
+
+.nav-menu.show{
+display:flex;
+}
+
+}
+ 
 </style>
 </head>
 
@@ -293,6 +327,8 @@ padding-top:20px;
 Busi Believers
 </div>
 
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+ 
 <div class="nav-menu">
 
 <a href="#programs">Programs</a>
@@ -1015,6 +1051,15 @@ const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
 
 if(urlParams.has('project')){
 document.getElementById("project").value = urlParams.get('project');
+}
+
+</script>
+
+ <script>
+
+function toggleMenu(){
+const menu = document.querySelector(".nav-menu");
+menu.classList.toggle("show");
 }
 
 </script>
