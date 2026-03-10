@@ -66,7 +66,9 @@ Use this page to monitor assistance requests, volunteers, and project status.
 
 <a href="programs.html">View Intake Form</a>
 
-  <div class="card">
+</div>
+  
+<div class="card">
 
 <h2>Case Manager</h2>
 
@@ -92,9 +94,7 @@ Add Case
 </button>
 
 </div>
-
-<div class="card">
-
+  
 <h2>Active Projects</h2>
 
 <p>Projects currently awaiting volunteers or in progress.</p>
@@ -137,5 +137,30 @@ Add Case
 
 </div>
 
+<script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+function saveCases(){
+localStorage.setItem("busiCases", JSON.stringify(cases));
+}
+
+function addCase(){
+
+let caseID = document.getElementById("caseID").value;
+let project = document.getElementById("projectName").value;
+let location = document.getElementById("location").value;
+let status = document.getElementById("status").value;
+
+cases.push({caseID, project, location, status});
+
+saveCases();
+
+alert("Case Added Successfully");
+
+}
+
+</script>
+  
 </body>
 </html>
