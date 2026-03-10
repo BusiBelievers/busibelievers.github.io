@@ -84,7 +84,8 @@ your request and contact you regarding next steps.
 <h2 style="margin-top:40px">Request Assistance</h2>
 
 <form action="https://formspree.io/f/mykkygdo" method="POST" style="max-width:600px;margin:30px auto;">
-
+<input type="hidden" id="caseNumber" name="caseNumber">
+  
 <input type="text" name="name" placeholder="Full Name" required
 style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
 
@@ -241,3 +242,17 @@ to serve those in need.
 </div>
 
 </section>
+
+<script>
+
+function generateCaseNumber() {
+
+let number = Math.floor(Math.random() * 900) + 100;
+
+return "BUSI-" + number;
+
+}
+
+document.getElementById("caseNumber").value = generateCaseNumber();
+
+</script>
