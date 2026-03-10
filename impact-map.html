@@ -79,15 +79,23 @@ shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-s
 iconSize: [25, 41],
 iconAnchor: [12, 41]
 });
- 
+
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+let markers = {};
 
 cases.forEach(c => {
 
 let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
 let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
 
-L.marker([lat, lng]).addTo(map)
+let icon = yellowIcon;
+
+if(c.status === "Approved") icon = blueIcon;
+if(c.status === "In Progress") icon = blueIcon;
+if(c.status === "Completed") icon = greenIcon;
+
+let marker = L.marker([lat, lng], {icon: icon}).addTo(map)
 .bindPopup(`
 <b>${c.caseID}</b><br>
 Project: ${c.project}<br>
@@ -95,17 +103,19 @@ Location: ${c.location}<br>
 Status: ${c.status}
 `);
 
-});
+markers[c.caseID] = marker;
+
+}); 
 
 /* Auto zoom when case link is used */
 
 const params = new URLSearchParams(window.location.search);
 const caseID = params.get("case");
 
-if(caseID && cases[caseID]){
+if(caseID && markers[caseID]){
 
-map.setView(cases[caseID].getLatLng(), 15);
-cases[caseID].openPopup();
+map.setView(markers[caseID].getLatLng(), 15);
+markers[caseID].openPopup();
 
 }
 
