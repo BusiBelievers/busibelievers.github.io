@@ -232,6 +232,10 @@ attribution:'© OpenStreetMap'
 
 /* Add markers for each project */
 
+ if(cases.length > 0){
+map.setZoom(12);
+}
+ 
 cases.forEach(c => {
 
 let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
