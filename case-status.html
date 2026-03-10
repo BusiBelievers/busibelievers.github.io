@@ -51,7 +51,21 @@ border-radius:6px;
 <div class="container">
 
 <h1 style="text-align:center">BUSI Case Status Tracker</h1>
+<div style="text-align:center;margin-top:30px;">
 
+<input
+id="caseSearch"
+type="text"
+placeholder="Enter Case Number (Example: BUSI-010)"
+style="padding:12px;border-radius:10px;border:none;width:260px;"
+>
+
+<button onclick="searchCase()" style="padding:12px 18px;border-radius:10px;border:none;background:#d4af37;font-weight:bold;">
+Search
+</button>
+
+</div>
+  
 <p style="text-align:center;max-width:700px;margin:auto">
 Participants can view the status of assistance requests submitted
 to Busi Believers Incorporated.
@@ -87,5 +101,27 @@ BUSI-010
 
 </div>
 
+<script>
+
+function searchCase(){
+
+let input = document.getElementById("caseSearch").value.toUpperCase();
+
+let cards = document.querySelectorAll(".card");
+
+cards.forEach(card => {
+
+if(card.innerText.toUpperCase().includes(input)){
+card.style.display = "block";
+}else{
+card.style.display = "none";
+}
+
+});
+
+}
+
+</script>
+  
 </body>
 </html>
