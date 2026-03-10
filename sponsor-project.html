@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -19,27 +18,35 @@ margin:0;
 }
 
 .container{
-max-width:800px;
+max-width:900px;
 margin:auto;
 padding:40px 20px;
 text-align:center;
 }
 
-input{
-width:100%;
-padding:12px;
-margin-bottom:12px;
-border-radius:8px;
-border:none;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:40px;
 }
 
-button{
-padding:14px 20px;
-background:#d4af37;
-border:none;
+.card{
+background:rgba(255,255,255,0.06);
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.12);
+}
+
+.btn{
+display:inline-block;
+padding:12px 20px;
 border-radius:10px;
+background:#d4af37;
+color:black;
 font-weight:bold;
-cursor:pointer;
+text-decoration:none;
+margin-top:10px;
 }
 
 </style>
@@ -50,26 +57,76 @@ cursor:pointer;
 
 <div class="container">
 
-<h1>Sponsor a BUSI Project</h1>
+<h1>Sponsor a BUSI Community Project</h1>
 
-<p>
-Support a community project and help families receive the assistance
-they need.
+<p style="max-width:700px;margin:auto">
+Sponsors help Busi Believers Incorporated provide assistance
+to individuals and families facing hardship in the community.
 </p>
 
-<form>
+<div class="grid">
 
-<input type="text" placeholder="BUSI Case Number">
+<div class="card">
 
-<input type="text" placeholder="Sponsor Name">
+<h3>Vehicle Assistance</h3>
 
-<input type="email" placeholder="Email Address">
+<p>
+Help repair a vehicle so someone can maintain employment
+and provide for their family.
+</p>
 
-<input type="number" placeholder="Donation Amount">
-
-<button>Sponsor Project</button>
-
+<a class="btn" href="<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="574SN98JVSZ2A" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
 </form>
+" target="_blank">
+Sponsor Vehicle Repair
+</a>
+
+</div>
+
+<div class="card">
+
+<h3>Home Repair Assistance</h3>
+
+<p>
+Support home repairs for families dealing with urgent
+maintenance or safety issues.
+</p>
+
+<a class="btn" href="<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="574SN98JVSZ2A" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+</form>
+" target="_blank">
+Sponsor Home Repair
+</a>
+
+</div>
+
+<div class="card">
+
+<h3>Community Projects</h3>
+
+<p>
+Support tree removal, lawn care, and neighborhood
+restoration projects.
+</p>
+
+<a class="btn" href="<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="574SN98JVSZ2A" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+</form>
+" target="_blank">
+Sponsor Community Project
+</a>
+
+</div>
+
+</div>
 
 </div>
 
