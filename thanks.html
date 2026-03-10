@@ -64,6 +64,16 @@
       Someone from our ministry will review your submission and follow up with
       you as soon as possible.
     </p>
+    <h2 style="margin-top:30px;">Your BUSI Case Number</h2>
+
+<h1 id="caseDisplay" style="color:#d4af37;"></h1>
+
+<p>
+Please save this case number. You can use it to check the status of your
+assistance request.
+</p>
+
+<a class="btn secondary" href="case-status.html">Check Case Status</a>
     <p>
       <em>
         “Carry each other’s burdens, and in this way you will fulfill the law of Christ.”
@@ -74,5 +84,17 @@
     <a class="btn" href="https://busib.net">Return to Homepage</a>
     <a class="btn secondary" href="mailto:admin@busib.net">Email Us</a>
   </div>
+
+  <script>
+
+let caseNumber = localStorage.getItem("busiCaseNumber");
+
+if(caseNumber){
+let formatted = "BUSI-" + String(caseNumber).padStart(3,'0');
+document.getElementById("caseDisplay").innerText = formatted;
+}
+
+</script>
+  
 </body>
 </html>
