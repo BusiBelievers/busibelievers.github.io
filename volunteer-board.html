@@ -48,6 +48,30 @@ margin-top:10px;
 font-weight:bold;
 }
 
+ .status{
+font-weight:bold;
+padding:4px 8px;
+border-radius:6px;
+}
+
+.pending{
+background:#f1c40f;
+color:black;
+}
+
+.approved{
+background:#3498db;
+}
+
+.progress{
+background:#e67e22;
+}
+
+.completed{
+background:#2ecc71;
+color:black;
+}
+  
 </style>
 
 </head>
@@ -74,7 +98,7 @@ contact you.
 
 <p><strong>Location:</strong> San Antonio</p>
 
-<p><strong>Status:</strong> Pending Review</p>
+<p><strong>Status:</strong> <span class="status pending">Pending Review</span></p>
   
 <p><strong>Volunteers Needed:</strong> 3</p>
 
@@ -90,7 +114,7 @@ contact you.
 
 <p><strong>Location:</strong> San Antonio</p>
   
-<p><strong>Status:</strong> Approved</p>
+<p><strong>Status:</strong> <span class="status approved">Approved</span></p>
   
 <p><strong>Volunteers Needed:</strong> 2</p>
 
@@ -106,7 +130,7 @@ contact you.
 
 <p><strong>Location:</strong> San Antonio</p>
 
-<p><strong>Status:</strong> Volunteers Assigned</p>
+<p><strong>Status:</strong> <span class="status progress">Volunteers Assigned</span></p>
   
 <p><strong>Volunteers Needed:</strong> 1 Mechanic</p>
 
