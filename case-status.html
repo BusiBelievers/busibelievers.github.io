@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BUSI Case Status</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0b1220;
+color:white;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:40px 20px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.1);
+margin-top:20px;
+}
+
+.status{
+font-weight:bold;
+padding:4px 10px;
+border-radius:6px;
+}
+
+.pending{background:#f1c40f;color:black;}
+.approved{background:#3498db;}
+.progress{background:#e67e22;}
+.completed{background:#2ecc71;color:black;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 style="text-align:center">BUSI Case Status Tracker</h1>
+
+<p style="text-align:center;max-width:700px;margin:auto">
+Participants can view the status of assistance requests submitted
+to Busi Believers Incorporated.
+</p>
+
+<div class="card">
+
+<h3>BUSI-010</h3>
+
+<p><strong>Project:</strong> Tree Removal Assistance</p>
+
+<p><strong>Location:</strong> San Antonio</p>
+
+<p><strong>Status:</strong> <span class="status approved">Approved</span></p>
+
+</div>
+
+<div class="card">
+
+<h3>BUSI-011</h3>
+
+<p><strong>Project:</strong> Lawn Care Assistance</p>
+
+<p><strong>Location:</strong> San Antonio</p>
+
+<p><strong>Status:</strong> <span class="status pending">Pending Review</span></p>
+
+</div>
+
+</div>
+
+</body>
+</html>
