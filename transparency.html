@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BUSI Public Transparency Dashboard</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#0b1220;
+color:white;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.counter{
+font-size:36px;
+font-weight:bold;
+color:#d4af37;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>BUSI Community Transparency Dashboard</h1>
+
+<p style="max-width:700px;margin:auto">
+Busi Believers Incorporated is committed to transparency and community
+accountability. The following statistics reflect real projects and
+community assistance efforts coordinated through the BUSI platform.
+</p>
+
+<div class="grid">
+
+<div class="card">
+<div class="counter" id="totalProjects">0</div>
+<p>Total Community Projects</p>
+</div>
+
+<div class="card">
+<div class="counter" id="completedProjects">0</div>
+<p>Projects Completed</p>
+</div>
+
+<div class="card">
+<div class="counter" id="activeProjects">0</div>
+<p>Active Projects</p>
+</div>
+
+<div class="card">
+<div class="counter" id="homeProjects">0</div>
+<p>Home Assistance Projects</p>
+</div>
+
+<div class="card">
+<div class="counter" id="vehicleProjects">0</div>
+<p>Vehicle Assistance Projects</p>
+</div>
+
+<div class="card">
+<div class="counter" id="treeProjects">0</div>
+<p>Tree Removal / Property Projects</p>
+</div>
+
+<div class="card">
+<div class="counter" id="volunteerImpact">0</div>
+<p>Estimated Volunteer Impact</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+let total = cases.length;
+let completed = 0;
+let active = 0;
+let homes = 0;
+let vehicles = 0;
+let trees = 0;
+
+cases.forEach(c => {
+
+let project = c.project.toLowerCase();
+
+if(project.includes("home")) homes++;
+if(project.includes("vehicle")) vehicles++;
+if(project.includes("tree")) trees++;
+
+if(c.status === "Completed") completed++;
+else active++;
+
+});
+
+let volunteers = total * 2;
+
+document.getElementById("totalProjects").innerText = total;
+document.getElementById("completedProjects").innerText = completed;
+document.getElementById("activeProjects").innerText = active;
+document.getElementById("homeProjects").innerText = homes;
+document.getElementById("vehicleProjects").innerText = vehicles;
+document.getElementById("treeProjects").innerText = trees;
+document.getElementById("volunteerImpact").innerText = volunteers;
+
+</script>
+
+</body>
+</html>
