@@ -150,13 +150,17 @@ Add Case
 </div>
 </div>
 
-  <script>
+ <script>
+
+function loadFundingBoard(){
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
 let board = document.getElementById("fundingBoard");
 
-if(board){
+if(!board) return;
+
+board.innerHTML = "";
 
 cases.forEach(c => {
 
@@ -197,6 +201,7 @@ margin-top:8px;
 width:${percent}%;
 background:#d4af37;
 height:100%;
+transition:width .4s;
 ">
 </div>
 
@@ -222,7 +227,16 @@ Volunteer
 
 }
 
+/* Load funding board */
+
+loadFundingBoard();
+
+/* Auto refresh every 2 seconds */
+
+setInterval(loadFundingBoard,2000);
+
 </script>
+ 
 
   
 </body>
