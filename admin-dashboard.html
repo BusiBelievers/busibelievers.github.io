@@ -203,6 +203,22 @@ container.innerHTML += `
 <strong>${c.caseID}</strong> — ${c.project}<br>
 Location: ${c.location}<br>
 
+Goal: $
+<input type="number"
+value="${c.fundingGoal}"
+onchange="updateGoal(${index}, this.value)"
+style="width:80px;border-radius:6px;border:none;padding:3px">
+
+<br>
+
+Raised: $
+<input type="number"
+value="${c.fundingRaised}"
+onchange="updateRaised(${index}, this.value)"
+style="width:80px;border-radius:6px;border:none;padding:3px">
+
+<br><br>
+
 Status:
 <select onchange="updateStatus(${index}, this.value)"
 style="padding:4px;border-radius:6px;margin-left:6px">
@@ -232,6 +248,22 @@ function deleteCase(index){
 
 function updateStatus(index,newStatus){
 
+ function updateGoal(index,newGoal){
+
+cases[index].fundingGoal = Number(newGoal);
+
+saveCases();
+
+}
+
+function updateRaised(index,newRaised){
+
+cases[index].fundingRaised = Number(newRaised);
+
+saveCases();
+
+}
+  
 cases[index].status = newStatus;
 
 saveCases();
