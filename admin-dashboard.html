@@ -74,8 +74,6 @@ Use this page to monitor assistance requests, volunteers, and project status.
 
 <p>Create and manage BUSI case numbers.</p>
 
-<input id="caseID" placeholder="Case Number (Example BUSI-012)" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
-
 <input id="projectName" placeholder="Project Name" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
 
 <input id="location" placeholder="City / Area" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
@@ -164,7 +162,8 @@ localStorage.setItem("busiCases", JSON.stringify(cases));
 
 function addCase(){
 
-let caseID = document.getElementById("caseID").value;
+let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
+  
 let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
 let status = document.getElementById("status").value;
