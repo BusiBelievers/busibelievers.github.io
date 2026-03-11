@@ -150,18 +150,16 @@ Add Case
 </div>
 </div>
 
-<script>
+  <script>
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
 let board = document.getElementById("fundingBoard");
 
-/* Only run if the funding board exists on the page */
 if(board){
 
 cases.forEach(c => {
 
-/* Convert values to numbers to avoid text math errors */
 let goal = Number(c.fundingGoal) || 0;
 let raised = Number(c.fundingRaised) || 0;
 
