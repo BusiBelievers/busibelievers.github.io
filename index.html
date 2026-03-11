@@ -1267,8 +1267,9 @@ height:16px;
 margin-top:8px;
 ">
 
-<div style="
-width:${percent}%;
+<div id="fund-BUSI-004"
+style="
+width:0%;
 background:#d4af37;
 height:100%;
 ">
@@ -1291,6 +1292,42 @@ Volunteer
 </div>
 
 `;
+
+});
+
+</script>
+
+ <script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+function getFundingPercent(caseID){
+
+let project = cases.find(c => c.caseID === caseID);
+
+if(!project) return 0;
+
+let percent = (project.fundingRaised / project.fundingGoal) * 100;
+
+return Math.min(percent,100);
+
+}
+
+</script>
+
+ <script>
+
+cases.forEach(c => {
+
+let bar = document.getElementById("fund-"+c.caseID);
+
+if(bar){
+
+let percent = (c.fundingRaised / c.fundingGoal) * 100;
+
+bar.style.width = percent + "%";
+
+}
 
 });
 
