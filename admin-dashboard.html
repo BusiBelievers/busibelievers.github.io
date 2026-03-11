@@ -202,7 +202,17 @@ container.innerHTML += `
 
 <strong>${c.caseID}</strong> — ${c.project}<br>
 Location: ${c.location}<br>
-Status: ${c.status}
+
+Status:
+<select onchange="updateStatus(${index}, this.value)"
+style="padding:4px;border-radius:6px;margin-left:6px">
+
+<option ${c.status==="Pending Review"?"selected":""}>Pending Review</option>
+<option ${c.status==="Approved"?"selected":""}>Approved</option>
+<option ${c.status==="In Progress"?"selected":""}>In Progress</option>
+<option ${c.status==="Completed"?"selected":""}>Completed</option>
+
+</select>
 
 <br><br>
 
@@ -220,6 +230,16 @@ Delete
 
 function deleteCase(index){
 
+function updateStatus(index,newStatus){
+
+cases[index].status = newStatus;
+
+saveCases();
+
+renderCases();
+
+}
+  
 cases.splice(index,1);
 
 saveCases();
