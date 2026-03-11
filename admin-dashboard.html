@@ -150,139 +150,82 @@ Add Case
 </div>
 </div>
 
-</div>
-
 <script>
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-function saveCases(){
-localStorage.setItem("busiCases", JSON.stringify(cases));
+let board = document.getElementById("fundingBoard");
+
+/* Only run if the funding board exists on the page */
+if(board){
+
+cases.forEach(c => {
+
+/* Convert values to numbers to avoid text math errors */
+let goal = Number(c.fundingGoal) || 0;
+let raised = Number(c.fundingRaised) || 0;
+
+let percent = 0;
+
+if(goal > 0){
+percent = (raised / goal) * 100;
 }
 
-function addCase(){
+board.innerHTML += `
 
-let caseID = document.getElementById("caseID").value;
-let project = document.getElementById("projectName").value;
-let location = document.getElementById("location").value;
-let status = document.getElementById("status").value;
+<div class="card">
 
-cases.push({
-caseID,
-project,
-location,
-status,
-volunteersNeeded: 3,
-fundingGoal: 600,
-fundingRaised: 0
-});
+<h3>${c.caseID}</h3>
 
-saveCases();
+<p><strong>${c.project}</strong></p>
 
-renderCases();
+<p style="color:var(--muted)">
+Location: ${c.location}
+</p>
 
-alert("Case Added Successfully");
+<p style="margin-top:10px">
+$${raised} raised of $${goal}
+</p>
 
-document.getElementById("caseID").value = "";
-document.getElementById("projectName").value = "";
-document.getElementById("location").value = "";
+<div style="
+background:#1c2233;
+border-radius:10px;
+overflow:hidden;
+height:16px;
+margin-top:8px;
+">
 
-}
-
-function renderCases(){
-
-let container = document.getElementById("caseList");
-
-container.innerHTML = "";
-
-cases.forEach((c,index) => {
-
-container.innerHTML += `
-<div style="background:#1c2233;padding:10px;border-radius:8px;margin-bottom:10px">
-
-<strong>${c.caseID}</strong> — ${c.project}<br>
-Location: ${c.location}<br>
-
-Goal: $
-<input type="number"
-value="${c.fundingGoal}"
-onchange="updateGoal(${index}, this.value)"
-style="width:80px;border-radius:6px;border:none;padding:3px">
-
-<br>
-
-Raised: $
-<input type="number"
-value="${c.fundingRaised}"
-onchange="updateRaised(${index}, this.value)"
-style="width:80px;border-radius:6px;border:none;padding:3px">
-
-<br><br>
-
-Status:
-<select onchange="updateStatus(${index}, this.value)"
-style="padding:4px;border-radius:6px;margin-left:6px">
-
-<option ${c.status==="Pending Review"?"selected":""}>Pending Review</option>
-<option ${c.status==="Approved"?"selected":""}>Approved</option>
-<option ${c.status==="In Progress"?"selected":""}>In Progress</option>
-<option ${c.status==="Completed"?"selected":""}>Completed</option>
-
-</select>
-
-<br><br>
-
-<button onclick="deleteCase(${index})"
-style="background:#e74c3c;border:none;color:white;padding:6px 10px;border-radius:6px;">
-Delete
-</button>
+<div style="
+width:${percent}%;
+background:#d4af37;
+height:100%;
+">
+</div>
 
 </div>
+
+<div style="margin-top:15px">
+
+<a class="btn" href="support.html">
+Sponsor Project
+</a>
+
+<a class="btn" href="index.html#volunteer?project=${c.caseID}">
+Volunteer
+</a>
+
+</div>
+
+</div>
+
 `;
 
 });
 
 }
 
-function deleteCase(index){
-
-function updateStatus(index,newStatus){
-
- function updateGoal(index,newGoal){
-
-cases[index].fundingGoal = Number(newGoal);
-
-saveCases();
-
-}
-
-function updateRaised(index,newRaised){
-
-cases[index].fundingRaised = Number(newRaised);
-
-saveCases();
-
-}
-  
-cases[index].status = newStatus;
-
-saveCases();
-
-renderCases();
-
-}
-  
-cases.splice(index,1);
-
-saveCases();
-
-renderCases();
-
-}
-
-renderCases();
-  
 </script>
+
   
 </body>
 </html>
