@@ -185,12 +185,11 @@ alert("Case Added Successfully");
 
 document.getElementById("caseID").value = "";
 document.getElementById("projectName").value = "";
-document.getElementById("location").value = "";  
-}
-  
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+document.getElementById("location").value = "";
 
- function renderCases(){
+}
+
+function renderCases(){
 
 let container = document.getElementById("caseList");
 
@@ -218,12 +217,12 @@ Delete
 });
 
 }
-  
+
 function deleteCase(index){
 
 cases.splice(index,1);
 
-localStorage.setItem("busiCases", JSON.stringify(cases));
+saveCases();
 
 renderCases();
 
