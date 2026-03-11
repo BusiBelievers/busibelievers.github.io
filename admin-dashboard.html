@@ -92,6 +92,10 @@ Use this page to monitor assistance requests, volunteers, and project status.
 <button onclick="addCase()" style="padding:12px 20px;background:#d4af37;border:none;border-radius:8px;font-weight:bold;">
 Add Case
 </button>
+
+ <h3 style="margin-top:20px">Current BUSI Cases</h3>
+
+<div id="caseList" style="margin-top:10px"></div>
   
 </div>
   
@@ -175,13 +179,56 @@ fundingRaised: 0
 
 saveCases();
 
+renderCases();
+
 alert("Case Added Successfully");
 
 document.getElementById("caseID").value = "";
 document.getElementById("projectName").value = "";
 document.getElementById("location").value = "";  
 }
+  
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
+ function renderCases(){
+
+let container = document.getElementById("caseList");
+
+container.innerHTML = "";
+
+cases.forEach((c,index) => {
+
+container.innerHTML += `
+<div style="background:#1c2233;padding:10px;border-radius:8px;margin-bottom:10px">
+
+<strong>${c.caseID}</strong> — ${c.project}<br>
+Location: ${c.location}<br>
+Status: ${c.status}
+
+<br><br>
+
+<button onclick="deleteCase(${index})"
+style="background:#e74c3c;border:none;color:white;padding:6px 10px;border-radius:6px;">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+}
+  
+function deleteCase(index){
+
+cases.splice(index,1);
+
+localStorage.setItem("busiCases", JSON.stringify(cases));
+
+renderCases();
+
+}
+  
 </script>
   
 </body>
