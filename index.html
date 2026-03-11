@@ -1231,17 +1231,17 @@ document.getElementById("project").value = params.get("project");
 
  <script>
 
-/* Load BUSI cases */
-
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
 let board = document.getElementById("fundingBoard");
 
 cases.forEach(c => {
 
-let percent = Math.floor(Math.random()*70)+10; 
-let goal = 500 + Math.floor(Math.random()*700);
-let raised = Math.floor(goal*(percent/100));
+let percent = 0;
+
+if(c.fundingGoal > 0){
+percent = (c.fundingRaised / c.fundingGoal) * 100;
+}
 
 board.innerHTML += `
 
@@ -1256,7 +1256,7 @@ Location: ${c.location}
 </p>
 
 <p style="margin-top:10px">
-$${raised} raised of $${goal}
+$${c.fundingRaised} raised of $${c.fundingGoal}
 </p>
 
 <div style="
@@ -1267,9 +1267,8 @@ height:16px;
 margin-top:8px;
 ">
 
-<div id="fund-BUSI-004"
-style="
-width:0%;
+<div style="
+width:${percent}%;
 background:#d4af37;
 height:100%;
 ">
