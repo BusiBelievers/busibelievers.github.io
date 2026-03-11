@@ -150,74 +150,88 @@ Add Case
 </div>
 </div>
 
- <script>
-
-function loadFundingBoard(){
+<script>
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-let board = document.getElementById("fundingBoard");
+/* SAVE DATABASE */
 
-if(!board) return;
-
-board.innerHTML = "";
-
-cases.forEach(c => {
-
-let goal = Number(c.fundingGoal) || 0;
-let raised = Number(c.fundingRaised) || 0;
-
-let percent = 0;
-
-if(goal > 0){
-percent = (raised / goal) * 100;
+function saveCases(){
+localStorage.setItem("busiCases", JSON.stringify(cases));
 }
 
-board.innerHTML += `
+/* ADD NEW CASE */
 
-<div class="card">
+function addCase(){
 
-<h3>${c.caseID}</h3>
+let caseID = document.getElementById("caseID").value;
+let project = document.getElementById("projectName").value;
+let location = document.getElementById("location").value;
+let status = document.getElementById("status").value;
 
-<p><strong>${c.project}</strong></p>
+if(!caseID || !project || !location){
+alert("Please complete all fields.");
+return;
+}
 
-<p style="color:var(--muted)">
-Location: ${c.location}
-</p>
+cases.push({
+caseID: caseID,
+project: project,
+location: location,
+status: status,
+fundingGoal: 0,
+fundingRaised: 0,
+volunteersNeeded: 3
+});
 
-<p style="margin-top:10px">
-$${raised} raised of $${goal}
-</p>
+saveCases();
 
-<div style="
-background:#1c2233;
-border-radius:10px;
-overflow:hidden;
-height:16px;
-margin-top:8px;
-">
+alert("Case Added Successfully");
 
-<div style="
-width:${percent}%;
-background:#d4af37;
-height:100%;
-transition:width .4s;
-">
-</div>
+renderCases();
 
-</div>
+/* clear inputs */
 
-<div style="margin-top:15px">
+document.getElementById("caseID").value="";
+document.getElementById("projectName").value="";
+document.getElementById("location").value="";
 
-<a class="btn" href="support.html">
-Sponsor Project
-</a>
+}
 
-<a class="btn" href="index.html#volunteer?project=${c.caseID}">
-Volunteer
-</a>
+/* DISPLAY CASES */
 
-</div>
+function renderCases(){
+
+let container = document.getElementById("caseList");
+
+if(!container) return;
+
+container.innerHTML = "";
+
+cases.forEach((c,index)=>{
+
+container.innerHTML += `
+
+<div style="background:#1c2233;padding:10px;border-radius:8px;margin-bottom:10px">
+
+<strong>${c.caseID}</strong> — ${c.project}<br>
+Location: ${c.location}<br>
+Status: ${c.status}
+
+<br><br>
+
+Funding Goal:
+<input type="number" value="${c.fundingGoal}" onchange="updateGoal(${index},this.value)" style="width:80px">
+
+Raised:
+<input type="number" value="${c.fundingRaised}" onchange="updateRaised(${index},this.value)" style="width:80px">
+
+<br><br>
+
+<button onclick="deleteCase(${index})"
+style="background:#e74c3c;border:none;color:white;padding:6px 10px;border-radius:6px;">
+Delete
+</button>
 
 </div>
 
@@ -227,17 +241,43 @@ Volunteer
 
 }
 
-/* Load funding board */
+/* UPDATE GOAL */
 
-loadFundingBoard();
+function updateGoal(index,value){
 
-/* Auto refresh every 2 seconds */
+cases[index].fundingGoal = Number(value);
 
-setInterval(loadFundingBoard,2000);
+saveCases();
+
+}
+
+/* UPDATE RAISED */
+
+function updateRaised(index,value){
+
+cases[index].fundingRaised = Number(value);
+
+saveCases();
+
+}
+
+/* DELETE CASE */
+
+function deleteCase(index){
+
+cases.splice(index,1);
+
+saveCases();
+
+renderCases();
+
+}
+
+/* LOAD CASES WHEN PAGE OPENS */
+
+renderCases();
 
 </script>
- 
 
-  
 </body>
 </html>
