@@ -134,7 +134,16 @@ Add Case
 <a href="impact.html">View Impact Page</a>
 
 </div>
+  
+<div class="card">
 
+<h2>Impact Map</h2>
+
+<p>View all BUSI projects across the community.</p>
+
+<a href="impact-map.html">View Map</a>
+
+</div>
 </div>
 
 </div>
@@ -154,12 +163,23 @@ let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
 let status = document.getElementById("status").value;
 
-cases.push({caseID, project, location, status});
+cases.push({
+caseID,
+project,
+location,
+status,
+volunteersNeeded: 3,
+fundingGoal: 600,
+fundingRaised: 0
+});
 
 saveCases();
 
 alert("Case Added Successfully");
 
+document.getElementById("caseID").value = "";
+document.getElementById("projectName").value = "";
+document.getElementById("location").value = "";  
 }
 
 </script>
