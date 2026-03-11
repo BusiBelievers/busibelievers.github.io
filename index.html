@@ -566,6 +566,23 @@ $210 raised so far
 
 </section>
 
+ <section id="project-funding">
+
+<div class="container">
+
+<h2 style="text-align:center">Community Projects Needing Support</h2>
+
+<p style="text-align:center;max-width:700px;margin:auto;color:var(--muted)">
+These community assistance projects are currently seeking support from
+volunteers and sponsors.
+</p>
+
+<div id="fundingBoard" class="grid" style="margin-top:40px"></div>
+
+</div>
+
+</section>
+ 
  <section id="highlights">
 
 <div class="container">
@@ -1209,6 +1226,73 @@ const params = new URLSearchParams(window.location.search);
 if(params.has("project")){
 document.getElementById("project").value = params.get("project");
 }
+
+</script>
+
+ <script>
+
+/* Load BUSI cases */
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+let board = document.getElementById("fundingBoard");
+
+cases.forEach(c => {
+
+let percent = Math.floor(Math.random()*70)+10; 
+let goal = 500 + Math.floor(Math.random()*700);
+let raised = Math.floor(goal*(percent/100));
+
+board.innerHTML += `
+
+<div class="card">
+
+<h3>${c.caseID}</h3>
+
+<p><strong>${c.project}</strong></p>
+
+<p style="color:var(--muted)">
+Location: ${c.location}
+</p>
+
+<p style="margin-top:10px">
+$${raised} raised of $${goal}
+</p>
+
+<div style="
+background:#1c2233;
+border-radius:10px;
+overflow:hidden;
+height:16px;
+margin-top:8px;
+">
+
+<div style="
+width:${percent}%;
+background:#d4af37;
+height:100%;
+">
+</div>
+
+</div>
+
+<div style="margin-top:15px">
+
+<a class="btn" href="support.html">
+Sponsor Project
+</a>
+
+<a class="btn" href="index.html#volunteer?project=${c.caseID}">
+Volunteer
+</a>
+
+</div>
+
+</div>
+
+`;
+
+});
 
 </script>
  
