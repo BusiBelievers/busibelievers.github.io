@@ -163,6 +163,42 @@ volunteers = "<p>No volunteers assigned yet</p>";
 
 }
 
+cases.forEach(c => {
+
+let assigned = c.volunteersAssigned ? c.volunteersAssigned.length : 0;
+let needed = Number(c.volunteersNeeded) || 0;
+
+let capacityDisplay = `<p><strong>Volunteers:</strong> ${assigned} / ${needed}</p>`;
+
+if(assigned >= needed && needed > 0){
+capacityDisplay = `
+
+<p style="color:#2ecc71;font-weight:bold">
+Project Fully Staffed
+</p>
+`;
+}
+
+/* Volunteer list */
+
+let volunteers = "";
+
+if(c.volunteersAssigned && c.volunteersAssigned.length > 0){
+
+volunteers = "<p><strong>Volunteers Assigned:</strong></p>";
+
+c.volunteersAssigned.forEach(v => {
+volunteers += `<p>• ${v}</p>`;
+});
+
+}else{
+
+volunteers = "<p>No volunteers assigned yet</p>";
+
+}
+
+/* Create card */
+
 board.innerHTML += `
 
 <div class="card">
@@ -175,7 +211,7 @@ board.innerHTML += `
 
 <p>Status: ${c.status}</p>
 
-<p>Volunteers Needed: ${c.volunteersNeeded}</p>
+${capacityDisplay}
 
 ${volunteers}
 
@@ -184,6 +220,7 @@ ${volunteers}
 `;
 
 });
+
 
 </script>
 
