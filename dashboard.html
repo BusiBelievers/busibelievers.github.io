@@ -81,6 +81,16 @@ Busi Believers Incorporated.
 <div class="grid">
 
 <div class="card">
+
+<h2>Admin Notifications</h2>
+
+<p>Recent activity across the BUSI platform.</p>
+
+<div id="adminNotifications" style="margin-top:15px"></div>
+
+</div>
+  
+<div class="card">
 <div class="stat" id="totalProjects">0</div>
 <p>Total Projects</p>
 </div>
@@ -226,5 +236,46 @@ ${volunteerButton}
 
 </script>
 
+/* ===============================
+ADMIN ACTIVITY NOTIFICATIONS
+================================ */
+
+function loadAdminNotifications(){
+
+let container = document.getElementById("adminNotifications");
+
+if(!container) return;
+
+container.innerHTML = "";
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+cases.slice(-5).reverse().forEach(c => {
+
+container.innerHTML += `
+
+<div style="
+background:#1c2233;
+padding:10px;
+border-radius:8px;
+margin-bottom:10px;
+">
+
+<strong>${c.caseID}</strong><br>
+
+${c.project}<br>
+
+Status: ${c.status}
+
+</div>
+
+`;
+
+});
+
+}
+
+loadAdminNotifications();
+  
 </body>
 </html>
