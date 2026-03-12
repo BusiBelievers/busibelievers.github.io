@@ -86,6 +86,8 @@ Control center for managing BUSI community assistance projects.
 <input id="projectName" placeholder="Project Name">
 <input id="location" placeholder="City / Area">
 <input id="volunteersNeeded" placeholder="Volunteers Needed">
+<input id="beforePhoto" placeholder="Before Photo URL">
+<input id="afterPhoto" placeholder="After Photo URL">
 
 <select id="status">
 
@@ -143,19 +145,22 @@ let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
 let status = document.getElementById("status").value;
 let volunteersNeeded = Number(document.getElementById("volunteersNeeded").value) || 0;
+let beforePhoto = document.getElementById("beforePhoto").value;
+let afterPhoto = document.getElementById("afterPhoto").value;
 
 cases.push({
-
 caseID,
 project,
 location,
 status,
 volunteersNeeded,
+beforePhoto,
+afterPhoto,
 fundingGoal:0,
 fundingRaised:0,
 volunteersAssigned:[]
-
 });
+
 
 saveCases();
 
