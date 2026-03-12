@@ -1337,6 +1337,38 @@ bar.style.width = percent + "%";
 });
 
 </script>
- 
+
+ <script>
+
+document.querySelector("form").addEventListener("submit", function(){
+
+let projectID = document.getElementById("project").value;
+
+if(!projectID) return;
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+cases.forEach(c => {
+
+if(c.caseID === projectID){
+
+if(!c.volunteersAssigned){
+c.volunteersAssigned = [];
+}
+
+let volunteerName = document.querySelector("input[name='name']").value;
+
+c.volunteersAssigned.push(volunteerName);
+
+}
+
+});
+
+localStorage.setItem("busiCases", JSON.stringify(cases));
+
+});
+
+</script>
+
 </body>
 </html>
