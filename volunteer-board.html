@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -12,30 +11,31 @@
 <style>
 
 body{
-font-family:Arial, sans-serif;
+font-family:Arial;
+margin:0;
 background:#0b1220;
 color:white;
-margin:0;
 }
 
 .container{
 max-width:1100px;
 margin:auto;
 padding:40px 20px;
+text-align:center;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:20px;
-margin-top:30px;
+margin-top:40px;
 }
 
 .card{
 background:rgba(255,255,255,0.06);
 padding:25px;
 border-radius:16px;
-border:1px solid rgba(255,255,255,0.12);
+border:1px solid rgba(255,255,255,0.1);
 }
 
 .btn{
@@ -45,9 +45,8 @@ background:#d4af37;
 color:black;
 border-radius:8px;
 text-decoration:none;
-font-weight:bold;
 margin-top:10px;
-cursor:pointer;
+font-weight:bold;
 }
 
 .status{
@@ -69,48 +68,41 @@ border-radius:6px;
 
 <div class="container">
 
-<h1 style="text-align:center">BUSI Volunteer Dispatch Board</h1>
+<h1>BUSI Volunteer Dispatch Board</h1>
 
-<p style="text-align:center;max-width:700px;margin:auto">
-Volunteers can view open assistance requests and sign up to help
-with community projects coordinated by Busi Believers Incorporated.
+<p style="max-width:700px;margin:auto">
+These are current community projects where volunteers are needed.
+If you are able to assist, please sign up and a BUSI coordinator will contact you.
 </p>
 
-<div id="volunteerProjects" class="grid"></div>
+<div id="volunteerBoard" class="grid"></div>
 
 </div>
 
 <script>
 
-/* Load BUSI cases from admin dashboard */
-
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-let container = document.getElementById("volunteerProjects");
+let board = document.getElementById("volunteerBoard");
 
-/* Build project cards */
+cases.forEach(c => {
 
-cases.forEach((c,index) => {
-
-if(!c.volunteersNeeded){
-c.volunteersNeeded = 3;
-}
+if(c.status !== "Completed"){
 
 let statusClass = "pending";
 
-if(c.status === "Approved") statusClass = "approved";
-if(c.status === "In Progress") statusClass = "progress";
-if(c.status === "Completed") statusClass = "completed";
+if(c.status === "Approved") statusClass="approved";
+if(c.status === "In Progress") statusClass="progress";
 
-container.innerHTML += `
+board.innerHTML += `
 
 <div class="card">
 
 <h3>${c.caseID}</h3>
 
-<p><strong>Project:</strong> ${c.project}</p>
+<p><strong>${c.project}</strong></p>
 
-<p><strong>Location:</strong> ${c.location}</p>
+<p>Location: ${c.location}</p>
 
 <p><strong>Status:</strong>
 <span class="status ${statusClass}">
@@ -118,45 +110,21 @@ ${c.status}
 </span>
 </p>
 
-<p>
-<strong>Volunteers Needed:</strong>
-<span id="vol-${index}">
-${c.volunteersNeeded}
-</span>
-</p>
+<p><strong>Volunteers Needed:</strong> ${c.volunteersNeeded}</p>
 
-<button class="btn" onclick="claimVolunteer(${index})">
+<a class="btn" href="index.html#volunteer?project=${c.caseID}">
 Volunteer for Project
-</button>
+</a>
 
 </div>
 
 `;
 
+}
+
 });
-
-/* Volunteer claim system */
-
-function claimVolunteer(index){
-
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
-
-if(cases[index].volunteersNeeded > 0){
-
-cases[index].volunteersNeeded--;
-
-localStorage.setItem("busiCases", JSON.stringify(cases));
-
-document.getElementById("vol-"+index).innerText = cases[index].volunteersNeeded;
-
-alert("Thank you for volunteering! A BUSI coordinator will contact you.");
-
-}
-
-}
 
 </script>
 
 </body>
 </html>
-
