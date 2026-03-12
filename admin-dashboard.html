@@ -78,6 +78,9 @@ Use this page to monitor assistance requests, volunteers, and project status.
 
 <input id="location" placeholder="City / Area" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
 
+ <input id="volunteersNeeded" placeholder="Volunteers Needed (Example: 3)"
+style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
+  
 <select id="status" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
 
 <option>Pending Review</option>
@@ -166,6 +169,7 @@ let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
   
 let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
+let volunteersNeeded = Number(document.getElementById("volunteersNeeded").value) || 0;
 let status = document.getElementById("status").value;
 
 if(!caseID || !project || !location){
@@ -180,7 +184,7 @@ location: location,
 status: status,
 fundingGoal: 0,
 fundingRaised: 0,
-volunteersNeeded: 3
+volunteersNeeded: volunteersNeeded
 });
 
 saveCases();
