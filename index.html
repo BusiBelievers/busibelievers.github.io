@@ -556,6 +556,31 @@ height:100%;
 
 </div>
 
+<section id="latest-projects">
+
+<div class="container">
+
+<h2 style="text-align:center">Latest BUSI Community Projects</h2>
+
+<p style="text-align:center;max-width:650px;margin:auto;color:var(--muted)">
+Recent community assistance projects coordinated by
+Busi Believers Incorporated volunteers and partners.
+</p>
+
+<div id="projectFeed" class="grid" style="margin-top:40px"></div>
+
+<div style="text-align:center;margin-top:30px">
+
+<a class="btn" href="dashboard.html">
+View All Projects
+</a>
+
+</div>
+
+</div>
+
+</section>
+ 
 <section id="impact-stats">
 
 <div class="container">
@@ -1401,6 +1426,44 @@ BUSI GLOBAL CASE DATABASE
 ================================ */
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+/* ===============================
+LATEST PROJECT FEED
+================================ */
+
+let feed = document.getElementById("projectFeed");
+
+if(feed){
+
+let latestCases = [...cases].reverse().slice(0,3);
+
+latestCases.forEach(c => {
+
+feed.innerHTML += `
+
+<div class="card">
+
+<h3>${c.caseID}</h3>
+
+<p><strong>${c.project}</strong></p>
+
+<p style="color:var(--muted)">
+Location: ${c.location}
+</p>
+
+<p>Status: ${c.status}</p>
+
+<a class="btn" href="dashboard.html">
+View Project
+</a>
+
+</div>
+
+`;
+
+});
+
+}
 
 /* ===============================
 BUSI IMPACT COUNTERS
