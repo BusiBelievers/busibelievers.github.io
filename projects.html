@@ -66,16 +66,30 @@ through Busi Believers Incorporated.
 
 <div class="grid">
 
+<div id="projectGallery" class="grid"></div>
+
+<script>
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+let gallery = document.getElementById("projectGallery");
+
+cases.forEach(c => {
+
+if(c.status === "Completed"){
+
+gallery.innerHTML += `
+
 <div class="project">
 
-<h3>BUSI-006 — Tree Removal Assistance</h3>
+<h3>${c.caseID} — ${c.project}</h3>
 
-<p>Volunteer team removed a hazardous tree threatening the home.</p>
+<p>${c.description || ""}</p>
 
 <div class="images">
 
-<img src="before-tree.jpg" alt="Tree before removal">
-<img src="after-tree.jpg" alt="Tree after removal">
+${c.beforePhoto ? `<img src="${c.beforePhoto}">` : ""}
+${c.afterPhoto ? `<img src="${c.afterPhoto}">` : ""}
 
 </div>
 
@@ -84,6 +98,14 @@ Status: Completed
 </p>
 
 </div>
+
+`;
+
+}
+
+});
+
+</script>
 
 
 <div class="project">
