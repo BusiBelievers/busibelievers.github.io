@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BUSI Live Project Dashboard</title>
+<title>BUSI Admin Dashboard</title>
 
 <style>
 
@@ -22,14 +20,13 @@ margin:0;
 max-width:1200px;
 margin:auto;
 padding:40px 20px;
-text-align:center;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:25px;
-margin-top:40px;
+margin-top:30px;
 }
 
 .card{
@@ -37,30 +34,30 @@ background:rgba(255,255,255,0.06);
 padding:25px;
 border-radius:16px;
 border:1px solid rgba(255,255,255,0.1);
-text-align:left;
 }
 
-.stat{
-font-size:36px;
-font-weight:bold;
-color:#d4af37;
+input,select{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+border:none;
 }
 
-.progress{
-background:#1c2233;
-height:16px;
-border-radius:10px;
-overflow:hidden;
-margin-top:8px;
-}
-
-.bar{
+button{
+padding:10px 14px;
+border:none;
+border-radius:8px;
 background:#d4af37;
-height:100%;
+font-weight:bold;
+cursor:pointer;
 }
 
-.status{
-font-weight:bold;
+.projectBox{
+background:#1c2233;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
 }
 
 </style>
@@ -71,161 +68,147 @@ font-weight:bold;
 
 <div class="container">
 
-<h1>BUSI Live Community Project Dashboard</h1>
+<h1 style="text-align:center">BUSI Admin Dashboard</h1>
 
-<p style="max-width:700px;margin:auto">
-Live overview of community assistance projects coordinated by
-Busi Believers Incorporated.
+<p style="text-align:center;max-width:700px;margin:auto">
+Control center for managing BUSI community assistance projects.
 </p>
 
 <div class="grid">
 
-<div class="card">
-
-<h2>Admin Notifications</h2>
-
-<p>Recent activity across the BUSI platform.</p>
-
-<div id="adminNotifications" style="margin-top:15px"></div>
-
-</div>
-  
-<div class="card">
-<div class="stat" id="totalProjects">0</div>
-<p>Total Projects</p>
-</div>
+<!-- CASE MANAGER -->
 
 <div class="card">
-<div class="stat" id="activeProjects">0</div>
-<p>Active Projects</p>
+
+<h2>Case Manager</h2>
+
+<input id="caseID" placeholder="Case Number (Example BUSI-021)">
+<input id="projectName" placeholder="Project Name">
+<input id="location" placeholder="City / Area">
+<input id="volunteersNeeded" placeholder="Volunteers Needed">
+
+<select id="status">
+
+<option>Pending Review</option>
+<option>Approved</option>
+<option>In Progress</option>
+<option>Completed</option>
+
+</select>
+
+<button onclick="addCase()">Add Case</button>
+
 </div>
+
+<!-- ADMIN NOTIFICATIONS -->
 
 <div class="card">
-<div class="stat" id="completedProjects">0</div>
-<p>Completed Projects</p>
-</div>
 
-<div class="card">
-<div class="stat" id="volunteersNeeded">0</div>
-<p>Total Volunteers Needed</p>
-</div>
+<h2>Recent Activity</h2>
+
+<div id="adminNotifications"></div>
 
 </div>
 
-<h2 style="margin-top:60px">Active Community Projects</h2>
+</div>
 
-<div id="projectBoard" class="grid"></div>
+<h2 style="margin-top:60px">Project Control Center</h2>
+
+<div id="adminProjectBoard"></div>
 
 </div>
 
 <script>
 
+/* Load cases */
+
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-let total = cases.length;
-let active = 0;
-let completed = 0;
-let volunteers = 0;
 
-cases.forEach(c => {
+/* SAVE */
 
-if(c.status === "Completed"){
-completed++;
-}else{
-active++;
+function saveCases(){
+
+localStorage.setItem("busiCases", JSON.stringify(cases));
+
 }
 
-volunteers += Number(c.volunteersNeeded) || 0;
+
+/* ADD CASE */
+
+function addCase(){
+
+let caseID = document.getElementById("caseID").value;
+let project = document.getElementById("projectName").value;
+let location = document.getElementById("location").value;
+let status = document.getElementById("status").value;
+let volunteersNeeded = Number(document.getElementById("volunteersNeeded").value) || 0;
+
+cases.push({
+
+caseID,
+project,
+location,
+status,
+volunteersNeeded,
+fundingGoal:0,
+fundingRaised:0,
+volunteersAssigned:[]
 
 });
 
-document.getElementById("totalProjects").innerText = total;
-document.getElementById("activeProjects").innerText = active;
-document.getElementById("completedProjects").innerText = completed;
-document.getElementById("volunteersNeeded").innerText = volunteers;
+saveCases();
 
-let board = document.getElementById("projectBoard");
+renderCases();
 
-cases.forEach(c => {
-
-let goal = Number(c.fundingGoal) || 0;
-let raised = Number(c.fundingRaised) || 0;
-
-let percent = 0;
-
-if(goal > 0){
-percent = (raised / goal) * 100;
-}
-
-let volunteers = "";
-
-if(c.volunteersAssigned && c.volunteersAssigned.length > 0){
-
-volunteers = "<p><strong>Volunteers Assigned:</strong></p>";
-
-c.volunteersAssigned.forEach(v => {
-volunteers += `<p>• ${v}</p>`;
-});
-
-}else{
-
-volunteers = "<p>No volunteers assigned yet</p>";
+alert("Case Added Successfully");
 
 }
 
-cases.forEach(c => {
 
-let assigned = c.volunteersAssigned ? c.volunteersAssigned.length : 0;
-let needed = Number(c.volunteersNeeded) || 0;
+/* RENDER PROJECTS */
 
-let capacityDisplay = `<p><strong>Volunteers:</strong> ${assigned} / ${needed}</p>`;
+function renderCases(){
 
-if(assigned >= needed && needed > 0){
-capacityDisplay = `
+let board = document.getElementById("adminProjectBoard");
 
-<p style="color:#2ecc71;font-weight:bold">
-Project Fully Staffed
-</p>
-`;
-}
+board.innerHTML="";
 
-/* Volunteer list */
-
-let volunteers = "";
-
-if(c.volunteersAssigned && c.volunteersAssigned.length > 0){
-
-volunteers = "<p><strong>Volunteers Assigned:</strong></p>";
-
-c.volunteersAssigned.forEach(v => {
-volunteers += `<p>• ${v}</p>`;
-});
-
-}else{
-
-volunteers = "<p>No volunteers assigned yet</p>";
-
-}
-
-/* Create card */
+cases.forEach((c,index)=>{
 
 board.innerHTML += `
 
-<div class="card">
+<div class="projectBox">
 
-<h3>${c.caseID}</h3>
+<strong>${c.caseID}</strong> — ${c.project}<br>
+Location: ${c.location}<br>
+Status: ${c.status}
 
-<p><strong>${c.project}</strong></p>
+<br><br>
 
-<p>Location: ${c.location}</p>
+Funding Raised:
+<input id="fund-${index}" type="number" value="${c.fundingRaised}">
 
-<p>Status: ${c.status}</p>
+<button onclick="updateFunding(${index})">Update Funding</button>
 
-${capacityDisplay}
+<br><br>
 
-${volunteers}
+Status:
 
-${volunteerButton}
+<select id="status-${index}">
+
+<option ${c.status==="Pending Review"?"selected":""}>Pending Review</option>
+<option ${c.status==="Approved"?"selected":""}>Approved</option>
+<option ${c.status==="In Progress"?"selected":""}>In Progress</option>
+<option ${c.status==="Completed"?"selected":""}>Completed</option>
+
+</select>
+
+<button onclick="updateStatus(${index})">Update Status</button>
+
+<button onclick="deleteCase(${index})" style="background:#e74c3c;color:white">
+Delete
+</button>
 
 </div>
 
@@ -233,38 +216,70 @@ ${volunteerButton}
 
 });
 
+saveCases();
 
-</script>
+}
 
-/* ===============================
-ADMIN ACTIVITY NOTIFICATIONS
-================================ */
+
+/* UPDATE FUNDING */
+
+function updateFunding(index){
+
+let value = document.getElementById("fund-"+index).value;
+
+cases[index].fundingRaised = Number(value);
+
+saveCases();
+
+renderCases();
+
+}
+
+
+/* UPDATE STATUS */
+
+function updateStatus(index){
+
+let status = document.getElementById("status-"+index).value;
+
+cases[index].status = status;
+
+saveCases();
+
+renderCases();
+
+}
+
+
+/* DELETE CASE */
+
+function deleteCase(index){
+
+cases.splice(index,1);
+
+saveCases();
+
+renderCases();
+
+}
+
+
+/* ADMIN NOTIFICATIONS */
 
 function loadAdminNotifications(){
 
 let container = document.getElementById("adminNotifications");
 
-if(!container) return;
+container.innerHTML="";
 
-container.innerHTML = "";
+cases.slice(-5).reverse().forEach(c=>{
 
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+container.innerHTML+=`
 
-cases.slice(-5).reverse().forEach(c => {
-
-container.innerHTML += `
-
-<div style="
-background:#1c2233;
-padding:10px;
-border-radius:8px;
-margin-bottom:10px;
-">
+<div style="background:#1c2233;padding:10px;border-radius:8px;margin-bottom:10px">
 
 <strong>${c.caseID}</strong><br>
-
 ${c.project}<br>
-
 Status: ${c.status}
 
 </div>
@@ -275,7 +290,14 @@ Status: ${c.status}
 
 }
 
+
+/* INITIAL LOAD */
+
+renderCases();
+
 loadAdminNotifications();
-  
+
+</script>
+
 </body>
 </html>
