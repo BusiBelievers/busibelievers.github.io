@@ -112,9 +112,21 @@ ${c.status}
 
 <p><strong>Volunteers Needed:</strong> ${c.volunteersNeeded}</p>
 
+let volunteerButton = `
 <a class="btn" href="index.html#volunteer?project=${c.caseID}">
-Volunteer for Project
+Volunteer
 </a>
+`;
+
+if(assigned >= needed && needed > 0){
+
+volunteerButton = `
+<p style="color:#2ecc71;font-weight:bold">
+Volunteer Slots Full
+</p>
+`;
+
+}
 
 </div>
 
