@@ -148,9 +148,11 @@ Participants receiving assistance through Busi Believers Incorporated agree to
 participate in mentorship, practice responsible stewardship, and treat
 volunteers and community partners with respect.
 </p>
-
-<form action="https://formspree.io/f/mykkygdo?redirect=https://busib.net/thanks.html" method="POST">
+<form id="busiRequestForm"
+action="https://formspree.io/f/mykkygdo?redirect=https://busib.net/thanks.html"
+method="POST"
 style="max-width:600px;margin:30px auto;">
+
 <input type="hidden" id="autoCaseID" name="caseID">
 
 <input type="text" name="name" placeholder="Full Name" required
@@ -336,6 +338,51 @@ let caseField = document.getElementById("autoCaseID");
 if(caseField){
 caseField.value = newCaseID;
 }
+
+</script>
+
+<script>
+
+document.getElementById("busiRequestForm").addEventListener("submit", function(){
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+/* Generate Case Number */
+
+let nextNumber = cases.length + 1;
+
+let caseID = "BUSI-" + String(nextNumber).padStart(3,"0");
+
+/* Put Case Number into hidden field */
+
+document.getElementById("autoCaseID").value = caseID;
+
+/* Get form data */
+
+let projectType = document.querySelector("select[name='assistance_type']").value;
+let address = document.querySelector("input[name='address']").value;
+
+/* Create case */
+
+let newCase = {
+
+caseID: caseID,
+project: projectType,
+location: address,
+status: "Pending Review",
+volunteersNeeded: 3,
+fundingGoal: 500,
+fundingRaised: 0
+
+};
+
+/* Save case */
+
+cases.push(newCase);
+
+localStorage.setItem("busiCases", JSON.stringify(cases));
+
+});
 
 </script>
 
