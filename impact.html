@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>BUSI Community Impact</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
 
@@ -38,10 +41,6 @@ border-radius:16px;
 border:1px solid rgba(255,255,255,0.12);
 }
 
-h1,h2,h3{
-margin-top:0;
-}
-
 .counter{
 font-size:36px;
 font-weight:bold;
@@ -58,7 +57,21 @@ color:black;
 font-weight:bold;
 margin-top:10px;
 }
- 
+
+#map{
+height:500px;
+border-radius:16px;
+margin-top:40px;
+}
+
+.legend{
+background:#1c2233;
+padding:10px;
+border-radius:8px;
+margin-top:15px;
+font-size:14px;
+}
+
 </style>
 
 </head>
@@ -74,14 +87,10 @@ Busi Believers Incorporated strengthens individuals and families through
 mentorship, stewardship education, and practical community support.
 </p>
 
- <div style="text-align:center;margin-top:40px;">
-
-<a class="btn" href="projects.html">
-View Community Project Gallery
-</a>
-
+<div style="margin-top:30px">
+<a class="btn" href="projects.html">View Community Project Gallery</a>
 </div>
- 
+
 </div>
 
 <section>
@@ -151,7 +160,7 @@ View Community Project Gallery
 </div>
 
 </section>
- 
+
 <section>
 
 <div class="container">
@@ -159,26 +168,34 @@ View Community Project Gallery
 <h2>BUSI Community Impact Map</h2>
 
 <p style="max-width:700px;margin:auto">
-This map highlights community projects coordinated through
-Busi Believers Incorporated across San Antonio.
+Community assistance projects coordinated through Busi Believers
+Incorporated across San Antonio.
 </p>
 
-<div id="map" style="height:500px;margin-top:40px;border-radius:16px;"></div>
+<div id="map"></div>
+
+<div class="legend">
+
+🟡 Pending Review
+🔵 Approved
+🟠 In Progress
+🟢 Completed
+
+</div>
 
 </div>
 
 </section>
 
- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
- 
+
 <script>
 
-/* Load BUSI case database */
+/* Load BUSI cases */
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-/* counters */
+/* Counters */
 
 let homes = 0;
 let vehicles = 0;
@@ -187,11 +204,11 @@ let volunteers = 0;
 let completed = 0;
 let active = 0;
 
-/* analyze projects */
+/* Analyze cases */
 
 cases.forEach(c => {
 
-let project = c.project.toLowerCase();
+let project = (c.project || "").toLowerCase();
 
 if(project.includes("home")) homes++;
 if(project.includes("vehicle")) vehicles++;
@@ -200,13 +217,11 @@ if(project.includes("tree")) trees++;
 if(c.status === "Completed") completed++;
 else active++;
 
+volunteers += Number(c.volunteersNeeded) || 0;
+
 });
 
-/* simple estimate for volunteers */
-
-volunteers = cases.length * 2;
-
-/* update page */
+/* Update counters */
 
 document.getElementById("homes").innerText = homes;
 document.getElementById("vehicles").innerText = vehicles;
@@ -218,49 +233,71 @@ document.getElementById("projects").innerText = cases.length;
 document.getElementById("completed").innerText = completed;
 document.getElementById("active").innerText = active;
 
-</script>
- 
-<script>
-
-/* Create BUSI Map */
+/* Create map */
 
 var map = L.map('map').setView([29.4241, -98.4936], 11);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
-/* Add markers for each project */
+/* Marker icons */
 
- if(cases.length > 0){
-map.setZoom(12);
-}
- 
+var greenIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var blueIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var yellowIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var orangeIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+/* Add markers */
+
 cases.forEach(c => {
 
-let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
-let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
+let lat = 29.4241 + (Math.random()-0.5)*0.1;
+let lng = -98.4936 + (Math.random()-0.5)*0.1;
 
-L.marker([lat, lng]).addTo(map)
+let icon = yellowIcon;
+
+if(c.status === "Approved") icon = blueIcon;
+if(c.status === "In Progress") icon = orangeIcon;
+if(c.status === "Completed") icon = greenIcon;
+
+L.marker([lat,lng],{icon:icon}).addTo(map)
+
 .bindPopup(`
+
 <b>${c.caseID}</b><br>
 Project: ${c.project}<br>
 Location: ${c.location}<br>
 Status: ${c.status}
+
 `);
 
 });
 
 </script>
- 
+
 </body>
 </html>
-
-
-
-
-
-
-
-
- 
