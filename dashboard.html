@@ -147,6 +147,22 @@ if(goal > 0){
 percent = (raised / goal) * 100;
 }
 
+let volunteers = "";
+
+if(c.volunteersAssigned && c.volunteersAssigned.length > 0){
+
+volunteers = "<p><strong>Volunteers Assigned:</strong></p>";
+
+c.volunteersAssigned.forEach(v => {
+volunteers += `<p>• ${v}</p>`;
+});
+
+}else{
+
+volunteers = "<p>No volunteers assigned yet</p>";
+
+}
+
 board.innerHTML += `
 
 <div class="card">
@@ -157,19 +173,11 @@ board.innerHTML += `
 
 <p>Location: ${c.location}</p>
 
-<p class="status">Status: ${c.status}</p>
+<p>Status: ${c.status}</p>
 
-<p style="margin-top:10px">
-Funding: $${raised} / $${goal}
-</p>
+<p>Volunteers Needed: ${c.volunteersNeeded}</p>
 
-<div class="progress">
-<div class="bar" style="width:${percent}%"></div>
-</div>
-
-<p style="margin-top:10px">
-Volunteers Needed: ${c.volunteersNeeded || 0}
-</p>
+${volunteers}
 
 </div>
 
