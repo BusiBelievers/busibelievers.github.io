@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BUSI Community Service Network</title>
+<title>BUSI Network Map</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
@@ -33,6 +33,14 @@ border-radius:16px;
 margin-top:30px;
 }
 
+.legend{
+margin-top:20px;
+background:#1c2233;
+padding:15px;
+border-radius:10px;
+font-size:14px;
+}
+
 </style>
 
 </head>
@@ -41,14 +49,23 @@ margin-top:30px;
 
 <div class="container">
 
-<h1>BUSI Community Service Network</h1>
+<h1>BUSI National Network</h1>
 
-<p>
-Explore active community assistance projects coordinated by
-Busi Believers Incorporated.
+<p style="max-width:700px;margin:auto">
+Busi Believers Incorporated continues expanding its mentorship and
+community support network across cities through volunteers,
+partners, and community leaders.
 </p>
 
 <div id="map"></div>
+
+<div class="legend">
+
+🔵 Active BUSI City
+🟢 Volunteer Hub
+🟡 Future Expansion
+
+</div>
 
 </div>
 
@@ -56,23 +73,25 @@ Busi Believers Incorporated.
 
 <script>
 
-var map = L.map('map').setView([29.4241, -98.4936], 11);
+/* Create Map */
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var map = L.map('map').setView([31.0,-98.0],6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
-/* marker colors */
+/* Marker Icons */
 
-var greenIcon = new L.Icon({
-iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+var blueIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
 shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
 iconSize:[25,41],
 iconAnchor:[12,41]
 });
 
-var blueIcon = new L.Icon({
-iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+var greenIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
 shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
 iconSize:[25,41],
 iconAnchor:[12,41]
@@ -85,29 +104,56 @@ iconSize:[25,41],
 iconAnchor:[12,41]
 });
 
-/* load BUSI cases */
+/* BUSI Network Cities */
 
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+let cities = [
 
-cases.forEach(c => {
+{
+name:"San Antonio, TX",
+lat:29.4241,
+lng:-98.4936,
+icon:blueIcon,
+description:"BUSI Headquarters and primary service area."
+},
 
-let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
-let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
+{
+name:"Austin, TX",
+lat:30.2672,
+lng:-97.7431,
+icon:greenIcon,
+description:"Volunteer hub supporting regional outreach."
+},
 
-let icon = yellowIcon;
+{
+name:"Houston, TX",
+lat:29.7604,
+lng:-95.3698,
+icon:yellowIcon,
+description:"Future BUSI expansion city."
+},
 
-if(c.status === "Approved") icon = blueIcon;
-if(c.status === "In Progress") icon = blueIcon;
-if(c.status === "Completed") icon = greenIcon;
+{
+name:"Dallas, TX",
+lat:32.7767,
+lng:-96.7970,
+icon:yellowIcon,
+description:"Future BUSI expansion city."
+}
 
-L.marker([lat,lng],{icon:icon}).addTo(map)
-.bindPopup(
-"<b>"+c.caseID+"</b><br>"+
-"Project: "+c.project+"<br>"+
-"Location: "+c.location+"<br>"+
-"Status: "+c.status+"<br><br>"+
-"<a href='marketplace.html'>View Project</a>"
-);
+];
+
+/* Place Markers */
+
+cities.forEach(city => {
+
+L.marker([city.lat,city.lng],{icon:city.icon})
+.addTo(map)
+.bindPopup(`
+
+<b>${city.name}</b><br>
+${city.description}
+
+`);
 
 });
 
