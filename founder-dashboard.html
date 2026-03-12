@@ -13,13 +13,13 @@
 
 body{
 font-family:Arial;
-margin:0;
 background:#0b1220;
 color:white;
+margin:0;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:40px 20px;
 }
@@ -38,27 +38,28 @@ border-radius:16px;
 border:1px solid rgba(255,255,255,0.1);
 }
 
-.card h2{
-margin-top:0;
-}
-
-.btn{
-display:inline-block;
-padding:10px 18px;
-background:#d4af37;
-color:black;
-border-radius:8px;
-text-decoration:none;
-margin-top:10px;
-font-weight:bold;
-}
-
-input, select{
+input,select{
 width:100%;
 padding:10px;
 margin-bottom:10px;
 border-radius:8px;
 border:none;
+}
+
+.btn{
+padding:10px 16px;
+background:#d4af37;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.case{
+background:#1c2233;
+padding:12px;
+border-radius:8px;
+margin-bottom:10px;
 }
 
 </style>
@@ -72,26 +73,19 @@ border:none;
 <h1 style="text-align:center">BUSI Founder Control Center</h1>
 
 <p style="text-align:center;max-width:700px;margin:auto">
-Central operations dashboard for Busi Believers Incorporated.
-Manage assistance cases, volunteers, projects, and community impact.
+This dashboard allows leadership to manage community assistance projects,
+funding goals, volunteers, and project progress across the BUSI platform.
 </p>
-
-<div class="grid">
 
 <div class="card">
 
-<h2>Create New Case</h2>
-
-<input id="caseID" placeholder="Case Number (BUSI-020)">
+<h2>Create New Project</h2>
 
 <input id="projectName" placeholder="Project Name">
 
-<select id="location">
-<option value="San Antonio">San Antonio</option>
-<option value="Dallas">Dallas</option>
-<option value="Houston">Houston</option>
-<option value="Austin">Austin</option>
-</select>
+<input id="location" placeholder="Location">
+
+<input id="volunteersNeeded" placeholder="Volunteers Needed">
 
 <select id="status">
 <option>Pending Review</option>
@@ -100,59 +94,15 @@ Manage assistance cases, volunteers, projects, and community impact.
 <option>Completed</option>
 </select>
 
-<button class="btn" onclick="addCase()">Create Case</button>
+<button class="btn" onclick="createCase()">Create Project</button>
 
 </div>
 
 <div class="card">
 
-<h2>Case Status Tracker</h2>
+<h2>Active BUSI Projects</h2>
 
-<p>View all participant cases and their current status.</p>
-
-<a class="btn" href="case-status.html">Open Case Tracker</a>
-
-</div>
-
-<div class="card">
-
-<h2>Volunteer Dispatch</h2>
-
-<p>View active projects where volunteers are needed.</p>
-
-<a class="btn" href="volunteer-board.html">Open Volunteer Board</a>
-
-</div>
-
-<div class="card">
-
-<h2>Community Impact</h2>
-
-<p>View BUSI impact statistics and project outcomes.</p>
-
-<a class="btn" href="impact.html">Open Impact Dashboard</a>
-
-</div>
-
-<div class="card">
-
-<h2>Impact Map</h2>
-
-<p>View BUSI service locations across the city.</p>
-
-<a class="btn" href="impact-map.html">Open Impact Map</a>
-
-</div>
-
-<div class="card">
-
-<h2>Project Archive</h2>
-
-<p>Review completed community projects.</p>
-
-<a class="btn" href="completed-projects.html">View Archive</a>
-
-</div>
+<div id="caseManager"></div>
 
 </div>
 
@@ -163,23 +113,106 @@ Manage assistance cases, volunteers, projects, and community impact.
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
 function saveCases(){
-localStorage.setItem("busiCases", JSON.stringify(cases));
+localStorage.setItem("busiCases",JSON.stringify(cases));
 }
 
-function addCase(){
+function createCase(){
 
-let caseID = document.getElementById("caseID").value;
+let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
+
 let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
+let volunteers = Number(document.getElementById("volunteersNeeded").value) || 0;
 let status = document.getElementById("status").value;
 
-cases.push({caseID, project, location, status});
+cases.push({
+caseID:caseID,
+project:project,
+location:location,
+status:status,
+volunteersNeeded:volunteers,
+fundingGoal:0,
+fundingRaised:0
+});
 
 saveCases();
 
-alert("BUSI Case Created");
+renderCases();
 
 }
+
+function renderCases(){
+
+let container=document.getElementById("caseManager");
+
+container.innerHTML="";
+
+cases.forEach((c,index)=>{
+
+container.innerHTML+=`
+
+<div class="case">
+
+<strong>${c.caseID}</strong> — ${c.project}<br>
+Location: ${c.location}<br>
+Status: ${c.status}<br>
+
+Funding Goal:
+<input type="number" value="${c.fundingGoal}" onchange="updateGoal(${index},this.value)">
+
+Funding Raised:
+<input type="number" value="${c.fundingRaised}" onchange="updateRaised(${index},this.value)">
+
+Volunteers Needed:
+<input type="number" value="${c.volunteersNeeded}" onchange="updateVolunteers(${index},this.value)">
+
+<select onchange="updateStatus(${index},this.value)">
+<option ${c.status==="Pending Review"?"selected":""}>Pending Review</option>
+<option ${c.status==="Approved"?"selected":""}>Approved</option>
+<option ${c.status==="In Progress"?"selected":""}>In Progress</option>
+<option ${c.status==="Completed"?"selected":""}>Completed</option>
+</select>
+
+<br><br>
+
+<button class="btn" onclick="deleteCase(${index})">Delete</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function updateGoal(index,value){
+cases[index].fundingGoal=Number(value);
+saveCases();
+}
+
+function updateRaised(index,value){
+cases[index].fundingRaised=Number(value);
+saveCases();
+}
+
+function updateVolunteers(index,value){
+cases[index].volunteersNeeded=Number(value);
+saveCases();
+}
+
+function updateStatus(index,value){
+cases[index].status=value;
+saveCases();
+renderCases();
+}
+
+function deleteCase(index){
+cases.splice(index,1);
+saveCases();
+renderCases();
+}
+
+renderCases();
 
 </script>
 
