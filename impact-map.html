@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
 
 <title>BUSI Community Impact Map</title>
@@ -24,7 +25,7 @@ text-align:center;
 }
 
 #map{
-height:500px;
+height:550px;
 border-radius:16px;
 margin-top:30px;
 }
@@ -40,7 +41,8 @@ margin-top:30px;
 <h1>BUSI Community Impact Map</h1>
 
 <p>
-Projects completed by Busi Believers volunteers throughout San Antonio.
+Community assistance projects coordinated by Busi Believers Incorporated
+across San Antonio.
 </p>
 
 <div id="map"></div>
@@ -51,97 +53,79 @@ Projects completed by Busi Believers volunteers throughout San Antonio.
 
 <script>
 
-var map = L.map('map').setView([29.4241, -98.4936], 11);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-attribution:'© OpenStreetMap'
-}).addTo(map);
-
-/* BUSI Project Cases */
-
- var greenIcon = new L.Icon({
-iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-iconSize: [25, 41],
-iconAnchor: [12, 41]
-});
-
-var blueIcon = new L.Icon({
-iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-iconSize: [25, 41],
-iconAnchor: [12, 41]
-});
-
-var yellowIcon = new L.Icon({
-iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
-shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-iconSize: [25, 41],
-iconAnchor: [12, 41]
-});
+/* Load BUSI Cases */
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-let markers = {};
+/* Create Map */
+
+var map = L.map('map').setView([29.4241, -98.4936], 11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+/* Marker Colors */
+
+var greenIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var blueIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var yellowIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+var orangeIcon = new L.Icon({
+iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png',
+shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+iconSize:[25,41],
+iconAnchor:[12,41]
+});
+
+/* Place Projects On Map */
 
 cases.forEach(c => {
 
-let lat = 29.4241 + (Math.random() - 0.5) * 0.1;
-let lng = -98.4936 + (Math.random() - 0.5) * 0.1;
+let lat = 29.4241 + (Math.random()-0.5)*0.1;
+let lng = -98.4936 + (Math.random()-0.5)*0.1;
 
 let icon = yellowIcon;
 
-if(c.status === "Approved") icon = blueIcon;
-if(c.status === "In Progress") icon = blueIcon;
-if(c.status === "Completed") icon = greenIcon;
+if(c.status==="Approved") icon=blueIcon;
+if(c.status==="In Progress") icon=orangeIcon;
+if(c.status==="Completed") icon=greenIcon;
 
-let marker = L.marker([lat, lng], {icon: icon}).addTo(map)
+L.marker([lat,lng],{icon:icon}).addTo(map)
+
 .bindPopup(`
+
 <b>${c.caseID}</b><br>
 Project: ${c.project}<br>
 Location: ${c.location}<br>
-Status: ${c.status}
+Status: ${c.status}<br>
+
+<a href="index.html?project=${c.caseID}#volunteer">
+Volunteer
+</a>
+
 `);
 
-markers[c.caseID] = marker;
+});
 
-}); 
-
-/* Auto zoom when case link is used */
-
-const params = new URLSearchParams(window.location.search);
-const caseID = params.get("case");
-
-if(caseID && markers[caseID]){
-
-map.setView(markers[caseID].getLatLng(), 15);
-markers[caseID].openPopup();
-
-}
-
- var legend = L.control({position: 'bottomright'});
-
-legend.onAdd = function (map) {
-
-var div = L.DomUtil.create('div', 'info legend');
-
-div.innerHTML =
-
-"<b>BUSI Project Status</b><br><br>" +
-
-"<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png' width='15'> Completed<br>" +
-
-"<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png' width='15'> Active<br>" +
-
-"<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png' width='15'> Pending";
-
-return div;
-
-};
-
-legend.addTo(map);
- 
 </script>
- 
+
 </body>
 </html>
