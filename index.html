@@ -662,42 +662,6 @@ $210 raised so far
 
 </div>
 
-<section id="impact-stats">
-
-<div class="container">
-
-<h2 style="text-align:center">BUSI Community Impact</h2>
-
-<p style="text-align:center;max-width:650px;margin:auto;color:var(--muted)">
-These numbers represent real community assistance projects supported
-through mentorship, volunteers, and community partnerships.
-</p>
-
-<div class="grid" style="text-align:center;margin-top:40px">
-
-<div class="card">
-
-<h3 id="homesCounter" style="font-size:38px;color:#d4af37">0</h3>
-
-<p>Homes Assisted</p>
-
-</div>
-
-<div class="card">
-
-<h3 id="vehiclesCounter" style="font-size:38px;color:#d4af37">0</h3>
-
-<p>Vehicles Repaired</p>
-
-</div>
-
-<div class="card">
-
-<h3 id="treesCounter" style="font-size:38px;color:#d4af37">0</h3>
-
-<p>Trees Trimmed / Removed</p>
-
-</div>
 
 <div class="card">
 
@@ -1532,6 +1496,68 @@ if(vehiclesEl) vehiclesEl.innerText = vehicles;
 if(treesEl) treesEl.innerText = trees;
 if(volunteersEl) volunteersEl.innerText = volunteers;
 if(projectsEl) projectsEl.innerText = completed;
+
+/* ===========================
+BUSI IMPACT COUNTER ANIMATION
+=========================== */
+
+function animateCounter(id, target){
+
+let el = document.getElementById(id);
+
+if(!el) return;
+
+let count = 0;
+let increment = Math.ceil(target / 40);
+
+let interval = setInterval(()=>{
+
+count += increment;
+
+if(count >= target){
+count = target;
+clearInterval(interval);
+}
+
+el.innerText = count;
+
+},30);
+
+}
+
+/* Load values from case database */
+
+let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+
+let homes = 0;
+let vehicles = 0;
+let trees = 0;
+let volunteers = 0;
+let completed = 0;
+
+cases.forEach(c=>{
+
+let project = (c.project || "").toLowerCase();
+
+if(project.includes("home")) homes++;
+
+if(project.includes("vehicle")) vehicles++;
+
+if(project.includes("tree")) trees++;
+
+if(c.status === "Completed") completed++;
+
+if(c.volunteersAssigned){
+volunteers += c.volunteersAssigned.length;
+}
+
+});
+
+animateCounter("homesCounter", homes);
+animateCounter("vehiclesCounter", vehicles);
+animateCounter("treesCounter", trees);
+animateCounter("volunteerCounter", volunteers);
+animateCounter("projectCounter", completed);
 
 /* ===============================
 MOBILE MENU TOGGLE
