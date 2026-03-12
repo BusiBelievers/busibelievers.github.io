@@ -56,6 +56,11 @@
 <body>
   <div class="card">
     <h1>Thank You for Reaching Out</h1>
+    <p style="margin-top:20px;font-size:18px">
+<strong>Your BUSI Case Number:</strong>
+<span id="caseNumberDisplay"></span>
+</p>
+
     <p>
       We’ve received your message and truly appreciate you taking the time
       to connect with <strong>Busi Believers Incorporated</strong>.
@@ -92,6 +97,16 @@ let caseNumber = localStorage.getItem("busiCaseNumber");
 if(caseNumber){
 let formatted = "BUSI-" + String(caseNumber).padStart(3,'0');
 document.getElementById("caseDisplay").innerText = formatted;
+}
+
+</script>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+if(params.has("caseID")){
+document.getElementById("caseNumberDisplay").innerText = params.get("caseID");
 }
 
 </script>
