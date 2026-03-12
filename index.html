@@ -1298,57 +1298,52 @@ Volunteer for Project
 
 </div>
 
-`;
+<script>
 
-});
-
-</script>
-
- <script>
+/* ===============================
+BUSI GLOBAL CASE DATABASE
+================================ */
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
-function getFundingPercent(caseID){
 
-let project = cases.find(c => c.caseID === caseID);
+/* ===============================
+MOBILE MENU TOGGLE
+================================ */
 
-if(!project) return 0;
-
-let percent = (project.fundingRaised / project.fundingGoal) * 100;
-
-return Math.min(percent,100);
-
+function toggleMenu(){
+const menu = document.querySelector(".nav-menu");
+menu.classList.toggle("show");
 }
 
-</script>
 
- <script>
+/* ===============================
+AUTO FILL PROJECT ID IN VOLUNTEER FORM
+================================ */
 
-cases.forEach(c => {
+const params = new URLSearchParams(window.location.search);
 
-let bar = document.getElementById("fund-"+c.caseID);
-
-if(bar){
-
-let percent = (c.fundingRaised / c.fundingGoal) * 100;
-
-bar.style.width = percent + "%";
-
+if(params.has("project")){
+let field = document.getElementById("project");
+if(field){
+field.value = params.get("project");
+}
 }
 
-});
 
-</script>
+/* ===============================
+VOLUNTEER FORM → ASSIGN VOLUNTEER
+================================ */
 
- <script>
+let volunteerForm = document.querySelector("#volunteer form");
 
-document.querySelector("form").addEventListener("submit", function(){
+if(volunteerForm){
+
+volunteerForm.addEventListener("submit", function(){
 
 let projectID = document.getElementById("project").value;
 
 if(!projectID) return;
-
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
 cases.forEach(c => {
 
@@ -1370,7 +1365,83 @@ localStorage.setItem("busiCases", JSON.stringify(cases));
 
 });
 
+}
+
+
+/* ===============================
+PROJECT FUNDING BOARD
+================================ */
+
+let board = document.getElementById("fundingBoard");
+
+if(board){
+
+cases.forEach(c => {
+
+let goal = Number(c.fundingGoal) || 0;
+let raised = Number(c.fundingRaised) || 0;
+
+let percent = 0;
+
+if(goal > 0){
+percent = (raised / goal) * 100;
+}
+
+board.innerHTML += `
+
+<div class="card">
+
+<h3>${c.caseID}</h3>
+
+<p><strong>${c.project}</strong></p>
+
+<p style="color:var(--muted)">
+Location: ${c.location}
+</p>
+
+<p style="margin-top:10px">
+$${raised} raised of $${goal}
+</p>
+
+<div style="
+background:#1c2233;
+border-radius:10px;
+overflow:hidden;
+height:16px;
+margin-top:8px;
+">
+
+<div style="
+width:${percent}%;
+background:#d4af37;
+height:100%;
+">
+</div>
+
+</div>
+
+<div style="margin-top:15px">
+
+<a class="btn" href="support.html">
+Sponsor Project
+</a>
+
+<a class="btn" href="index.html?project=${c.caseID}#volunteer">
+Volunteer for Project
+</a>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
 </script>
+
 
 </body>
 </html>
