@@ -100,6 +100,35 @@ funding goals, volunteers, and project progress across the BUSI platform.
 
 <div class="card">
 
+<div class="card">
+
+<h2>Assistance Intake Review</h2>
+
+<p style="color:#ccc">
+Review incoming assistance requests and create BUSI cases.
+Requests arrive in the admin email inbox and can be converted
+into projects here.
+</p>
+
+<input id="intakeName" placeholder="Participant Name">
+
+<input id="intakeProject" placeholder="Type of Assistance (Example: Vehicle Repair)">
+
+<input id="intakeLocation" placeholder="City / Area">
+
+<input id="intakeVolunteers" placeholder="Volunteers Needed">
+
+<select id="intakeStatus">
+<option>Pending Review</option>
+<option>Approved</option>
+<option>In Progress</option>
+<option>Completed</option>
+</select>
+
+<button class="btn" onclick="convertRequest()">Convert To BUSI Case</button>
+
+</div>
+  
 <h2>Active BUSI Projects</h2>
 
 <div id="caseManager"></div>
@@ -216,5 +245,32 @@ renderCases();
 
 </script>
 
+function convertRequest(){
+
+let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
+
+let project = document.getElementById("intakeProject").value;
+let location = document.getElementById("intakeLocation").value;
+let volunteers = Number(document.getElementById("intakeVolunteers").value) || 0;
+let status = document.getElementById("intakeStatus").value;
+
+cases.push({
+caseID:caseID,
+project:project,
+location:location,
+status:status,
+volunteersNeeded:volunteers,
+fundingGoal:0,
+fundingRaised:0
+});
+
+saveCases();
+
+renderCases();
+
+alert("Assistance request converted to BUSI project.");
+
+}
+  
 </body>
 </html>
