@@ -1,141 +1,127 @@
-<section>
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BUSI Community Partners</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0b1220;
+color:white;
+margin:0;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+padding:25px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+</style>
+
+</head>
+
+<body>
 
 <div class="container">
 
-<h1 style="text-align:center">Partner With Busi Believers</h1>
+<h1>BUSI Community Partners</h1>
 
-<p style="text-align:center;max-width:700px;margin:auto;color:var(--muted)">
-Busi Believers Incorporated works with volunteers, churches, businesses,
-and community leaders to help individuals and families facing hardship.
+<p style="max-width:700px;margin:auto">
+Busi Believers Incorporated works alongside churches, volunteers,
+and community organizations committed to strengthening families,
+mentorship, and community service.
 </p>
 
-  <p style="text-align:center;max-width:750px;margin:20px auto;color:var(--muted)">
-Partnerships play an important role in the mission of Busi Believers
-Incorporated. By working together with local churches, businesses,
-contractors, and community volunteers, BUSI is able to provide
-practical assistance and mentorship to individuals facing hardship.
-</p>
-  
-<h2 style="text-align:center;margin-top:40px">Ways To Partner</h2>
+<div id="partnerDirectory" class="grid"></div>
 
-<div class="grid">
+</div>
+
+<script>
+
+/* Example Partner List */
+
+let partners = [
+
+{
+name:"Faith Community Church",
+city:"San Antonio, TX",
+type:"Church",
+description:"Community outreach and mentorship support."
+},
+
+{
+name:"River City Volunteers",
+city:"San Antonio, TX",
+type:"Volunteer Group",
+description:"Local volunteers assisting with community projects."
+},
+
+{
+name:"Kingdom Builders Ministry",
+city:"Austin, TX",
+type:"Church",
+description:"Faith-based mentorship and leadership development."
+},
+
+{
+name:"Community Trade Network",
+city:"Houston, TX",
+type:"Business Network",
+description:"Local businesses supporting community projects."
+}
+
+];
+
+/* Render Partner Directory */
+
+let container = document.getElementById("partnerDirectory");
+
+partners.forEach(p => {
+
+container.innerHTML += `
 
 <div class="card">
-<h3>Project Sponsorship</h3>
-<p>
-Sponsor home repairs, vehicle repairs, or property maintenance projects
-for individuals in need.
-</p>
-</div>
 
-<div class="card">
-<h3>Volunteer Support</h3>
-<p>
-Businesses and organizations may provide volunteer labor,
-equipment, or professional services.
-</p>
-</div>
+<h3>${p.name}</h3>
 
-<div class="card">
-<h3>Financial Sponsorship</h3>
-<p>
-Support mentorship programs, stewardship education,
-and community assistance efforts.
-</p>
-</div>
+<p><strong>${p.type}</strong></p>
 
-<div class="card">
-<h3>Community Partnerships</h3>
-<p>
-Churches, nonprofits, and civic organizations can collaborate
-with BUSI to strengthen communities together.
-</p>
-</div>
+<p>${p.city}</p>
 
-</div>
-
-<div style="text-align:center;margin-top:40px">
-
-<h2 style="margin-top:40px">Become a BUSI Community Partner</h2>
-
-<p style="max-width:650px;margin:auto;color:var(--muted)">
-Businesses, churches, and organizations can partner with BUSI to support
-community assistance projects across San Antonio through volunteer service,
-project sponsorship, and mentorship support.
-</p>
-  
-<form action="https://formspree.io/f/mykkygdo" method="POST" style="max-width:600px;margin:30px auto;">
-
-<input type="text" name="organization" placeholder="Organization / Business Name" required
-style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
-
-<input type="text" name="contact_name" placeholder="Contact Person"
-style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
-
-<input type="email" name="email" placeholder="Email Address" required
-style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
-
-<input type="text" name="phone" placeholder="Phone Number"
-style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
-
-<select name="partnership_type"
-style="width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none;">
-
-<option value="">Partnership Type</option>
-<option>Volunteer Support</option>
-<option>Project Sponsorship</option>
-<option>Financial Sponsorship</option>
-<option>Church Partnership</option>
-<option>Business Partnership</option>
-
-</select>
-
-<textarea name="message" placeholder="How would you like to partner with BUSI?"
-style="width:100%;padding:12px;height:120px;margin-bottom:12px;border-radius:8px;border:none;"></textarea>
-
-<input type="hidden" name="form_type" value="Partner Application">
-
-<input type="hidden" name="_next" value="https://busib.net/thanks.html">
-
-<button class="btn" type="submit">Submit Partnership Request</button>
-
-</form>  
-
-</div>
-<section>
-
-<div class="container">
-
-<h2 style="text-align:center">Community Partners</h2>
-
-<p style="text-align:center;max-width:700px;margin:auto;color:var(--muted)">
-Busi Believers Incorporated is actively building partnerships with
-organizations that share our commitment to strengthening communities
-through stewardship, mentorship, and service.
+<p style="font-size:14px;color:#ccc">
+${p.description}
 </p>
 
-<div class="grid" style="margin-top:40px;text-align:center">
-
-<div class="card">
-<h3>Local Churches</h3>
-<p>Faith communities supporting mentorship and outreach efforts.</p>
 </div>
 
-<div class="card">
-<h3>Local Businesses</h3>
-<p>Businesses helping sponsor projects and provide resources.</p>
-</div>
+`;
 
-<div class="card">
-<h3>Trades Professionals</h3>
-<p>Contractors and skilled workers assisting with repair projects.</p>
-</div>
+});
 
-</div>
+</script>
 
-</div>
-
-</section>
-</div>
-
-</section>
+</body>
+</html>
