@@ -80,6 +80,15 @@ Use this page to monitor assistance requests, volunteers, and project status.
 
  <input id="volunteersNeeded" placeholder="Volunteers Needed (Example: 3)"
 style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
+
+<input id="description" placeholder="Project Description"
+style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
+
+<label style="font-size:14px;color:#ccc">Before Photo</label> <input type="file" id="beforePhoto"
+style="width:100%;margin-bottom:10px">
+
+<label style="font-size:14px;color:#ccc">After Photo</label> <input type="file" id="afterPhoto"
+style="width:100%;margin-bottom:10px">
   
 <select id="status" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:none;">
 
@@ -169,6 +178,22 @@ let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
   
 let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
+let description = document.getElementById("description").value;
+
+let beforeFile = document.getElementById("beforePhoto").files[0];
+let afterFile = document.getElementById("afterPhoto").files[0];
+
+let beforePhoto = "";
+let afterPhoto = "";
+
+if(beforeFile){
+beforePhoto = URL.createObjectURL(beforeFile);
+}
+
+if(afterFile){
+afterPhoto = URL.createObjectURL(afterFile);
+}
+  
 let volunteersNeeded = Number(document.getElementById("volunteersNeeded").value) || 0;
 let status = document.getElementById("status").value;
 
@@ -181,6 +206,9 @@ cases.push({
 caseID: caseID,
 project: project,
 location: location,
+description: description,
+beforePhoto: beforePhoto,
+afterPhoto: afterPhoto,
 status: status,
 fundingGoal: 0,
 fundingRaised: 0,
