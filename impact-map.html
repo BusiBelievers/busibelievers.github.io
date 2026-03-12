@@ -99,31 +99,31 @@ iconAnchor:[12,41]
 
 cases.forEach(c => {
 
-let lat = 29.4241 + (Math.random()-0.5)*0.1;
-let lng = -98.4936 + (Math.random()-0.5)*0.1;
+let address = encodeURIComponent(c.location);
 
-let icon = yellowIcon;
+/* Use OpenStreetMap Geocoder */
 
-if(c.status==="Approved") icon=blueIcon;
-if(c.status==="In Progress") icon=orangeIcon;
-if(c.status==="Completed") icon=greenIcon;
+fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
+.then(response => response.json())
+.then(data => {
 
-L.marker([lat,lng],{icon:icon}).addTo(map)
+if(data.length > 0){
 
-.bindPopup(`
+let lat = data[0].lat;
+let lon = data[0].lon;
 
-<b>${c.caseID}</b><br>
+L.marker([lat, lon]).addTo(map)
+.bindPopup(`<b>${c.caseID}</b><br>
 Project: ${c.project}<br>
 Location: ${c.location}<br>
-Status: ${c.status}<br>
+Status: ${c.status}`);
 
-<a href="index.html?project=${c.caseID}#volunteer">
-Volunteer
-</a>
-
-`);
+}
 
 });
+
+});
+
 
 </script>
 
