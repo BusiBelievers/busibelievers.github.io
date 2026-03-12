@@ -112,11 +112,25 @@ if(data.length > 0){
 let lat = data[0].lat;
 let lon = data[0].lon;
 
-L.marker([lat, lon]).addTo(map)
-.bindPopup(`<b>${c.caseID}</b><br>
+ let icon = yellowIcon;
+
+if(c.status === "Completed"){
+icon = greenIcon;
+}
+else if(c.status === "In Progress"){
+icon = blueIcon;
+}
+else if(c.status === "Approved"){
+icon = orangeIcon;
+}
+
+L.marker([lat, lon], {icon: icon}).addTo(map)
+.bindPopup(`
+<b>${c.caseID}</b><br>
 Project: ${c.project}<br>
 Location: ${c.location}<br>
-Status: ${c.status}`);
+Status: ${c.status}
+`); 
 
 }
 
