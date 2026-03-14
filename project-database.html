@@ -79,36 +79,117 @@ Busi Believers Incorporated.
 <th>Location</th>
 </tr>
 
-<tr>
-<td>
-<a href="impact-map.html?case=BUSI-006">BUSI-006</a>
-</td>
-<td>Tree Removal</td>
-<td class="status-complete">Completed</td>
-<td>San Antonio</td>
-</tr>
-
-<tr>
-<td>
-<a href="impact-map.html?case=BUSI-007">BUSI-007</a>
-</td>
-<td>Lawn Care</td>
-<td class="status-active">Active</td>
-<td>San Antonio</td>
-</tr>
-
-<tr>
-<td>
-<a href="impact-map.html?case=BUSI-008">BUSI-008</a>
-</td>
-<td>Vehicle Assistance</td>
-<td class="status-pending">Pending</td>
-<td>San Antonio</td>
-</tr>
+<tbody id="casesTableBody"></tbody>
 
 </table>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+
+const sampleCases = [
+{ case_number: "BUSI-006", need_type: "Tree Removal", status: "Completed", city: "San Antonio" },
+{ case_number: "BUSI-007", need_type: "Lawn Care", status: "Active", city: "San Antonio" },
+{ case_number: "BUSI-008", need_type: "Vehicle Assistance", status: "Pending", city: "San Antonio" }
+];
+
+function escapeHtml(value){
+return String(value ?? "")
+.replace(/&/g, "&amp;")
+.replace(/</g, "&lt;")
+.replace(/>/g, "&gt;")
+.replace(/\"/g, "&quot;")
+.replace(/'/g, "&#39;");
+}
+
+function statusClass(status){
+const normalized = String(status || "").toLowerCase();
+if(normalized === "completed") return "status-complete";
+if(normalized === "active") return "status-active";
+return "status-pending";
+}
+
+function normalizeRow(row){
+return {
+case_number: row.case_number || row.caseID || row.case || "BUSI-UNASSIGNED",
+need_type: row.need_type || row.project || row.project_type || "General Assistance",
+status: row.status || "Pending",
+city: row.city || row.location || "San Antonio"
+};
+}
+
+function renderCases(rows){
+const body = document.getElementById("casesTableBody");
+if(!body) return;
+
+if(!rows.length){
+body.innerHTML = "<tr><td colspan=\"4\">No cases found.</td></tr>";
+return;
+}
+
+body.innerHTML = rows.map((row) => {
+const safeCase = escapeHtml(row.case_number);
+const safeType = escapeHtml(row.need_type);
+const safeStatus = escapeHtml(row.status);
+const safeCity = escapeHtml(row.city);
+const statusCss = statusClass(row.status);
+
+return `
+<tr>
+<td><a href="impact-map.html?case=${encodeURIComponent(row.case_number)}">${safeCase}</a></td>
+<td>${safeType}</td>
+<td class="${statusCss}">${safeStatus}</td>
+<td>${safeCity}</td>
+</tr>
+`;
+}).join("");
+}
+
+function loadLocalCases(){
+try{
+const stored = JSON.parse(localStorage.getItem("busiCases") || "[]");
+if(Array.isArray(stored) && stored.length){
+return stored.map(normalizeRow);
+}
+}catch(_){
+}
+return sampleCases.map(normalizeRow);
+}
+
+async function loadCases(){
+const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+
+if(!hasSupabaseConfig || !window.supabase){
+renderCases(loadLocalCases());
+return;
+}
+
+try{
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { data, error } = await client
+.from("cases")
+.select("case_number, need_type, status, city")
+.order("created_at", { ascending: false })
+.limit(200);
+
+if(error){
+renderCases(loadLocalCases());
+return;
+}
+
+renderCases((data || []).map(normalizeRow));
+}catch(_){
+renderCases(loadLocalCases());
+}
+}
+
+loadCases();
+
+</script>
 
 </body>
 </html>

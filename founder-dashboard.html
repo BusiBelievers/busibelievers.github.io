@@ -137,24 +137,88 @@ into projects here.
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase);
+const supabaseClient = hasSupabaseConfig ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+let cases = [];
+
+function normalizeCase(row){
+return {
+id: row.id || null,
+caseID: row.case_number || row.caseID || "BUSI-UNASSIGNED",
+project: row.need_type || row.project || "General Assistance",
+location: row.city || row.location || "San Antonio",
+status: row.status || "Pending Review",
+volunteersNeeded: Number(row.volunteers_needed ?? row.volunteersNeeded ?? 0),
+fundingGoal: Number(row.funding_goal ?? row.fundingGoal ?? 0),
+fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0)
+};
+}
+
+function nextCaseID(){
+let max = 0;
+cases.forEach((c) => {
+const m = String(c.caseID).match(/^BUSI-(\d+)$/);
+if(m){
+max = Math.max(max, Number(m[1]));
+}
+});
+return "BUSI-" + String(max + 1).padStart(3, "0");
+}
 
 function saveCases(){
 localStorage.setItem("busiCases",JSON.stringify(cases));
 }
 
-function createCase(){
+async function loadCases(){
+if(!supabaseClient){
+cases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
+renderCases();
+return;
+}
 
-let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
+try{
+const { data, error } = await supabaseClient
+.from("cases")
+.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised")
+.order("created_at", { ascending: false })
+.limit(300);
+
+if(error){
+cases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
+renderCases();
+return;
+}
+
+cases = (data || []).map(normalizeCase);
+saveCases();
+renderCases();
+}catch(_){
+cases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
+renderCases();
+}
+}
+
+async function createCase(){
+
+let caseID = nextCaseID();
 
 let project = document.getElementById("projectName").value;
 let location = document.getElementById("location").value;
 let volunteers = Number(document.getElementById("volunteersNeeded").value) || 0;
 let status = document.getElementById("status").value;
 
-cases.push({
+if(!project || !location){
+alert("Please enter both Project Name and Location.");
+return;
+}
+
+const newCase = normalizeCase({
 caseID:caseID,
 project:project,
 location:location,
@@ -163,6 +227,34 @@ volunteersNeeded:volunteers,
 fundingGoal:0,
 fundingRaised:0
 });
+
+if(supabaseClient){
+try{
+const { data, error } = await supabaseClient
+.from("cases")
+.insert({
+case_number: newCase.caseID,
+need_type: newCase.project,
+city: newCase.location,
+status: newCase.status,
+volunteers_needed: newCase.volunteersNeeded,
+funding_goal: newCase.fundingGoal,
+funding_raised: newCase.fundingRaised
+})
+.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised")
+.single();
+
+if(!error && data){
+cases.unshift(normalizeCase(data));
+saveCases();
+renderCases();
+return;
+}
+}catch(_){
+}
+}
+
+cases.unshift(newCase);
 
 saveCases();
 
@@ -214,47 +306,88 @@ Volunteers Needed:
 
 }
 
+async function persistCase(index){
+const c = cases[index];
+if(!c){
+return;
+}
+
+saveCases();
+
+if(!supabaseClient || !c.id){
+return;
+}
+
+try{
+await supabaseClient
+.from("cases")
+.update({
+need_type: c.project,
+city: c.location,
+status: c.status,
+volunteers_needed: Number(c.volunteersNeeded || 0),
+funding_goal: Number(c.fundingGoal || 0),
+funding_raised: Number(c.fundingRaised || 0)
+})
+.eq("id", c.id);
+}catch(_){
+}
+}
+
 function updateGoal(index,value){
 cases[index].fundingGoal=Number(value);
-saveCases();
+persistCase(index);
 }
 
 function updateRaised(index,value){
 cases[index].fundingRaised=Number(value);
-saveCases();
+persistCase(index);
 }
 
 function updateVolunteers(index,value){
 cases[index].volunteersNeeded=Number(value);
-saveCases();
+persistCase(index);
 }
 
 function updateStatus(index,value){
 cases[index].status=value;
-saveCases();
+persistCase(index);
 renderCases();
 }
 
-function deleteCase(index){
+async function deleteCase(index){
+const c = cases[index];
+if(!c){
+return;
+}
+
+if(supabaseClient && c.id){
+try{
+await supabaseClient.from("cases").delete().eq("id", c.id);
+}catch(_){
+}
+}
+
 cases.splice(index,1);
 saveCases();
 renderCases();
 }
 
-renderCases();
+async function convertRequest(){
 
-</script>
-
-function convertRequest(){
-
-let caseID = "BUSI-" + String(cases.length + 1).padStart(3,'0');
+let caseID = nextCaseID();
 
 let project = document.getElementById("intakeProject").value;
 let location = document.getElementById("intakeLocation").value;
 let volunteers = Number(document.getElementById("intakeVolunteers").value) || 0;
 let status = document.getElementById("intakeStatus").value;
 
-cases.push({
+if(!project || !location){
+alert("Please enter both assistance type and city/area.");
+return;
+}
+
+const newCase = normalizeCase({
 caseID:caseID,
 project:project,
 location:location,
@@ -264,6 +397,35 @@ fundingGoal:0,
 fundingRaised:0
 });
 
+if(supabaseClient){
+try{
+const { data, error } = await supabaseClient
+.from("cases")
+.insert({
+case_number: newCase.caseID,
+need_type: newCase.project,
+city: newCase.location,
+status: newCase.status,
+volunteers_needed: newCase.volunteersNeeded,
+funding_goal: newCase.fundingGoal,
+funding_raised: newCase.fundingRaised
+})
+.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised")
+.single();
+
+if(!error && data){
+cases.unshift(normalizeCase(data));
+saveCases();
+renderCases();
+alert("Assistance request converted to BUSI project.");
+return;
+}
+}catch(_){
+}
+}
+
+cases.unshift(newCase);
+
 saveCases();
 
 renderCases();
@@ -271,6 +433,10 @@ renderCases();
 alert("Assistance request converted to BUSI project.");
 
 }
+
+loadCases();
   
+</script>
+
 </body>
 </html>
