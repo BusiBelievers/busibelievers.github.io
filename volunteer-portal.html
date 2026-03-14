@@ -74,11 +74,39 @@ and volunteer where help is needed most.
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase);
+const supabaseClient = hasSupabaseConfig ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 let board = document.getElementById("volunteerBoard");
+
+function normalizeCase(row){
+return {
+caseID: row.caseID || row.case_number || "BUSI-UNASSIGNED",
+project: row.project || row.need_type || "General Assistance",
+location: row.location || row.city || "San Antonio",
+status: row.status || "Pending",
+volunteersNeeded: Number(row.volunteersNeeded ?? row.volunteers_needed ?? 0),
+volunteersAssigned: Array.isArray(row.volunteersAssigned) ? row.volunteersAssigned : []
+};
+}
+
+function renderCases(cases){
+if(!cases.length){
+board.innerHTML = `
+<div class="card">
+<h3>No Active Projects Yet</h3>
+<p>Projects will appear here once they are created and approved.</p>
+</div>
+`;
+return;
+}
+
+board.innerHTML = "";
 
 cases.forEach(c => {
 
@@ -86,7 +114,7 @@ let assigned = c.volunteersAssigned ? c.volunteersAssigned.length : 0;
 let needed = Number(c.volunteersNeeded) || 0;
 
 let volunteerButton = `
-<a class="btn" href="index.html#volunteer?project=${c.caseID}">
+<a class="btn" href="index.html?project=${encodeURIComponent(c.caseID)}#volunteer">
 Volunteer
 </a>
 `;
@@ -124,6 +152,36 @@ ${volunteerButton}
 `;
 
 });
+}
+
+async function loadCases(){
+if(!supabaseClient){
+const localCases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
+renderCases(localCases);
+return;
+}
+
+try{
+const { data, error } = await supabaseClient
+.from("cases")
+.select("case_number, need_type, city, status, volunteers_needed")
+.order("created_at", { ascending: false })
+.limit(200);
+
+if(error){
+const localCases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
+renderCases(localCases);
+return;
+}
+
+renderCases((data || []).map(normalizeCase));
+}catch(_){
+const localCases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
+renderCases(localCases);
+}
+}
+
+loadCases();
 
 </script>
 
