@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUSI Pre/Post Assessment</title>
+<style>
+body{font-family:Arial;background:#0b1220;color:white;margin:0;}
+.container{max-width:980px;margin:auto;padding:40px 20px;}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;margin-top:16px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+label{display:block;font-weight:bold;margin-bottom:6px;}
+input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-sizing:border-box;margin-bottom:12px;}
+h1,h2{margin-top:0;}
+.btn{display:inline-block;padding:12px 16px;background:#d4af37;color:black;border:none;border-radius:10px;text-decoration:none;font-weight:bold;cursor:pointer;margin:6px 8px 6px 0;}
+.quick-links{margin:0 0 12px;}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="quick-links">
+<a class="btn" href="founder-dashboard.html">Back to Founder Dashboard</a>
+<a class="btn" href="curriculum-implementation.html">Back to Program Implementation</a>
+<a class="btn" href="index.html">Back to Home</a>
+</div>
+
+<h1>BUSI Pre/Post Assessment</h1>
+<p style="max-width:840px;color:#d7d7d7;">Complete this form at intake and at program completion to measure growth in accountability, emotional regulation, stewardship, and community engagement.</p>
+
+<div class="card">
+<h2>Participant Information</h2>
+<div class="grid">
+<div><label>Participant Name</label><input type="text" placeholder="Full name"></div>
+<div><label>Case ID</label><input type="text" placeholder="BUSI-000"></div>
+<div><label>Program Track</label><select><option>Program A - Anger Management</option><option>Program B - Faith & Community</option></select></div>
+<div><label>Assessment Type</label><select><option>Pre Assessment</option><option>Post Assessment</option></select></div>
+<div><label>Assessment Date</label><input type="date"></div>
+<div><label>Facilitator</label><input type="text" placeholder="Facilitator name"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Score Rubric (1-5)</h2>
+<p style="color:#d7d7d7;">1 = rarely demonstrated, 3 = inconsistent, 5 = consistently demonstrated.</p>
+<div class="grid">
+<div><label>Accountability</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><label>Emotional Regulation</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><label>Communication Skills</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><label>Stewardship Habits</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><label>Community Engagement</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><label>Follow-Through</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Reflection Notes</h2>
+<label>Strengths Observed</label>
+<textarea rows="3" placeholder="Document observed strengths."></textarea>
+<label>Growth Areas</label>
+<textarea rows="3" placeholder="Document areas needing continued support."></textarea>
+<label>Recommended Next Steps</label>
+<textarea rows="3" placeholder="List practical next actions."></textarea>
+<button class="btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+</div>
+
+<footer style="background:#0b1220;color:white;text-align:center;padding:40px 20px;margin-top:60px;border-top:2px solid #d4af37;">
+<p><strong>Busi Believers Incorporated</strong></p>
+<p>Bonding Using Stewardship and Integrity</p>
+<p style="font-style:italic;color:#d4af37;">"No voice nor invoice will go unheard."</p>
+<p>Empowering Faith &bull; Responsibility &bull; Leadership &bull; Community</p>
+<p>San Antonio, Texas</p>
+<p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
+</footer>
+</body>
+</html>
