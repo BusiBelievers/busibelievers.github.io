@@ -19,6 +19,7 @@ h1,h2{margin-top:0;}
 .score-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px;}
 .summary-box{background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.24);border-radius:12px;padding:14px;}
 .summary-box strong{display:block;font-size:28px;color:#f1d988;}
+.summary-box small{display:block;margin-top:6px;color:#d7d7d7;line-height:1.4;}
 @media (max-width: 760px){
 .score-grid{grid-template-columns:1fr;}
 .score-header{display:none;}
@@ -101,6 +102,11 @@ h1,h2{margin-top:0;}
 <span>Growth Delta</span>
 <strong id="growthDelta">0</strong>
 </div>
+<div class="summary-box">
+<span>Overall Rating</span>
+<strong id="overallRating">Stable</strong>
+<small id="ratingNote">Little or no measurable change recorded yet.</small>
+</div>
 </div>
 </div>
 
@@ -130,6 +136,13 @@ const value = Number(document.getElementById(id).value || 0);
 return Number.isFinite(value) ? value : 0;
 }
 
+function ratingFromDelta(delta){
+if(delta <= -2) return { label: "Declining", note: "Scores show meaningful regression and may require intervention." };
+if(delta <= 1) return { label: "Stable", note: "Scores show limited movement from baseline." };
+if(delta <= 5) return { label: "Improving", note: "Scores show positive measurable growth." };
+return { label: "Strong Improvement", note: "Scores show substantial growth across categories." };
+}
+
 function updateScores(){
 const categories = [
 "Accountability",
@@ -153,7 +166,11 @@ document.getElementById(`delta${category}`).value = String(post - pre);
 
 document.getElementById("preTotal").textContent = String(preTotal);
 document.getElementById("postTotal").textContent = String(postTotal);
-document.getElementById("growthDelta").textContent = String(postTotal - preTotal);
+const delta = postTotal - preTotal;
+const rating = ratingFromDelta(delta);
+document.getElementById("growthDelta").textContent = String(delta);
+document.getElementById("overallRating").textContent = rating.label;
+document.getElementById("ratingNote").textContent = rating.note;
 }
 
 document.querySelectorAll(".score-input").forEach((input) => {
