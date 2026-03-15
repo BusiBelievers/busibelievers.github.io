@@ -28,6 +28,18 @@ h1,h2{margin-top:0;}
 .rating-improving strong{color:#7dffb1;}
 .rating-strong{background:rgba(52,152,219,0.16);border-color:rgba(52,152,219,0.40);}
 .rating-strong strong{color:#8fd3ff;}
+.print-summary{display:none;}
+@media print{
+body{background:white;color:black;}
+.quick-links,.btn{display:none !important;}
+.container{max-width:none;padding:0;}
+.card,.summary-box,.print-summary{background:white !important;color:black;border:1px solid #bbb;box-shadow:none;}
+.print-summary{display:block;margin:0 0 18px;padding:18px;border-radius:12px;}
+.print-grid{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:12px;}
+.print-summary strong,.summary-box strong{color:black !important;}
+.summary-box small,p,label,h1,h2,span{color:black !important;}
+footer{border-top:1px solid #bbb !important;color:black !important;}
+}
 @media (max-width: 760px){
 .score-grid{grid-template-columns:1fr;}
 .score-header{display:none;}
@@ -45,14 +57,28 @@ h1,h2{margin-top:0;}
 <h1>BUSI Pre/Post Assessment</h1>
 <p style="max-width:840px;color:#d7d7d7;">Complete this form at intake and at program completion to measure growth in accountability, emotional regulation, stewardship, and community engagement.</p>
 
+<div class="print-summary" aria-hidden="true">
+<h2>Assessment Summary</h2>
+<div class="print-grid">
+<div><strong>Participant:</strong> <span id="printParticipantName">Not entered</span></div>
+<div><strong>Case ID:</strong> <span id="printCaseId">Not entered</span></div>
+<div><strong>Program Track:</strong> <span id="printProgramTrack">Not selected</span></div>
+<div><strong>Assessment Date:</strong> <span id="printAssessmentDate">Not entered</span></div>
+<div><strong>Pre Total:</strong> <span id="printPreTotal">0</span></div>
+<div><strong>Post Total:</strong> <span id="printPostTotal">0</span></div>
+<div><strong>Growth Delta:</strong> <span id="printGrowthDelta">0</span></div>
+<div><strong>Overall Rating:</strong> <span id="printOverallRating">Stable</span></div>
+</div>
+</div>
+
 <div class="card">
 <h2>Participant Information</h2>
 <div class="grid">
-<div><label>Participant Name</label><input type="text" placeholder="Full name"></div>
-<div><label>Case ID</label><input type="text" placeholder="BUSI-000"></div>
-<div><label>Program Track</label><select><option>Program A - Anger Management</option><option>Program B - Faith & Community</option></select></div>
+<div><label>Participant Name</label><input id="participantName" type="text" placeholder="Full name"></div>
+<div><label>Case ID</label><input id="caseId" type="text" placeholder="BUSI-000"></div>
+<div><label>Program Track</label><select id="programTrack"><option>Program A - Anger Management</option><option>Program B - Faith & Community</option></select></div>
 <div><label>Assessment Review Mode</label><select><option>Pre/Post Comparison</option><option>Pre Only</option><option>Post Only</option></select></div>
-<div><label>Assessment Date</label><input type="date"></div>
+<div><label>Assessment Date</label><input id="assessmentDate" type="date"></div>
 <div><label>Facilitator</label><input type="text" placeholder="Facilitator name"></div>
 </div>
 </div>
@@ -144,6 +170,17 @@ const value = Number(document.getElementById(id).value || 0);
 return Number.isFinite(value) ? value : 0;
 }
 
+function syncPrintSummary(preTotal, postTotal, delta, ratingLabel){
+document.getElementById("printParticipantName").textContent = document.getElementById("participantName").value || "Not entered";
+document.getElementById("printCaseId").textContent = document.getElementById("caseId").value || "Not entered";
+document.getElementById("printProgramTrack").textContent = document.getElementById("programTrack").value || "Not selected";
+document.getElementById("printAssessmentDate").textContent = document.getElementById("assessmentDate").value || "Not entered";
+document.getElementById("printPreTotal").textContent = String(preTotal);
+document.getElementById("printPostTotal").textContent = String(postTotal);
+document.getElementById("printGrowthDelta").textContent = String(delta);
+document.getElementById("printOverallRating").textContent = ratingLabel;
+}
+
 function ratingFromDelta(delta){
 if(delta <= -2) return { label: "Declining", note: "Scores show meaningful regression and may require intervention.", className: "rating-declining" };
 if(delta <= 1) return { label: "Stable", note: "Scores show limited movement from baseline.", className: "rating-stable" };
@@ -180,10 +217,16 @@ document.getElementById("growthDelta").textContent = String(delta);
 document.getElementById("overallRating").textContent = rating.label;
 document.getElementById("ratingNote").textContent = rating.note;
 document.getElementById("overallRatingBox").className = `summary-box ${rating.className}`;
+syncPrintSummary(preTotal, postTotal, delta, rating.label);
 }
 
 document.querySelectorAll(".score-input").forEach((input) => {
 input.addEventListener("input", updateScores);
+});
+
+["participantName","caseId","programTrack","assessmentDate"].forEach((id) => {
+document.getElementById(id).addEventListener("input", updateScores);
+document.getElementById(id).addEventListener("change", updateScores);
 });
 
 updateScores();
