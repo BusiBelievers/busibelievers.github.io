@@ -46,6 +46,24 @@ font-weight:bold;
 cursor:pointer;
 }
 
+.agreement-check{
+display:flex;
+align-items:flex-start;
+gap:10px;
+text-align:left;
+margin:10px 0 14px;
+}
+
+.agreement-check input{
+width:auto;
+margin-top:3px;
+}
+
+.agreement-check label{
+font-size:14px;
+color:#d7d7d7;
+}
+
 </style>
 
 </head>
@@ -90,6 +108,15 @@ including scheduling expectations, stewardship, and referral commitment.
 
 <textarea name="description" placeholder="Describe the help needed"></textarea>
 
+<div class="agreement-check">
+<input type="checkbox" id="agreementReviewed" name="agreementReviewed" required>
+<label for="agreementReviewed">
+I confirm I reviewed the
+<a href="participant-responsibility.html" style="color:#d4af37;font-weight:bold;">Participant Responsibility Agreement</a>
+and understand participant responsibilities.
+</label>
+</div>
+
 <button type="submit">Submit Request</button>
 
 </form>
@@ -112,6 +139,11 @@ document.getElementById("busiHelpForm").addEventListener("submit",function(e){
 e.preventDefault();
 
 let form = e.target;
+
+if(!form.agreementReviewed.checked){
+alert("Please review and acknowledge the Participant Responsibility Agreement before submitting.");
+return;
+}
 
 let caseID = generateCase();
 
