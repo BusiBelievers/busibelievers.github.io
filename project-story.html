@@ -93,9 +93,15 @@ margin-top:16px;
 grid-template-columns:1fr;
 }
 }
-</style>
+.org-header{display:flex;align-items:center;gap:20px;padding:14px 20px;background:#0b1220;border-bottom:3px solid #d4af37;}
+.org-header img{height:60px;}
+.org-info{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.5;color:white;}
+.org-info strong{font-size:15px;}
+.org-info em{color:#d4af37;}
+@media print{body{background:white!important;color:black!important;}.org-header{background:white!important;border-bottom:3px solid #d4af37;}.org-info strong,.org-info span{color:black!important;}}</style>
 </head>
 <body>
+<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div></div>
 <div class="container">
 <h1 id="projectTitle">Loading story...</h1>
 <p id="projectLocation"></p>
