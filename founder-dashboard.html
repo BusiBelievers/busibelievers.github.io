@@ -77,6 +77,31 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
+.case-filter-bar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin:10px 0 14px;
+padding:10px 12px;
+border-radius:10px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.12);
+}
+
+.case-filter-bar label{
+display:flex;
+align-items:center;
+gap:8px;
+margin:0;
+font-weight:normal;
+}
+
+.case-filter-bar input[type="checkbox"]{
+width:auto;
+margin:0;
+}
+
 .sync-status{
 display:inline-block;
 margin:18px auto 0;
@@ -391,6 +416,14 @@ into projects here.
   
 <h2>Active BUSI Projects</h2>
 
+<div class="case-filter-bar">
+<label>
+<input id="certificateHoldOnly" type="checkbox">
+Show Certificate Hold Only
+</label>
+<span id="caseCountSummary" style="color:#d2d2d2;font-size:14px;">Showing 0 cases</span>
+</div>
+
 <div id="caseManager"></div>
 
 </div>
@@ -407,6 +440,7 @@ let hasPublicColumn = true;
 let hasPhotoColumns = true;
 let hasStoryColumns = true;
 let hasCertificateColumns = true;
+let showCertificateHoldOnly = false;
 const STATUS_OPTIONS = ["Pending Review", "Approved", "In Progress", "On Hold", "Completed"];
 
 function isMissingColumnError(error, pattern){
@@ -679,10 +713,21 @@ renderCases();
 function renderCases(){
 
 let container=document.getElementById("caseManager");
+const summary = document.getElementById("caseCountSummary");
+
+const filteredCases = showCertificateHoldOnly
+? cases.filter((c) => !certificateEligible(c))
+: cases;
 
 container.innerHTML="";
 
-cases.forEach((c,index)=>{
+if(summary){
+summary.textContent = `Showing ${filteredCases.length} case${filteredCases.length === 1 ? "" : "s"}`;
+}
+
+filteredCases.forEach((c)=>{
+
+const index = cases.indexOf(c);
 
 container.innerHTML+=`
 
@@ -1004,6 +1049,14 @@ toggleConditionalField("locationSelect", "locationOther");
 toggleConditionalField("intakeLocationSelect", "intakeLocationOther");
 toggleConditionalField("volunteersNeededSelect", "volunteersNeededOther");
 toggleConditionalField("intakeVolunteersSelect", "intakeVolunteersOther");
+
+const certificateHoldOnly = document.getElementById("certificateHoldOnly");
+if(certificateHoldOnly){
+certificateHoldOnly.addEventListener("change", function(){
+showCertificateHoldOnly = Boolean(this.checked);
+renderCases();
+});
+}
 
 loadCases();
   
