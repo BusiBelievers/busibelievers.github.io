@@ -81,6 +81,58 @@ background:rgba(241,196,15,0.18);
 color:#ffe08a;
 }
 
+.track-selector{
+margin:18px 0 0;
+padding:16px;
+border:1px solid rgba(212,175,55,0.35);
+border-radius:14px;
+background:linear-gradient(180deg,rgba(28,34,51,.95),rgba(18,23,36,.95));
+}
+
+.track-selector h3{
+margin:0 0 8px;
+color:#f6e7b0;
+font-size:22px;
+}
+
+.track-selector p{
+margin:0;
+color:#d8deeb;
+}
+
+.track-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(240px,1fr));
+gap:12px;
+margin-top:12px;
+}
+
+.track-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(246,215,107,0.3);
+border-radius:12px;
+padding:12px;
+}
+
+.track-card h4{
+margin:0 0 8px;
+color:#f6e7b0;
+font-size:18px;
+}
+
+.track-card p{
+margin:0 0 10px;
+color:#cfd6e5;
+font-size:14px;
+line-height:1.45;
+}
+
+@media (max-width: 760px){
+.track-grid{
+grid-template-columns:1fr;
+}
+}
+
 </style>
 
 </head>
@@ -97,6 +149,25 @@ funding goals, volunteers, and project progress across the BUSI platform.
 </p>
 
 <div id="syncStatus" class="sync-status sync-fallback">Checking live sync...</div>
+
+<div class="track-selector" aria-label="Dashboard quick pathways">
+<h3>Choose Your Path</h3>
+<p>Route leadership tasks quickly into curriculum implementation or invoice processing.</p>
+
+<div class="track-grid">
+<div class="track-card">
+<h4>Program A: Curriculum Track</h4>
+<p>Open implementation guides and workbook resources for participant development.</p>
+<a class="btn" href="curriculum-implementation.html" style="display:inline-block;text-decoration:none;color:black;">Open Program A</a>
+</div>
+
+<div class="track-card">
+<h4>Program B: Invoice Track</h4>
+<p>Open fee and contribution invoice tools with PayPal-ready pathways.</p>
+<a class="btn" href="invoice-center.html" style="display:inline-block;text-decoration:none;color:black;">Open Program B</a>
+</div>
+</div>
+</div>
 
 <div class="card">
 
