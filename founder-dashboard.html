@@ -127,8 +127,23 @@ font-size:14px;
 line-height:1.45;
 }
 
+.resource-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(240px,1fr));
+gap:12px;
+margin-top:12px;
+}
+
+.resource-grid .card{
+padding:18px;
+}
+
 @media (max-width: 760px){
 .track-grid{
+grid-template-columns:1fr;
+}
+
+.resource-grid{
 grid-template-columns:1fr;
 }
 }
@@ -169,6 +184,20 @@ funding goals, volunteers, and project progress across the BUSI platform.
 </div>
 </div>
 
+<div class="resource-grid">
+<div class="card">
+<h2>Leadership & Policy</h2>
+<a class="btn" href="leadership-dashboard.html" style="display:inline-block;text-decoration:none;color:black;">Leadership Dashboard</a>
+<a class="btn" href="program-operations-policy.html" style="display:inline-block;text-decoration:none;color:black;">Operations Policy</a>
+</div>
+
+<div class="card">
+<h2>Growth & Sponsorship</h2>
+<a class="btn" href="participant-journey-map.html" style="display:inline-block;text-decoration:none;color:black;">Journey Maps</a>
+<a class="btn" href="sponsorship-tiers.html" style="display:inline-block;text-decoration:none;color:black;">Sponsorship Tiers</a>
+</div>
+</div>
+
 <div class="card">
 
 <h2>Create New Project</h2>
@@ -183,6 +212,7 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <option>Pending Review</option>
 <option>Approved</option>
 <option>In Progress</option>
+<option>On Hold</option>
 <option>Completed</option>
 </select>
 
@@ -217,6 +247,7 @@ into projects here.
 <option>Pending Review</option>
 <option>Approved</option>
 <option>In Progress</option>
+<option>On Hold</option>
 <option>Completed</option>
 </select>
 
@@ -239,6 +270,23 @@ const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient(
 
 let cases = [];
 let hasPublicColumn = true;
+const STATUS_OPTIONS = ["Pending Review", "Approved", "In Progress", "On Hold", "Completed"];
+
+function normalizeStatus(value){
+const raw = String(value || "Pending Review").trim().toLowerCase();
+if(raw === "pending") return "Pending Review";
+if(raw === "active") return "In Progress";
+if(raw === "closed") return "Completed";
+if(raw === "approved") return "Approved";
+if(raw === "in progress") return "In Progress";
+if(raw === "on hold") return "On Hold";
+if(raw === "completed") return "Completed";
+return "Pending Review";
+}
+
+function statusOptionsMarkup(selectedValue){
+return STATUS_OPTIONS.map((status) => `<option ${selectedValue===status?"selected":""}>${status}</option>`).join("");
+}
 
 function normalizeCase(row){
 return {
@@ -246,7 +294,7 @@ id: row.id || null,
 caseID: row.case_number || row.caseID || "BUSI-UNASSIGNED",
 project: row.need_type || row.project || "General Assistance",
 location: row.city || row.location || "San Antonio",
-status: row.status || "Pending Review",
+status: normalizeStatus(row.status),
 volunteersNeeded: Number(row.volunteers_needed ?? row.volunteersNeeded ?? 0),
 fundingGoal: Number(row.funding_goal ?? row.fundingGoal ?? 0),
 fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0),
@@ -287,7 +335,7 @@ function buildCasePayload(c){
 const payload = {
 need_type: c.project,
 city: c.location,
-status: c.status,
+status: normalizeStatus(c.status),
 volunteers_needed: Number(c.volunteersNeeded || 0),
 funding_goal: Number(c.fundingGoal || 0),
 funding_raised: Number(c.fundingRaised || 0),
@@ -432,10 +480,7 @@ Volunteers Needed:
 <input type="number" value="${c.volunteersNeeded}" onchange="updateVolunteers(${index},this.value)">
 
 <select onchange="updateStatus(${index},this.value)">
-<option ${c.status==="Pending Review"?"selected":""}>Pending Review</option>
-<option ${c.status==="Approved"?"selected":""}>Approved</option>
-<option ${c.status==="In Progress"?"selected":""}>In Progress</option>
-<option ${c.status==="Completed"?"selected":""}>Completed</option>
+${statusOptionsMarkup(c.status)}
 </select>
 
 <br><br>
