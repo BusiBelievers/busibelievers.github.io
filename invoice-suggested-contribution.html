@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUSI Suggested Contribution Invoice</title>
+<style>
+body{font-family:Arial;background:#0b1220;color:white;margin:0;}
+.container{max-width:860px;margin:auto;padding:40px 20px;}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+label{display:block;font-weight:bold;margin-bottom:6px;}
+input,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-sizing:border-box;margin-bottom:12px;}
+.btn{display:inline-block;padding:12px 16px;background:#d4af37;color:black;border:none;border-radius:10px;text-decoration:none;font-weight:bold;cursor:pointer;margin-right:8px;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>BUSI Suggested Contribution Invoice</h1>
+<p style="color:#d6d6d6;max-width:760px;">Use for voluntary participation or community outreach. This form uses <strong>Suggested Contribution</strong> language to support clean nonprofit donation recordkeeping.</p>
+<div class="card">
+<div class="grid">
+<div><label>Invoice Number</label><input type="text" placeholder="BUSI-SC-001"></div>
+<div><label>Invoice Date</label><input type="date"></div>
+<div><label>Participant Name</label><input type="text" placeholder="Full name"></div>
+<div><label>Program Module</label><input type="text" placeholder="Example: Stewardship Session"></div>
+</div>
+<label>Curriculum Participation Summary</label><textarea rows="3" placeholder="Describe curriculum participation and support services."></textarea>
+<div class="grid">
+<div><label>Suggested Contribution ($)</label><input type="number" min="0" step="0.01" placeholder="0.00"></div>
+<div><label>Contribution Received ($)</label><input type="number" min="0" step="0.01" placeholder="0.00"></div>
+<div><label>Contribution Method</label><input type="text" placeholder="PayPal, cash, sponsor"></div>
+</div>
+<label>Nonprofit Note</label><textarea rows="2">Contributions support BUSI faith and community curriculum programming. This document is for internal contribution records and stewardship tracking.</textarea>
+<button class="btn" onclick="window.print()">Print / Save PDF</button>
+<a class="btn" href="invoice-center.html">Back to Invoice Center</a>
+</div>
+</div>
+<footer style="background:#0b1220;color:white;text-align:center;padding:40px 20px;margin-top:60px;border-top:2px solid #d4af37;">
+<p><strong>Busi Believers Incorporated</strong></p>
+<p>Bonding Using Stewardship and Integrity</p>
+<p style="font-style:italic;color:#d4af37;">"No voice nor invoice will go unheard."</p>
+<p>Empowering Faith &bull; Responsibility &bull; Leadership &bull; Community</p>
+<p>San Antonio, Texas</p>
+<p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
+</footer>
+</body>
+</html>
