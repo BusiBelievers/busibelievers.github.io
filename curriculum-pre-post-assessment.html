@@ -14,6 +14,15 @@ input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-
 h1,h2{margin-top:0;}
 .btn{display:inline-block;padding:12px 16px;background:#d4af37;color:black;border:none;border-radius:10px;text-decoration:none;font-weight:bold;cursor:pointer;margin:6px 8px 6px 0;}
 .quick-links{margin:0 0 12px;}
+.score-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;align-items:end;}
+.score-header{font-weight:bold;color:#f1d988;}
+.score-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px;}
+.summary-box{background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.24);border-radius:12px;padding:14px;}
+.summary-box strong{display:block;font-size:28px;color:#f1d988;}
+@media (max-width: 760px){
+.score-grid{grid-template-columns:1fr;}
+.score-header{display:none;}
+}
 </style>
 </head>
 <body>
@@ -33,7 +42,7 @@ h1,h2{margin-top:0;}
 <div><label>Participant Name</label><input type="text" placeholder="Full name"></div>
 <div><label>Case ID</label><input type="text" placeholder="BUSI-000"></div>
 <div><label>Program Track</label><select><option>Program A - Anger Management</option><option>Program B - Faith & Community</option></select></div>
-<div><label>Assessment Type</label><select><option>Pre Assessment</option><option>Post Assessment</option></select></div>
+<div><label>Assessment Review Mode</label><select><option>Pre/Post Comparison</option><option>Pre Only</option><option>Post Only</option></select></div>
 <div><label>Assessment Date</label><input type="date"></div>
 <div><label>Facilitator</label><input type="text" placeholder="Facilitator name"></div>
 </div>
@@ -42,13 +51,56 @@ h1,h2{margin-top:0;}
 <div class="card">
 <h2>Score Rubric (1-5)</h2>
 <p style="color:#d7d7d7;">1 = rarely demonstrated, 3 = inconsistent, 5 = consistently demonstrated.</p>
-<div class="grid">
-<div><label>Accountability</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
-<div><label>Emotional Regulation</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
-<div><label>Communication Skills</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
-<div><label>Stewardship Habits</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
-<div><label>Community Engagement</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
-<div><label>Follow-Through</label><input type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div class="score-grid">
+<div class="score-header">Category</div>
+<div class="score-header">Pre</div>
+<div class="score-header">Post</div>
+<div class="score-header">Delta</div>
+
+<div><label for="preAccountability">Accountability</label></div>
+<div><input id="preAccountability" class="score-input pre-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="postAccountability" class="score-input post-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="deltaAccountability" type="text" readonly placeholder="0"></div>
+
+<div><label for="preRegulation">Emotional Regulation</label></div>
+<div><input id="preRegulation" class="score-input pre-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="postRegulation" class="score-input post-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="deltaRegulation" type="text" readonly placeholder="0"></div>
+
+<div><label for="preCommunication">Communication Skills</label></div>
+<div><input id="preCommunication" class="score-input pre-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="postCommunication" class="score-input post-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="deltaCommunication" type="text" readonly placeholder="0"></div>
+
+<div><label for="preStewardship">Stewardship Habits</label></div>
+<div><input id="preStewardship" class="score-input pre-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="postStewardship" class="score-input post-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="deltaStewardship" type="text" readonly placeholder="0"></div>
+
+<div><label for="preEngagement">Community Engagement</label></div>
+<div><input id="preEngagement" class="score-input pre-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="postEngagement" class="score-input post-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="deltaEngagement" type="text" readonly placeholder="0"></div>
+
+<div><label for="preFollowThrough">Follow-Through</label></div>
+<div><input id="preFollowThrough" class="score-input pre-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="postFollowThrough" class="score-input post-score" type="number" min="1" max="5" step="1" placeholder="1-5"></div>
+<div><input id="deltaFollowThrough" type="text" readonly placeholder="0"></div>
+</div>
+
+<div class="score-summary">
+<div class="summary-box">
+<span>Pre Total</span>
+<strong id="preTotal">0</strong>
+</div>
+<div class="summary-box">
+<span>Post Total</span>
+<strong id="postTotal">0</strong>
+</div>
+<div class="summary-box">
+<span>Growth Delta</span>
+<strong id="growthDelta">0</strong>
+</div>
 </div>
 </div>
 
@@ -72,5 +124,43 @@ h1,h2{margin-top:0;}
 <p>San Antonio, Texas</p>
 <p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
 </footer>
+<script>
+function scoreValue(id){
+const value = Number(document.getElementById(id).value || 0);
+return Number.isFinite(value) ? value : 0;
+}
+
+function updateScores(){
+const categories = [
+"Accountability",
+"Regulation",
+"Communication",
+"Stewardship",
+"Engagement",
+"FollowThrough"
+];
+
+let preTotal = 0;
+let postTotal = 0;
+
+categories.forEach((category) => {
+const pre = scoreValue(`pre${category}`);
+const post = scoreValue(`post${category}`);
+preTotal += pre;
+postTotal += post;
+document.getElementById(`delta${category}`).value = String(post - pre);
+});
+
+document.getElementById("preTotal").textContent = String(preTotal);
+document.getElementById("postTotal").textContent = String(postTotal);
+document.getElementById("growthDelta").textContent = String(postTotal - preTotal);
+}
+
+document.querySelectorAll(".score-input").forEach((input) => {
+input.addEventListener("input", updateScores);
+});
+
+updateScores();
+</script>
 </body>
 </html>
