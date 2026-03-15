@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUSI Quote Comparison & Approval Summary</title>
+<style>
+body{
+font-family:Arial;
+background:#0b1220;
+color:white;
+margin:0;
+}
+.container{
+max-width:980px;
+margin:auto;
+padding:40px 20px;
+}
+.card{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.12);
+border-radius:16px;
+padding:22px;
+margin-top:18px;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:14px;
+}
+label{
+display:block;
+font-weight:bold;
+margin-bottom:6px;
+}
+input, textarea{
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+box-sizing:border-box;
+margin-bottom:12px;
+}
+.summary{
+font-size:18px;
+font-weight:bold;
+color:#d4af37;
+}
+.btn{
+display:inline-block;
+padding:12px 18px;
+background:#d4af37;
+color:black;
+font-weight:bold;
+border:none;
+border-radius:10px;
+text-decoration:none;
+cursor:pointer;
+margin-right:8px;
+margin-top:10px;
+}
+ul{
+padding-left:20px;
+}
+li{
+margin-bottom:8px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>BUSI Quote Comparison & Approval Summary</h1>
+<p style="max-width:780px;color:#d8d8d8;">
+Internal stewardship document to support fair quote review, cost averaging, approval decisions,
+and audit-ready records for community assistance projects.
+</p>
+
+<div class="card">
+<h2>How To Use</h2>
+<ul>
+<li>Participant completes service request and approval form.</li>
+<li>Collect at least three professional quotes.</li>
+<li>Enter quote amounts below to calculate average estimate automatically.</li>
+<li>Set BUSI approved assistance and participant contribution.</li>
+<li>Capture program leadership approvals and save to project file.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Project Information</h2>
+<div class="grid">
+<div>
+<label for="caseId">Case ID</label>
+<input id="caseId" type="text" placeholder="BUSI-001">
+</div>
+<div>
+<label for="participantName">Participant Name</label>
+<input id="participantName" type="text" placeholder="Full name">
+</div>
+<div>
+<label for="serviceType">Service Type</label>
+<input id="serviceType" type="text" placeholder="Example: Vehicle Repair">
+</div>
+<div>
+<label for="serviceDate">Review Date</label>
+<input id="serviceDate" type="date">
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Vendor Quote Comparison</h2>
+<div class="grid">
+<div>
+<label for="vendor1Name">Vendor 1</label>
+<input id="vendor1Name" type="text" placeholder="Business name">
+<label for="vendor1Quote">Quote Amount ($)</label>
+<input id="vendor1Quote" type="number" min="0" step="0.01" placeholder="0.00" oninput="recalculate()">
+</div>
+<div>
+<label for="vendor2Name">Vendor 2</label>
+<input id="vendor2Name" type="text" placeholder="Business name">
+<label for="vendor2Quote">Quote Amount ($)</label>
+<input id="vendor2Quote" type="number" min="0" step="0.01" placeholder="0.00" oninput="recalculate()">
+</div>
+<div>
+<label for="vendor3Name">Vendor 3</label>
+<input id="vendor3Name" type="text" placeholder="Business name">
+<label for="vendor3Quote">Quote Amount ($)</label>
+<input id="vendor3Quote" type="number" min="0" step="0.01" placeholder="0.00" oninput="recalculate()">
+</div>
+</div>
+<p class="summary">Average Estimated Cost: $<span id="averageCost">0.00</span></p>
+</div>
+
+<div class="card">
+<h2>Approval Summary</h2>
+<div class="grid">
+<div>
+<label for="approvedAmount">BUSI Approved Assistance ($)</label>
+<input id="approvedAmount" type="number" min="0" step="0.01" placeholder="0.00" oninput="recalculate()">
+</div>
+<div>
+<label for="participantContribution">Participant Contribution ($)</label>
+<input id="participantContribution" type="number" min="0" step="0.01" placeholder="0.00" oninput="recalculate()">
+</div>
+<div>
+<label for="gapAmount">Remaining Gap ($)</label>
+<input id="gapAmount" type="text" readonly>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Approvals</h2>
+<div class="grid">
+<div>
+<label for="directorName">Program Director Name</label>
+<input id="directorName" type="text" placeholder="Director full name">
+<label for="directorDate">Director Approval Date</label>
+<input id="directorDate" type="date">
+</div>
+<div>
+<label for="boardName">Board/Committee Representative</label>
+<input id="boardName" type="text" placeholder="Representative full name">
+<label for="boardDate">Board/Committee Date</label>
+<input id="boardDate" type="date">
+</div>
+</div>
+<label for="notes">Internal Notes</label>
+<textarea id="notes" rows="5" placeholder="Add key decision notes, stewardship rationale, or documentation references."></textarea>
+
+<button class="btn" onclick="window.print()">Print / Save PDF</button>
+<a class="btn" href="founder-dashboard.html">Back to Founder Dashboard</a>
+
+<p style="margin-top:20px;font-style:italic;color:#d4af37;">
+"No voice nor invoice will go unheard."
+</p>
+</div>
+</div>
+
+<footer style="background:#0b1220;color:white;text-align:center;padding:40px 20px;margin-top:60px;border-top:2px solid #d4af37;">
+<p><strong>Busi Believers Incorporated</strong></p>
+<p>Bonding Using Stewardship and Integrity</p>
+<p style="font-style:italic;color:#d4af37;">"No voice nor invoice will go unheard."</p>
+<p>Empowering Faith &bull; Responsibility &bull; Leadership &bull; Community</p>
+<p>San Antonio, Texas</p>
+<p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
+</footer>
+
+<script>
+function asNumber(id){
+const value = Number(document.getElementById(id).value || 0);
+return Number.isFinite(value) ? value : 0;
+}
+
+function money(v){
+return v.toFixed(2);
+}
+
+function recalculate(){
+const q1 = asNumber("vendor1Quote");
+const q2 = asNumber("vendor2Quote");
+const q3 = asNumber("vendor3Quote");
+const avg = (q1 + q2 + q3) / 3;
+const approved = asNumber("approvedAmount");
+const participant = asNumber("participantContribution");
+const gap = Math.max(avg - approved - participant, 0);
+
+document.getElementById("averageCost").textContent = money(avg);
+document.getElementById("gapAmount").value = money(gap);
+}
+
+recalculate();
+</script>
+</body>
+</html>
