@@ -164,6 +164,7 @@ into projects here.
 const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
 
 let cases = [];
+let hasPublicColumn = true;
 
 function normalizeCase(row){
 return {
@@ -203,6 +204,30 @@ function saveCases(){
 localStorage.setItem("busiCases",JSON.stringify(cases));
 }
 
+function caseSelectColumns(){
+const base = "id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at";
+return hasPublicColumn ? `${base}, is_public` : base;
+}
+
+function buildCasePayload(c){
+const payload = {
+need_type: c.project,
+city: c.location,
+status: c.status,
+volunteers_needed: Number(c.volunteersNeeded || 0),
+funding_goal: Number(c.fundingGoal || 0),
+funding_raised: Number(c.fundingRaised || 0),
+agreement_accepted: Boolean(c.agreementAccepted),
+agreement_accepted_at: c.agreementAcceptedAt
+};
+
+if(hasPublicColumn){
+payload.is_public = Boolean(c.isPublic);
+}
+
+return payload;
+}
+
 async function loadCases(){
 if(!supabaseClient){
 setSyncStatus("Supabase not active. Founder dashboard is using browser-only local data.", false);
@@ -212,11 +237,20 @@ return;
 }
 
 try{
-const { data, error } = await supabaseClient
+let { data, error } = await supabaseClient
 .from("cases")
-.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at, is_public")
+.select(caseSelectColumns())
 .order("created_at", { ascending: false })
 .limit(300);
+
+if(error && hasPublicColumn && /is_public|column/i.test(String(error.message || ""))){
+hasPublicColumn = false;
+({ data, error } = await supabaseClient
+.from("cases")
+.select(caseSelectColumns())
+.order("created_at", { ascending: false })
+.limit(300));
+}
 
 if(error){
 setSyncStatus("Supabase read failed. Founder dashboard is showing local fallback data.", false);
@@ -225,7 +259,7 @@ renderCases();
 return;
 }
 
-setSyncStatus("Connected to Supabase live data.", true);
+setSyncStatus(hasPublicColumn ? "Connected to Supabase live data." : "Connected to Supabase live data (legacy schema: public listing toggle disabled).", true);
 cases = (data || []).map(normalizeCase);
 saveCases();
 renderCases();
@@ -269,17 +303,9 @@ const { data, error } = await supabaseClient
 .from("cases")
 .insert({
 case_number: newCase.caseID,
-need_type: newCase.project,
-city: newCase.location,
-status: newCase.status,
-volunteers_needed: newCase.volunteersNeeded,
-funding_goal: newCase.fundingGoal,
-funding_raised: newCase.fundingRaised,
-agreement_accepted: newCase.agreementAccepted,
-agreement_accepted_at: newCase.agreementAcceptedAt,
-is_public: newCase.isPublic
+...buildCasePayload(newCase)
 })
-.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at, is_public")
+.select(caseSelectColumns())
 .single();
 
 if(!error && data){
@@ -317,10 +343,10 @@ Location: ${c.location}<br>
 Status: ${c.status}<br>
 Agreement: ${c.agreementAccepted ? "Accepted" : "Not Captured"}${c.agreementAcceptedAt ? ` (${new Date(c.agreementAcceptedAt).toLocaleDateString()})` : ""}<br>
 
-<label style="display:block;margin:8px 0;">
+${hasPublicColumn ? `<label style="display:block;margin:8px 0;">
 <input type="checkbox" ${c.isPublic ? "checked" : ""} onchange="updatePublic(${index},this.checked)">
 Public Listing (show on public pages)
-</label>
+</label>` : `<p style="margin:8px 0;color:#ffe08a">Public Listing toggle unavailable until schema update is applied.</p>`}
 
 Funding Goal:
 <input type="number" value="${c.fundingGoal}" onchange="updateGoal(${index},this.value)">
@@ -365,17 +391,7 @@ return;
 try{
 await supabaseClient
 .from("cases")
-.update({
-need_type: c.project,
-city: c.location,
-status: c.status,
-volunteers_needed: Number(c.volunteersNeeded || 0),
-funding_goal: Number(c.fundingGoal || 0),
-funding_raised: Number(c.fundingRaised || 0),
-agreement_accepted: Boolean(c.agreementAccepted),
-agreement_accepted_at: c.agreementAcceptedAt,
-is_public: Boolean(c.isPublic)
-})
+.update(buildCasePayload(c))
 .eq("id", c.id);
 }catch(_){
 }
@@ -458,17 +474,9 @@ const { data, error } = await supabaseClient
 .from("cases")
 .insert({
 case_number: newCase.caseID,
-need_type: newCase.project,
-city: newCase.location,
-status: newCase.status,
-volunteers_needed: newCase.volunteersNeeded,
-funding_goal: newCase.fundingGoal,
-funding_raised: newCase.fundingRaised,
-agreement_accepted: newCase.agreementAccepted,
-agreement_accepted_at: newCase.agreementAcceptedAt,
-is_public: newCase.isPublic
+...buildCasePayload(newCase)
 })
-.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at, is_public")
+.select(caseSelectColumns())
 .single();
 
 if(!error && data){
