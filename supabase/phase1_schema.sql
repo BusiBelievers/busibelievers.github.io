@@ -22,7 +22,7 @@ create table if not exists public.cases (
   city text not null,
   need_type text not null,
   request_notes text,
-  status text not null default 'Pending' check (status in ('Pending', 'Active', 'Completed', 'On Hold')),
+  status text not null default 'Pending Review' check (status in ('Pending Review', 'Approved', 'In Progress', 'Completed', 'Pending', 'Active', 'On Hold')),
   volunteers_needed integer not null default 0,
   funding_goal numeric(12,2) not null default 0,
   funding_raised numeric(12,2) not null default 0,
@@ -40,6 +40,24 @@ alter table public.cases add column if not exists contact_phone text;
 alter table public.cases add column if not exists request_notes text;
 alter table public.cases add column if not exists agreement_accepted boolean not null default false;
 alter table public.cases add column if not exists agreement_accepted_at timestamptz;
+
+do $$
+declare current_constraint text;
+begin
+  select conname into current_constraint
+  from pg_constraint
+  where conrelid = 'public.cases'::regclass
+    and contype = 'c'
+    and pg_get_constraintdef(oid) ilike '%status%';
+
+  if current_constraint is not null then
+    execute format('alter table public.cases drop constraint %I', current_constraint);
+  end if;
+
+  alter table public.cases
+    add constraint cases_status_check
+    check (status in ('Pending Review', 'Approved', 'In Progress', 'Completed', 'Pending', 'Active', 'On Hold'));
+end $$;
 
 create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
@@ -123,7 +141,6 @@ alter table public.volunteers enable row level security;
 alter table public.activity_log enable row level security;
 alter table public.donations_log enable row level security;
 
--- Helper role checks based on auth email matching users.email
 create or replace function public.current_role()
 returns text
 language sql
@@ -132,7 +149,6 @@ as $$
   select role from public.users where lower(email) = lower(auth.jwt() ->> 'email') limit 1;
 $$;
 
--- Founder full access
 drop policy if exists users_founder_all on public.users;
 create policy users_founder_all on public.users
 for all
@@ -169,7 +185,6 @@ for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
--- Coordinator read and update for operations
 drop policy if exists cases_coordinator_read on public.cases;
 create policy cases_coordinator_read on public.cases
 for select
@@ -192,7 +207,6 @@ for update
 using (public.current_role() in ('founder', 'coordinator'))
 with check (public.current_role() in ('founder', 'coordinator'));
 
--- Volunteers and viewers can read published operational data
 drop policy if exists cases_read_basic on public.cases;
 create policy cases_read_basic on public.cases
 for select
@@ -208,7 +222,6 @@ create policy volunteers_read_basic on public.volunteers
 for select
 using (public.current_role() in ('founder', 'coordinator'));
 
--- Seed example rows (optional)
 insert into public.cases (case_number, city, need_type, status)
 values
 ('BUSI-006', 'San Antonio', 'Tree Removal', 'Completed'),

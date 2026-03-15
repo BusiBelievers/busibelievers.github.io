@@ -55,6 +55,25 @@ font-weight:bold;
 .status-progress{color:#3498db;}
 .status-complete{color:#2ecc71;}
 
+.sync-status{
+display:inline-block;
+margin-top:16px;
+padding:10px 14px;
+border-radius:999px;
+font-size:14px;
+font-weight:bold;
+}
+
+.sync-live{
+background:rgba(46,204,113,0.18);
+color:#7dffb1;
+}
+
+.sync-fallback{
+background:rgba(241,196,15,0.18);
+color:#ffe08a;
+}
+
 </style>
 
 </head>
@@ -69,6 +88,8 @@ font-weight:bold;
 Browse community projects coordinated by Busi Believers Incorporated
 and volunteer where help is needed most.
 </p>
+
+<div id="syncStatus" class="sync-status sync-fallback">Checking live sync...</div>
 
 <div id="volunteerBoard" class="grid"></div>
 
@@ -90,6 +111,13 @@ status: row.status || "Pending",
 volunteersNeeded: Number(row.volunteersNeeded ?? row.volunteers_needed ?? 0),
 volunteersAssigned: Array.isArray(row.volunteersAssigned) ? row.volunteersAssigned : []
 };
+}
+
+function setSyncStatus(message,isLive){
+const status = document.getElementById("syncStatus");
+if(!status) return;
+status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
+status.textContent = message;
 }
 
 function renderCases(cases){
@@ -153,6 +181,7 @@ ${volunteerButton}
 
 async function loadCases(){
 if(!supabaseClient){
+setSyncStatus("Using browser-only local data. Live sharing not confirmed.", false);
 const localCases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
 renderCases(localCases);
 return;
@@ -166,13 +195,16 @@ const { data, error } = await supabaseClient
 .limit(200);
 
 if(error){
+setSyncStatus("Supabase connection failed. Showing local fallback data.", false);
 const localCases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
 renderCases(localCases);
 return;
 }
 
+setSyncStatus("Connected to Supabase live data.", true);
 renderCases((data || []).map(normalizeCase));
 }catch(_){
+setSyncStatus("Supabase connection failed. Showing local fallback data.", false);
 const localCases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
 renderCases(localCases);
 }

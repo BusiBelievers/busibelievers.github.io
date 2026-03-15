@@ -55,6 +55,25 @@ color:#f1c40f;
 font-weight:bold;
 }
 
+.sync-status{
+display:inline-block;
+margin-top:14px;
+padding:10px 14px;
+border-radius:999px;
+font-size:14px;
+font-weight:bold;
+}
+
+.sync-live{
+background:rgba(46,204,113,0.18);
+color:#7dffb1;
+}
+
+.sync-fallback{
+background:rgba(241,196,15,0.18);
+color:#ffe08a;
+}
+
 </style>
 
 </head>
@@ -69,6 +88,8 @@ font-weight:bold;
 This page tracks assistance requests and projects served by
 Busi Believers Incorporated.
 </p>
+
+<div id="syncStatus" class="sync-status sync-fallback">Checking live sync...</div>
 
 <table>
 
@@ -120,6 +141,13 @@ city: row.city || row.location || "San Antonio"
 };
 }
 
+function setSyncStatus(message,isLive){
+const status = document.getElementById("syncStatus");
+if(!status) return;
+status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
+status.textContent = message;
+}
+
 function renderCases(rows){
 const body = document.getElementById("casesTableBody");
 if(!body) return;
@@ -162,6 +190,7 @@ async function loadCases(){
 const client = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
 
 if(!client){
+setSyncStatus("Using browser-only local data. Live sharing not confirmed.", false);
 renderCases(loadLocalCases());
 return;
 }
@@ -174,12 +203,15 @@ const { data, error } = await client
 .limit(200);
 
 if(error){
+setSyncStatus("Supabase connection failed. Showing local fallback data.", false);
 renderCases(loadLocalCases());
 return;
 }
 
+setSyncStatus("Connected to Supabase live data.", true);
 renderCases((data || []).map(normalizeRow));
 }catch(_){
+setSyncStatus("Supabase connection failed. Showing local fallback data.", false);
 renderCases(loadLocalCases());
 }
 }

@@ -64,6 +64,25 @@ font-size:14px;
 color:#d7d7d7;
 }
 
+.sync-status{
+display:inline-block;
+margin:18px auto 0;
+padding:10px 14px;
+border-radius:999px;
+font-size:14px;
+font-weight:bold;
+}
+
+.sync-live{
+background:rgba(46,204,113,0.18);
+color:#7dffb1;
+}
+
+.sync-fallback{
+background:rgba(241,196,15,0.18);
+color:#ffe08a;
+}
+
 </style>
 
 </head>
@@ -85,6 +104,8 @@ Before submitting, please review the
 <a href="participant-responsibility.html" style="color:#d4af37;font-weight:bold;">Participant Responsibility Agreement</a>
 including scheduling expectations, stewardship, and referral commitment.
 </p>
+
+<div id="syncStatus" class="sync-status sync-fallback">Checking live sync...</div>
 
 <form id="busiHelpForm">
 
@@ -129,6 +150,15 @@ and understand participant responsibilities.
 
 const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
 
+function setSyncStatus(message,isLive){
+const status = document.getElementById("syncStatus");
+if(!status) return;
+status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
+status.textContent = message;
+}
+
+setSyncStatus(supabaseClient ? "Supabase configured. Submission will attempt live sync." : "Supabase not active. Requests will save locally only.", Boolean(supabaseClient));
+
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
 function generateCase(){
@@ -166,7 +196,7 @@ localStorage.setItem("busiCases", JSON.stringify(cases));
 
 if(supabaseClient){
 try{
-await supabaseClient
+const { error } = await supabaseClient
 .from("cases")
 .insert({
 case_number: newCase.caseID,
@@ -180,7 +210,20 @@ contact_email: form.email.value,
 contact_phone: form.phone.value || null,
 request_notes: form.description.value || null
 });
+
+if(error){
+setSyncStatus("Live sync failed. Request saved locally only.", false);
+alert("Request submitted locally only. Live sharing was not confirmed.");
+form.reset();
+return;
+}
+
+setSyncStatus("Request synced to Supabase live database.", true);
 }catch(_){
+setSyncStatus("Live sync failed. Request saved locally only.", false);
+alert("Request submitted locally only. Live sharing was not confirmed.");
+form.reset();
+return;
 }
 }
 

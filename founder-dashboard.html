@@ -62,6 +62,25 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
+.sync-status{
+display:inline-block;
+margin:18px auto 0;
+padding:10px 14px;
+border-radius:999px;
+font-size:14px;
+font-weight:bold;
+}
+
+.sync-live{
+background:rgba(46,204,113,0.18);
+color:#7dffb1;
+}
+
+.sync-fallback{
+background:rgba(241,196,15,0.18);
+color:#ffe08a;
+}
+
 </style>
 
 </head>
@@ -76,6 +95,8 @@ margin-bottom:10px;
 This dashboard allows leadership to manage community assistance projects,
 funding goals, volunteers, and project progress across the BUSI platform.
 </p>
+
+<div id="syncStatus" class="sync-status sync-fallback">Checking live sync...</div>
 
 <div class="card">
 
@@ -159,6 +180,13 @@ agreementAcceptedAt: row.agreement_accepted_at || row.agreementAcceptedAt || nul
 };
 }
 
+function setSyncStatus(message,isLive){
+const status = document.getElementById("syncStatus");
+if(!status) return;
+status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
+status.textContent = message;
+}
+
 function nextCaseID(){
 let max = 0;
 cases.forEach((c) => {
@@ -176,6 +204,7 @@ localStorage.setItem("busiCases",JSON.stringify(cases));
 
 async function loadCases(){
 if(!supabaseClient){
+setSyncStatus("Supabase not active. Founder dashboard is using browser-only local data.", false);
 cases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
 renderCases();
 return;
@@ -189,15 +218,18 @@ const { data, error } = await supabaseClient
 .limit(300);
 
 if(error){
+setSyncStatus("Supabase read failed. Founder dashboard is showing local fallback data.", false);
 cases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
 renderCases();
 return;
 }
 
+setSyncStatus("Connected to Supabase live data.", true);
 cases = (data || []).map(normalizeCase);
 saveCases();
 renderCases();
 }catch(_){
+setSyncStatus("Supabase read failed. Founder dashboard is showing local fallback data.", false);
 cases = (JSON.parse(localStorage.getItem("busiCases")) || []).map(normalizeCase);
 renderCases();
 }
