@@ -26,6 +26,7 @@ create table if not exists public.cases (
   volunteers_needed integer not null default 0,
   funding_goal numeric(12,2) not null default 0,
   funding_raised numeric(12,2) not null default 0,
+  is_public boolean not null default false,
   agreement_accepted boolean not null default false,
   agreement_accepted_at timestamptz,
   priority text default 'Normal' check (priority in ('Low', 'Normal', 'High', 'Urgent')),
@@ -40,6 +41,7 @@ alter table public.cases add column if not exists contact_phone text;
 alter table public.cases add column if not exists request_notes text;
 alter table public.cases add column if not exists agreement_accepted boolean not null default false;
 alter table public.cases add column if not exists agreement_accepted_at timestamptz;
+alter table public.cases add column if not exists is_public boolean not null default false;
 
 do $$
 declare current_constraint text;
@@ -227,7 +229,7 @@ drop policy if exists cases_public_read on public.cases;
 create policy cases_public_read on public.cases
 for select
 to anon
-using (status in ('Pending Review', 'Approved', 'In Progress', 'Completed', 'Pending', 'Active', 'On Hold'));
+using (is_public = true and status in ('Approved', 'In Progress', 'Completed', 'Active'));
 
 drop policy if exists cases_public_intake_insert on public.cases;
 create policy cases_public_intake_insert on public.cases
