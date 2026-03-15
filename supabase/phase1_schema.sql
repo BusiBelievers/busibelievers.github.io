@@ -17,18 +17,29 @@ create table if not exists public.cases (
   id uuid primary key default gen_random_uuid(),
   case_number text unique not null,
   person_name text,
+  contact_email text,
+  contact_phone text,
   city text not null,
   need_type text not null,
+  request_notes text,
   status text not null default 'Pending' check (status in ('Pending', 'Active', 'Completed', 'On Hold')),
   volunteers_needed integer not null default 0,
   funding_goal numeric(12,2) not null default 0,
   funding_raised numeric(12,2) not null default 0,
+  agreement_accepted boolean not null default false,
+  agreement_accepted_at timestamptz,
   priority text default 'Normal' check (priority in ('Low', 'Normal', 'High', 'Urgent')),
   assigned_to uuid references public.users(id),
   created_by uuid references public.users(id),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.cases add column if not exists contact_email text;
+alter table public.cases add column if not exists contact_phone text;
+alter table public.cases add column if not exists request_notes text;
+alter table public.cases add column if not exists agreement_accepted boolean not null default false;
+alter table public.cases add column if not exists agreement_accepted_at timestamptz;
 
 create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),

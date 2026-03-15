@@ -153,7 +153,9 @@ location: row.city || row.location || "San Antonio",
 status: row.status || "Pending Review",
 volunteersNeeded: Number(row.volunteers_needed ?? row.volunteersNeeded ?? 0),
 fundingGoal: Number(row.funding_goal ?? row.fundingGoal ?? 0),
-fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0)
+fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0),
+agreementAccepted: Boolean(row.agreement_accepted ?? row.agreementAccepted ?? false),
+agreementAcceptedAt: row.agreement_accepted_at || row.agreementAcceptedAt || null
 };
 }
 
@@ -182,7 +184,7 @@ return;
 try{
 const { data, error } = await supabaseClient
 .from("cases")
-.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised")
+.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at")
 .order("created_at", { ascending: false })
 .limit(300);
 
@@ -222,7 +224,9 @@ location:location,
 status:status,
 volunteersNeeded:volunteers,
 fundingGoal:0,
-fundingRaised:0
+fundingRaised:0,
+agreementAccepted:false,
+agreementAcceptedAt:null
 });
 
 if(supabaseClient){
@@ -236,9 +240,11 @@ city: newCase.location,
 status: newCase.status,
 volunteers_needed: newCase.volunteersNeeded,
 funding_goal: newCase.fundingGoal,
-funding_raised: newCase.fundingRaised
+funding_raised: newCase.fundingRaised,
+agreement_accepted: newCase.agreementAccepted,
+agreement_accepted_at: newCase.agreementAcceptedAt
 })
-.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised")
+.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at")
 .single();
 
 if(!error && data){
@@ -274,6 +280,7 @@ container.innerHTML+=`
 <strong>${c.caseID}</strong> — ${c.project}<br>
 Location: ${c.location}<br>
 Status: ${c.status}<br>
+Agreement: ${c.agreementAccepted ? "Accepted" : "Not Captured"}${c.agreementAcceptedAt ? ` (${new Date(c.agreementAcceptedAt).toLocaleDateString()})` : ""}<br>
 
 Funding Goal:
 <input type="number" value="${c.fundingGoal}" onchange="updateGoal(${index},this.value)">
@@ -324,7 +331,9 @@ city: c.location,
 status: c.status,
 volunteers_needed: Number(c.volunteersNeeded || 0),
 funding_goal: Number(c.fundingGoal || 0),
-funding_raised: Number(c.fundingRaised || 0)
+funding_raised: Number(c.fundingRaised || 0),
+agreement_accepted: Boolean(c.agreementAccepted),
+agreement_accepted_at: c.agreementAcceptedAt
 })
 .eq("id", c.id);
 }catch(_){
@@ -391,7 +400,9 @@ location:location,
 status:status,
 volunteersNeeded:volunteers,
 fundingGoal:0,
-fundingRaised:0
+fundingRaised:0,
+agreementAccepted:false,
+agreementAcceptedAt:null
 });
 
 if(supabaseClient){
@@ -405,9 +416,11 @@ city: newCase.location,
 status: newCase.status,
 volunteers_needed: newCase.volunteersNeeded,
 funding_goal: newCase.fundingGoal,
-funding_raised: newCase.fundingRaised
+funding_raised: newCase.fundingRaised,
+agreement_accepted: newCase.agreementAccepted,
+agreement_accepted_at: newCase.agreementAcceptedAt
 })
-.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised")
+.select("id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at")
 .single();
 
 if(!error && data){

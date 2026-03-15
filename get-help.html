@@ -123,7 +123,11 @@ and understand participant responsibilities.
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
+
+const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
@@ -134,7 +138,7 @@ return "BUSI-" + number.toString().padStart(3,"0");
 
 }
 
-document.getElementById("busiHelpForm").addEventListener("submit",function(e){
+document.getElementById("busiHelpForm").addEventListener("submit", async function(e){
 
 e.preventDefault();
 
@@ -151,12 +155,34 @@ let newCase = {
 caseID: caseID,
 project: form.assistance.value,
 location: "San Antonio",
-status: "Pending Review"
+status: "Pending Review",
+agreementAccepted: true,
+agreementAcceptedAt: new Date().toISOString()
 };
 
 cases.push(newCase);
 
 localStorage.setItem("busiCases", JSON.stringify(cases));
+
+if(supabaseClient){
+try{
+await supabaseClient
+.from("cases")
+.insert({
+case_number: newCase.caseID,
+person_name: form.name.value,
+city: "San Antonio",
+need_type: form.assistance.value || "General Assistance",
+status: "Pending Review",
+agreement_accepted: true,
+agreement_accepted_at: newCase.agreementAcceptedAt,
+contact_email: form.email.value,
+contact_phone: form.phone.value || null,
+request_notes: form.description.value || null
+});
+}catch(_){
+}
+}
 
 alert("Request submitted. Your case number is "+caseID);
 
