@@ -240,6 +240,61 @@ background:#d4af37;
 margin:30px auto 0 auto;
 border-radius:2px;
 }
+
+.track-selector{
+margin:24px auto 0;
+max-width:760px;
+padding:18px;
+border:1px solid rgba(212,175,55,.45);
+border-radius:14px;
+background:linear-gradient(180deg,rgba(28,34,51,.95),rgba(18,23,36,.95));
+text-align:left;
+box-shadow:0 8px 18px rgba(0,0,0,.25);
+}
+
+.track-selector h3{
+margin:0 0 8px;
+font-size:22px;
+color:#f6e7b0;
+}
+
+.track-selector p{
+margin:0;
+color:#d8deeb;
+font-size:15px;
+}
+
+.track-selector-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(220px,1fr));
+gap:12px;
+margin-top:14px;
+}
+
+.track-card{
+border:1px solid rgba(246,215,107,.35);
+border-radius:12px;
+padding:14px;
+background:rgba(18,23,36,.75);
+}
+
+.track-card h4{
+margin:0 0 8px;
+font-size:18px;
+color:#f6e7b0;
+}
+
+.track-card p{
+margin:0 0 12px;
+font-size:14px;
+line-height:1.45;
+}
+
+.track-card .btn{
+display:inline-block;
+margin-right:8px;
+margin-bottom:8px;
+}
  
 .hero{
 text-align:center;
@@ -305,6 +360,10 @@ width:120px;
 }
 .hero h1{
 font-size:28px;
+}
+
+.track-selector-grid{
+grid-template-columns:1fr;
 }
 }
 #highlights{
@@ -512,6 +571,25 @@ Donate to Support BUSI
 
 </form>
 
+</div>
+
+<div class="track-selector" aria-label="Program and invoice pathway selector">
+<h3>Choose Your Path</h3>
+<p>Select the option that best matches your stage. Program participants can begin with curriculum tools, and service requests can move directly to invoice options.</p>
+
+<div class="track-selector-grid">
+<div class="track-card">
+<h4>Program A: Curriculum Track</h4>
+<p>Access anger management resources, complete workbook materials, and implementation guidance.</p>
+<a class="btn" href="curriculum-implementation.html">Open Program A</a>
+</div>
+
+<div class="track-card">
+<h4>Program B: Invoice Track</h4>
+<p>Choose required fee, suggested contribution, or sliding scale invoice options with PayPal support.</p>
+<a class="btn" href="invoice-center.html">Open Program B</a>
+</div>
+</div>
 </div>
 
 </div>
