@@ -417,10 +417,16 @@ into projects here.
 <h2>Active BUSI Projects</h2>
 
 <div class="case-filter-bar">
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
 <label>
 <input id="certificateHoldOnly" type="checkbox">
 Show Certificate Hold Only
 </label>
+<label>
+<input id="certificateEligibleOnly" type="checkbox">
+Show Certificate Eligible Only
+</label>
+</div>
 <span id="caseCountSummary" style="color:#d2d2d2;font-size:14px;">Showing 0 cases</span>
 </div>
 
@@ -440,7 +446,7 @@ let hasPublicColumn = true;
 let hasPhotoColumns = true;
 let hasStoryColumns = true;
 let hasCertificateColumns = true;
-let showCertificateHoldOnly = false;
+let certificateFilterMode = "all";
 const STATUS_OPTIONS = ["Pending Review", "Approved", "In Progress", "On Hold", "Completed"];
 
 function isMissingColumnError(error, pattern){
@@ -715,14 +721,17 @@ function renderCases(){
 let container=document.getElementById("caseManager");
 const summary = document.getElementById("caseCountSummary");
 
-const filteredCases = showCertificateHoldOnly
+const filteredCases = certificateFilterMode === "hold"
 ? cases.filter((c) => !certificateEligible(c))
+: certificateFilterMode === "eligible"
+? cases.filter((c) => certificateEligible(c))
 : cases;
 
 container.innerHTML="";
 
 if(summary){
-summary.textContent = `Showing ${filteredCases.length} case${filteredCases.length === 1 ? "" : "s"}`;
+const modeLabel = certificateFilterMode === "hold" ? " (Certificate Hold)" : certificateFilterMode === "eligible" ? " (Certificate Eligible)" : "";
+summary.textContent = `Showing ${filteredCases.length} case${filteredCases.length === 1 ? "" : "s"}${modeLabel}`;
 }
 
 filteredCases.forEach((c)=>{
@@ -1051,9 +1060,26 @@ toggleConditionalField("volunteersNeededSelect", "volunteersNeededOther");
 toggleConditionalField("intakeVolunteersSelect", "intakeVolunteersOther");
 
 const certificateHoldOnly = document.getElementById("certificateHoldOnly");
-if(certificateHoldOnly){
+const certificateEligibleOnly = document.getElementById("certificateEligibleOnly");
+
+if(certificateHoldOnly && certificateEligibleOnly){
 certificateHoldOnly.addEventListener("change", function(){
-showCertificateHoldOnly = Boolean(this.checked);
+if(this.checked){
+certificateFilterMode = "hold";
+certificateEligibleOnly.checked = false;
+}else if(!certificateEligibleOnly.checked){
+certificateFilterMode = "all";
+}
+renderCases();
+});
+
+certificateEligibleOnly.addEventListener("change", function(){
+if(this.checked){
+certificateFilterMode = "eligible";
+certificateHoldOnly.checked = false;
+}else if(!certificateHoldOnly.checked){
+certificateFilterMode = "all";
+}
 renderCases();
 });
 }
