@@ -20,6 +20,14 @@ h1,h2{margin-top:0;}
 .summary-box{background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.24);border-radius:12px;padding:14px;}
 .summary-box strong{display:block;font-size:28px;color:#f1d988;}
 .summary-box small{display:block;margin-top:6px;color:#d7d7d7;line-height:1.4;}
+.rating-declining{background:rgba(231,76,60,0.14);border-color:rgba(231,76,60,0.45);}
+.rating-declining strong{color:#ff8f84;}
+.rating-stable{background:rgba(241,196,15,0.14);border-color:rgba(241,196,15,0.35);}
+.rating-stable strong{color:#ffe08a;}
+.rating-improving{background:rgba(46,204,113,0.14);border-color:rgba(46,204,113,0.35);}
+.rating-improving strong{color:#7dffb1;}
+.rating-strong{background:rgba(52,152,219,0.16);border-color:rgba(52,152,219,0.40);}
+.rating-strong strong{color:#8fd3ff;}
 @media (max-width: 760px){
 .score-grid{grid-template-columns:1fr;}
 .score-header{display:none;}
@@ -102,7 +110,7 @@ h1,h2{margin-top:0;}
 <span>Growth Delta</span>
 <strong id="growthDelta">0</strong>
 </div>
-<div class="summary-box">
+<div class="summary-box rating-stable" id="overallRatingBox">
 <span>Overall Rating</span>
 <strong id="overallRating">Stable</strong>
 <small id="ratingNote">Little or no measurable change recorded yet.</small>
@@ -137,10 +145,10 @@ return Number.isFinite(value) ? value : 0;
 }
 
 function ratingFromDelta(delta){
-if(delta <= -2) return { label: "Declining", note: "Scores show meaningful regression and may require intervention." };
-if(delta <= 1) return { label: "Stable", note: "Scores show limited movement from baseline." };
-if(delta <= 5) return { label: "Improving", note: "Scores show positive measurable growth." };
-return { label: "Strong Improvement", note: "Scores show substantial growth across categories." };
+if(delta <= -2) return { label: "Declining", note: "Scores show meaningful regression and may require intervention.", className: "rating-declining" };
+if(delta <= 1) return { label: "Stable", note: "Scores show limited movement from baseline.", className: "rating-stable" };
+if(delta <= 5) return { label: "Improving", note: "Scores show positive measurable growth.", className: "rating-improving" };
+return { label: "Strong Improvement", note: "Scores show substantial growth across categories.", className: "rating-strong" };
 }
 
 function updateScores(){
@@ -171,6 +179,7 @@ const rating = ratingFromDelta(delta);
 document.getElementById("growthDelta").textContent = String(delta);
 document.getElementById("overallRating").textContent = rating.label;
 document.getElementById("ratingNote").textContent = rating.note;
+document.getElementById("overallRatingBox").className = `summary-box ${rating.className}`;
 }
 
 document.querySelectorAll(".score-input").forEach((input) => {
