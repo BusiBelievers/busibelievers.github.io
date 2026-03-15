@@ -18,6 +18,12 @@ li{margin-bottom:8px;}
 .muted{color:#d2d2d2;}
 .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(212,175,55,0.16);color:#f1d988;font-size:12px;font-weight:bold;}
 input[type="number"]{padding:10px;border:none;border-radius:8px;width:140px;}
+.access-input{padding:10px;border:none;border-radius:8px;width:100%;max-width:320px;margin:8px 8px 8px 0;}
+.access-status{display:inline-block;margin:8px 0 0;padding:10px 14px;border-radius:999px;font-size:14px;font-weight:bold;}
+.access-preview{background:rgba(241,196,15,0.18);color:#ffe08a;}
+.access-full{background:rgba(46,204,113,0.18);color:#7dffb1;}
+.participant-only.locked{display:none !important;}
+.preview-note{background:rgba(241,196,15,0.14);border:1px solid rgba(241,196,15,0.35);padding:12px;border-radius:12px;margin-top:10px;color:#ffe08a;}
 hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
 </style>
 </head>
@@ -35,6 +41,19 @@ Balanced deployment model: one mission, two distinct program tracks, and three i
 This structure supports court clarity, ministry alignment, donor confidence, and clean audit records.
 </p>
 
+<div class="card" id="curriculumAccessCard">
+<h2>Curriculum Access</h2>
+<p class="muted">Public visitors can review the program overview below. Full curriculum materials are available to active participants with verified case access.</p>
+<div>
+<input id="accessCaseId" class="access-input" type="text" placeholder="Case ID (Example: BUSI-012)">
+<input id="accessEmail" class="access-input" type="email" placeholder="Participant Email">
+</div>
+<button class="btn" id="verifyAccessBtn" type="button">Verify Participant Access</button>
+<button class="btn" id="clearAccessBtn" type="button">Return to Read-Only Preview</button>
+<a class="btn" href="get-help.html">Request Participant Enrollment</a>
+<div id="accessStatus" class="access-status access-preview">Read-only preview mode is active.</div>
+</div>
+
 <div class="card">
 <h2>One-Sentence Program Distinction</h2>
 <p><strong>BUSI runs two distinct tracks:</strong> Program A is Anger Management for behavioral accountability (including court/agency referrals), and Program B is the BUSI Faith & Community Curriculum for mentorship, stewardship, and community restoration funded through donations, sponsorships, or approved program fees.</p>
@@ -46,11 +65,12 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 <span class="pill">Program A</span>
 <h3>Anger Management Track</h3>
 <p>Court/agency aligned behavioral education with required service fee handling.</p>
-<a class="btn" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank">Download Full Program PDF</a>
-<a class="btn" href="invoice-required-service-fee.html">Open Required Fee Invoice</a>
+<div class="preview-note">Read-only preview: This track focuses on behavioral accountability, structured exercises, and guided reflection.</div>
+<a class="btn participant-only" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank">Download Full Program PDF</a>
+<a class="btn participant-only" href="invoice-required-service-fee.html">Open Required Fee Invoice</a>
 
-<h4>Pay Required Service Fee</h4>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<h4 class="participant-only">Pay Required Service Fee</h4>
+<form class="participant-only" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="admin@busib.net">
 <input type="hidden" name="currency_code" value="USD">
@@ -65,14 +85,15 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 <span class="pill">Program B</span>
 <h3>Faith & Community Curriculum Track</h3>
 <p>Mentorship and stewardship curriculum for voluntary participants, outreach cohorts, and sponsored participants.</p>
-<a class="btn" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank">Workbook with TOC</a>
-<a class="btn" href="BUSI_Complete_Curriculum_Workbook_Fillable_v2.pdf" target="_blank">Fillable Workbook</a>
-<a class="btn" href="BUSI_Complete_Curriculum_Workbook_Branded.pdf" target="_blank">Branded Workbook</a>
-<a class="btn" href="BUSI_Program_Evaluation_and_Outcomes_Form.pdf" target="_blank">Outcomes Form</a>
-<a class="btn" href="invoice-suggested-contribution.html">Suggested Contribution Invoice</a>
+<div class="preview-note">Read-only preview: This track includes restoration modules, stewardship development, and community accountability practice.</div>
+<a class="btn participant-only" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank">Workbook with TOC</a>
+<a class="btn participant-only" href="BUSI_Complete_Curriculum_Workbook_Fillable_v2.pdf" target="_blank">Fillable Workbook</a>
+<a class="btn participant-only" href="BUSI_Complete_Curriculum_Workbook_Branded.pdf" target="_blank">Branded Workbook</a>
+<a class="btn participant-only" href="BUSI_Program_Evaluation_and_Outcomes_Form.pdf" target="_blank">Outcomes Form</a>
+<a class="btn participant-only" href="invoice-suggested-contribution.html">Suggested Contribution Invoice</a>
 
-<h4>Contribute to Curriculum Fund</h4>
-<form action="https://www.paypal.com/donate" method="post" target="_top">
+<h4 class="participant-only">Contribute to Curriculum Fund</h4>
+<form class="participant-only" action="https://www.paypal.com/donate" method="post" target="_top">
 <input type="hidden" name="business" value="admin@busib.net">
 <input type="hidden" name="currency_code" value="USD">
 <button class="btn" name="amount" value="25" type="submit">Contribute $25</button>
@@ -134,5 +155,103 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 <p>San Antonio, Texas</p>
 <p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
+const ACCESS_KEY = "busiCurriculumAccess";
+
+function getStoredAccess(){
+try{
+const raw = sessionStorage.getItem(ACCESS_KEY);
+if(!raw) return null;
+const parsed = JSON.parse(raw);
+if(!parsed || !parsed.expiresAt) return null;
+if(Date.now() > Number(parsed.expiresAt)){
+sessionStorage.removeItem(ACCESS_KEY);
+return null;
+}
+return parsed;
+}catch(_){
+return null;
+}
+}
+
+function setStoredAccess(caseId,email){
+sessionStorage.setItem(ACCESS_KEY, JSON.stringify({
+caseId,
+email,
+expiresAt: Date.now() + (1000 * 60 * 60 * 8)
+}));
+}
+
+function setAccessState(isFull,message){
+const status = document.getElementById("accessStatus");
+if(status){
+status.className = `access-status ${isFull ? "access-full" : "access-preview"}`;
+status.textContent = message;
+}
+document.querySelectorAll(".participant-only").forEach((node) => {
+if(isFull){
+node.classList.remove("locked");
+}else{
+node.classList.add("locked");
+}
+});
+}
+
+async function verifyAccess(){
+const caseId = String(document.getElementById("accessCaseId").value || "").trim();
+const email = String(document.getElementById("accessEmail").value || "").trim();
+if(!caseId || !email){
+setAccessState(false, "Read-only preview mode. Enter both Case ID and participant email to verify access.");
+return;
+}
+
+if(!supabaseClient){
+setAccessState(false, "Read-only preview mode. Live verification is not available right now.");
+return;
+}
+
+try{
+const { data, error } = await supabaseClient.rpc("verify_curriculum_access", {
+p_case_number: caseId,
+p_email: email
+});
+
+if(error){
+setAccessState(false, "Read-only preview mode. Verification service is not configured yet.");
+return;
+}
+
+const result = Array.isArray(data) ? data[0] : data;
+if(result && result.allowed){
+setStoredAccess(caseId,email);
+setAccessState(true, "Full participant curriculum access verified.");
+return;
+}
+
+const reason = result && result.message ? result.message : "Access not approved for this case/email.";
+setAccessState(false, `Read-only preview mode. ${reason}`);
+}catch(_){
+setAccessState(false, "Read-only preview mode. Verification check failed.");
+}
+}
+
+document.getElementById("verifyAccessBtn").addEventListener("click", verifyAccess);
+document.getElementById("clearAccessBtn").addEventListener("click", () => {
+sessionStorage.removeItem(ACCESS_KEY);
+setAccessState(false, "Read-only preview mode is active.");
+});
+
+const stored = getStoredAccess();
+if(stored){
+document.getElementById("accessCaseId").value = stored.caseId || "";
+document.getElementById("accessEmail").value = stored.email || "";
+setAccessState(true, "Full participant curriculum access verified.");
+}else{
+setAccessState(false, "Read-only preview mode is active.");
+}
+</script>
 </body>
 </html>

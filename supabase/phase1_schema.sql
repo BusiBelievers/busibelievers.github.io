@@ -249,3 +249,51 @@ values
 ('BUSI-007', 'San Antonio', 'Lawn Care', 'Active'),
 ('BUSI-008', 'San Antonio', 'Vehicle Assistance', 'Pending')
 on conflict (case_number) do nothing;
+
+-- Curriculum access verification RPC
+-- Allows public-side verification without returning private case details.
+create or replace function public.verify_curriculum_access(
+  p_case_number text,
+  p_email text
+)
+returns table(allowed boolean, access_level text, message text)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  matched_status text;
+  matched_agreement boolean;
+begin
+  if coalesce(trim(p_case_number), '') = '' or coalesce(trim(p_email), '') = '' then
+    return query select false, 'preview'::text, 'Case ID and email are required.'::text;
+    return;
+  end if;
+
+  select c.status, c.agreement_accepted
+    into matched_status, matched_agreement
+  from public.cases c
+  where lower(c.case_number) = lower(trim(p_case_number))
+    and lower(coalesce(c.contact_email, '')) = lower(trim(p_email))
+  limit 1;
+
+  if matched_status is null then
+    return query select false, 'preview'::text, 'No matching active participant record found.'::text;
+    return;
+  end if;
+
+  if matched_agreement is distinct from true then
+    return query select false, 'preview'::text, 'Participant agreement is not yet completed.'::text;
+    return;
+  end if;
+
+  if matched_status in ('Approved', 'In Progress', 'Active') then
+    return query select true, 'full'::text, 'Participant access approved.'::text;
+    return;
+  end if;
+
+  return query select false, 'preview'::text, 'Case is not currently active for full curriculum access.'::text;
+end;
+$$;
+
+grant execute on function public.verify_curriculum_access(text, text) to anon, authenticated;
