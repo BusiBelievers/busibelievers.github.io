@@ -274,6 +274,7 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <h2>Create New Project</h2>
 
 <input id="projectName" placeholder="Project Name">
+<input id="projectEmail" type="email" placeholder="Participant Email (required for curriculum access)">
 
 <select id="locationSelect">
 <option value="">Select Texas City</option>
@@ -333,6 +334,7 @@ into projects here.
 </p>
 
 <input id="intakeName" placeholder="Participant Name">
+<input id="intakeEmail" type="email" placeholder="Participant Email (required for curriculum access)">
 
 <input id="intakeProject" placeholder="Type of Assistance (Example: Vehicle Repair)">
 
@@ -521,6 +523,7 @@ const payload = {
 need_type: c.project,
 city: c.location,
 status: normalizeStatus(c.status),
+contact_email: c.email || null,
 volunteers_needed: Number(c.volunteersNeeded || 0),
 funding_goal: Number(c.fundingGoal || 0),
 funding_raised: Number(c.fundingRaised || 0),
@@ -583,6 +586,7 @@ async function createCase(){
 let caseID = nextCaseID();
 
 let project = document.getElementById("projectName").value;
+let email = document.getElementById("projectEmail").value.trim();
 let location = getSelectedLocation("locationSelect", "locationOther");
 let volunteers = getVolunteerCount("volunteersNeededSelect", "volunteersNeededOther");
 let status = document.getElementById("status").value;
@@ -598,6 +602,7 @@ return;
 const newCase = normalizeCase({
 caseID:caseID,
 project:project,
+email:email,
 location:location,
 status:status,
 volunteersNeeded:volunteers,
@@ -657,6 +662,8 @@ container.innerHTML+=`
 Location: ${c.location}<br>
 Status: ${c.status}<br>
 Agreement: ${c.agreementAccepted ? "Accepted" : "Not Captured"}${c.agreementAcceptedAt ? ` (${new Date(c.agreementAcceptedAt).toLocaleDateString()})` : ""}<br>
+Participant Email:
+<input type="email" value="${c.email || ""}" placeholder="Enter participant email" onchange="updateEmail(${index},this.value)"><br>
 ${c.beforePhotoUrl ? `<a href="${c.beforePhotoUrl}" target="_blank" rel="noopener noreferrer">Before Photo</a><br>` : ""}
 ${c.afterPhotoUrl ? `<a href="${c.afterPhotoUrl}" target="_blank" rel="noopener noreferrer">After Photo</a><br>` : ""}
 
@@ -774,6 +781,12 @@ await runCasesQuery(() => supabaseClient
 }
 }
 
+function updateEmail(index,value){
+cases[index].email=String(value || "").trim();
+persistCase(index);
+renderEligibilityPanel();
+}
+
 function updateGoal(index,value){
 cases[index].fundingGoal=Number(value);
 persistCase(index);
@@ -855,6 +868,7 @@ async function convertRequest(){
 let caseID = nextCaseID();
 
 let project = document.getElementById("intakeProject").value;
+let email = document.getElementById("intakeEmail").value.trim();
 let location = getSelectedLocation("intakeLocationSelect", "intakeLocationOther");
 let volunteers = getVolunteerCount("intakeVolunteersSelect", "intakeVolunteersOther");
 let status = document.getElementById("intakeStatus").value;
@@ -870,6 +884,7 @@ return;
 const newCase = normalizeCase({
 caseID:caseID,
 project:project,
+email:email,
 location:location,
 status:status,
 volunteersNeeded:volunteers,
