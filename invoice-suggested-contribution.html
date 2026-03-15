@@ -13,6 +13,8 @@ label{display:block;font-weight:bold;margin-bottom:6px;}
 input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-sizing:border-box;margin-bottom:12px;}
 .btn{display:inline-block;padding:12px 16px;background:#d4af37;color:black;border:none;border-radius:10px;text-decoration:none;font-weight:bold;cursor:pointer;margin-right:8px;}
 .quick-links{margin:0 0 12px;}
+.helper-text{color:#d7d7d7;font-size:14px;margin:-4px 0 12px;}
+.hidden-field{display:none;}
 </style>
 </head>
 <body>
@@ -25,11 +27,12 @@ input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-
 <h1>BUSI Suggested Contribution Invoice</h1>
 <p style="color:#d6d6d6;max-width:760px;">Use for voluntary participation or community outreach. This form uses <strong>Suggested Contribution</strong> language to support clean nonprofit donation recordkeeping.</p>
 <div class="card">
+<p class="helper-text">Choose the closest program module and payment method from the lists below. If nothing fits, select <strong>Other</strong> and add a simple custom note.</p>
 <div class="grid">
 <div><label>Invoice Number</label><input type="text" placeholder="BUSI-SC-001"></div>
 <div><label>Invoice Date</label><input type="date"></div>
 <div><label>Participant Name</label><input type="text" placeholder="Full name"></div>
-<div><label>Program Module</label><select>
+<div><label for="programModule">Program Module</label><select id="programModule">
 <option value="">Select Program Module</option>
 <option>Orientation and Intake</option>
 <option>Stewardship Foundations</option>
@@ -41,13 +44,24 @@ input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-
 <option>Life Planning and Goal Setting</option>
 <option>Restoration and Reflection Session</option>
 <option>Program Completion Follow-Up</option>
+<option>Other</option>
 </select></div>
+<div id="customModuleWrap" class="hidden-field"><label for="customModule">Custom Module Name</label><input id="customModule" type="text" placeholder="Enter custom module name"></div>
 </div>
 <label>Curriculum Participation Summary</label><textarea rows="3" placeholder="Describe curriculum participation and support services."></textarea>
 <div class="grid">
 <div><label>Suggested Contribution ($)</label><input type="number" min="0" step="0.01" placeholder="0.00"></div>
 <div><label>Contribution Received ($)</label><input type="number" min="0" step="0.01" placeholder="0.00"></div>
-<div><label>Contribution Method</label><input type="text" placeholder="PayPal, cash, sponsor"></div>
+<div><label for="contributionMethod">Contribution Method</label><select id="contributionMethod">
+<option value="">Select Contribution Method</option>
+<option>PayPal</option>
+<option>Cash</option>
+<option>Sponsor</option>
+<option>Church Partner</option>
+<option>Scholarship Support</option>
+<option>Other</option>
+</select></div>
+<div id="customMethodWrap" class="hidden-field"><label for="customMethod">Custom Contribution Method</label><input id="customMethod" type="text" placeholder="Enter custom contribution method"></div>
 </div>
 <label>Nonprofit Note</label><textarea rows="2">Contributions support BUSI faith and community curriculum programming. This document is for internal contribution records and stewardship tracking.</textarea>
 <button class="btn" onclick="window.print()">Print / Save PDF</button>
@@ -62,5 +76,24 @@ input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-
 <p>San Antonio, Texas</p>
 <p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
 </footer>
+<script>
+function toggleConditionalField(selectId, wrapperId){
+const select = document.getElementById(selectId);
+const wrapper = document.getElementById(wrapperId);
+if(!select || !wrapper) return;
+wrapper.style.display = select.value === "Other" ? "block" : "none";
+}
+
+document.getElementById("programModule").addEventListener("change", () => {
+toggleConditionalField("programModule", "customModuleWrap");
+});
+
+document.getElementById("contributionMethod").addEventListener("change", () => {
+toggleConditionalField("contributionMethod", "customMethodWrap");
+});
+
+toggleConditionalField("programModule", "customModuleWrap");
+toggleConditionalField("contributionMethod", "customMethodWrap");
+</script>
 </body>
 </html>
