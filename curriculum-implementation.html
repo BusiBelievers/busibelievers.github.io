@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUSI Program Implementation Center</title>
+<style>
+body{font-family:Arial;background:#0b1220;color:white;margin:0;}
+.container{max-width:1040px;margin:auto;padding:40px 20px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:16px;}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;}
+h1,h2,h3{margin-top:0;}
+p{line-height:1.5;}
+ul{padding-left:20px;}
+li{margin-bottom:8px;}
+.btn{display:inline-block;padding:12px 16px;background:#d4af37;color:black;border-radius:10px;text-decoration:none;font-weight:bold;margin:6px 8px 6px 0;border:none;cursor:pointer;}
+.muted{color:#d2d2d2;}
+.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(212,175,55,0.16);color:#f1d988;font-size:12px;font-weight:bold;}
+input[type="number"]{padding:10px;border:none;border-radius:8px;width:140px;}
+hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>BUSI Program Implementation Center</h1>
+<p class="muted" style="max-width:850px;">
+Balanced deployment model: one mission, two distinct program tracks, and three invoice/payment pathways.
+This structure supports court clarity, ministry alignment, donor confidence, and clean audit records.
+</p>
+
+<div class="card">
+<h2>One-Sentence Program Distinction</h2>
+<p><strong>BUSI runs two distinct tracks:</strong> Program A is Anger Management for behavioral accountability (including court/agency referrals), and Program B is the BUSI Faith & Community Curriculum for mentorship, stewardship, and community restoration funded through donations, sponsorships, or approved program fees.</p>
+<p style="font-style:italic;color:#d4af37;">"No voice nor invoice will go unheard."</p>
+</div>
+
+<div class="grid">
+<div class="card">
+<span class="pill">Program A</span>
+<h3>Anger Management Track</h3>
+<p>Court/agency aligned behavioral education with required service fee handling.</p>
+<a class="btn" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank">Download Full Program PDF</a>
+<a class="btn" href="invoice-required-service-fee.html">Open Required Fee Invoice</a>
+
+<h4>Pay Required Service Fee</h4>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="admin@busib.net">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="item_name" value="BUSI Required Program Service Fee">
+<label for="requiredAmount">Amount ($)</label><br>
+<input id="requiredAmount" type="number" name="amount" min="1" step="0.01" value="50.00"><br>
+<button class="btn" type="submit">Pay Service Fee</button>
+</form>
+</div>
+
+<div class="card">
+<span class="pill">Program B</span>
+<h3>Faith & Community Curriculum Track</h3>
+<p>Mentorship and stewardship curriculum for voluntary participants, outreach cohorts, and sponsored participants.</p>
+<a class="btn" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank">Workbook with TOC</a>
+<a class="btn" href="BUSI_Complete_Curriculum_Workbook_Fillable_v2.pdf" target="_blank">Fillable Workbook</a>
+<a class="btn" href="BUSI_Complete_Curriculum_Workbook_Branded.pdf" target="_blank">Branded Workbook</a>
+<a class="btn" href="BUSI_Program_Evaluation_and_Outcomes_Form.pdf" target="_blank">Outcomes Form</a>
+<a class="btn" href="invoice-suggested-contribution.html">Suggested Contribution Invoice</a>
+
+<h4>Contribute to Curriculum Fund</h4>
+<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="business" value="admin@busib.net">
+<input type="hidden" name="currency_code" value="USD">
+<button class="btn" name="amount" value="25" type="submit">Contribute $25</button>
+<button class="btn" name="amount" value="50" type="submit">Contribute $50</button>
+<button class="btn" name="amount" value="100" type="submit">Contribute $100</button>
+</form>
+</div>
+</div>
+
+<hr>
+
+<div class="grid">
+<div class="card">
+<h3>Sliding Scale / Hardship</h3>
+<p>Use the sliding scale invoice when cost reductions are approved due to hardship. This protects participant expectations and your bookkeeping integrity.</p>
+<a class="btn" href="invoice-sliding-scale.html">Open Sliding Scale Invoice</a>
+</div>
+
+<div class="card">
+<h3>Internal Approval & Stewardship Pack</h3>
+<p>Use these documents together for consistency and audit readiness across projects and curriculum participants.</p>
+<a class="btn" href="quote-comparison.html">Quote Comparison Tool</a>
+<a class="btn" href="quote-comparison-template.csv" download>CSV Template</a>
+<a class="btn" href="participant-responsibility.html">Participant Responsibility</a>
+</div>
+</div>
+
+<div class="card">
+<h2>Balanced Workflow (Recommended)</h2>
+<ul>
+<li>Step 1: Identify track at intake: Program A (required behavioral) or Program B (voluntary curriculum/community support).</li>
+<li>Step 2: Apply matching invoice type: Required Fee, Suggested Contribution, or Sliding Scale.</li>
+<li>Step 3: Document quote/approval decisions with the quote comparison summary and attach supporting records.</li>
+<li>Step 4: Capture outcomes in the evaluation form and keep all files tied to the case ID.</li>
+<li>Step 5: Use founder dashboard for visibility control and public listing only when approved.</li>
+</ul>
+<a class="btn" href="founder-dashboard.html">Go to Founder Dashboard</a>
+<a class="btn" href="invoice-center.html">Go to Invoice Center</a>
+</div>
+</div>
+
+<footer style="background:#0b1220;color:white;text-align:center;padding:40px 20px;margin-top:60px;border-top:2px solid #d4af37;">
+<p><strong>Busi Believers Incorporated</strong></p>
+<p>Bonding Using Stewardship and Integrity</p>
+<p style="font-style:italic;color:#d4af37;">"No voice nor invoice will go unheard."</p>
+<p>Empowering Faith &bull; Responsibility &bull; Leadership &bull; Community</p>
+<p>San Antonio, Texas</p>
+<p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
+</footer>
+</body>
+</html>
