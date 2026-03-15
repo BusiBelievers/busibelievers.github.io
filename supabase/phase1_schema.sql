@@ -133,65 +133,78 @@ as $$
 $$;
 
 -- Founder full access
-create policy if not exists users_founder_all on public.users
+drop policy if exists users_founder_all on public.users;
+create policy users_founder_all on public.users
 for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
-create policy if not exists cases_founder_all on public.cases
+drop policy if exists cases_founder_all on public.cases;
+create policy cases_founder_all on public.cases
 for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
-create policy if not exists projects_founder_all on public.projects
+drop policy if exists projects_founder_all on public.projects;
+create policy projects_founder_all on public.projects
 for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
-create policy if not exists volunteers_founder_all on public.volunteers
+drop policy if exists volunteers_founder_all on public.volunteers;
+create policy volunteers_founder_all on public.volunteers
 for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
-create policy if not exists activity_founder_all on public.activity_log
+drop policy if exists activity_founder_all on public.activity_log;
+create policy activity_founder_all on public.activity_log
 for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
-create policy if not exists donations_founder_all on public.donations_log
+drop policy if exists donations_founder_all on public.donations_log;
+create policy donations_founder_all on public.donations_log
 for all
 using (public.current_role() = 'founder')
 with check (public.current_role() = 'founder');
 
 -- Coordinator read and update for operations
-create policy if not exists cases_coordinator_read on public.cases
+drop policy if exists cases_coordinator_read on public.cases;
+create policy cases_coordinator_read on public.cases
 for select
 using (public.current_role() in ('founder', 'coordinator'));
 
-create policy if not exists cases_coordinator_write on public.cases
+drop policy if exists cases_coordinator_write on public.cases;
+create policy cases_coordinator_write on public.cases
 for update
 using (public.current_role() in ('founder', 'coordinator'))
 with check (public.current_role() in ('founder', 'coordinator'));
 
-create policy if not exists projects_coordinator_read on public.projects
+drop policy if exists projects_coordinator_read on public.projects;
+create policy projects_coordinator_read on public.projects
 for select
 using (public.current_role() in ('founder', 'coordinator'));
 
-create policy if not exists projects_coordinator_write on public.projects
+drop policy if exists projects_coordinator_write on public.projects;
+create policy projects_coordinator_write on public.projects
 for update
 using (public.current_role() in ('founder', 'coordinator'))
 with check (public.current_role() in ('founder', 'coordinator'));
 
 -- Volunteers and viewers can read published operational data
-create policy if not exists cases_read_basic on public.cases
+drop policy if exists cases_read_basic on public.cases;
+create policy cases_read_basic on public.cases
 for select
 using (public.current_role() in ('founder', 'coordinator', 'volunteer', 'viewer'));
 
-create policy if not exists projects_read_basic on public.projects
+drop policy if exists projects_read_basic on public.projects;
+create policy projects_read_basic on public.projects
 for select
 using (public.current_role() in ('founder', 'coordinator', 'volunteer', 'viewer'));
 
-create policy if not exists volunteers_read_basic on public.volunteers
+drop policy if exists volunteers_read_basic on public.volunteers;
+create policy volunteers_read_basic on public.volunteers
 for select
 using (public.current_role() in ('founder', 'coordinator'));
 
