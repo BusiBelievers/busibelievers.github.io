@@ -138,12 +138,47 @@ margin-top:12px;
 padding:18px;
 }
 
+.eligibility-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:12px;
+margin-top:12px;
+}
+
+.eligibility-list{
+max-height:260px;
+overflow:auto;
+padding-right:6px;
+}
+
+.eligibility-item{
+background:#1c2233;
+border:1px solid rgba(255,255,255,0.12);
+border-radius:10px;
+padding:10px;
+margin-bottom:8px;
+}
+
+.eligibility-ready{
+color:#7dffb1;
+font-weight:bold;
+}
+
+.eligibility-blocked{
+color:#ffe08a;
+font-weight:bold;
+}
+
 @media (max-width: 760px){
 .track-grid{
 grid-template-columns:1fr;
 }
 
 .resource-grid{
+grid-template-columns:1fr;
+}
+
+.eligibility-grid{
 grid-template-columns:1fr;
 }
 }
@@ -195,6 +230,21 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <h2>Growth & Sponsorship</h2>
 <a class="btn" href="participant-journey-map.html" style="display:inline-block;text-decoration:none;color:black;">Journey Maps</a>
 <a class="btn" href="sponsorship-tiers.html" style="display:inline-block;text-decoration:none;color:black;">Sponsorship Tiers</a>
+</div>
+</div>
+
+<div class="card">
+<h2>Curriculum Access Eligibility</h2>
+<p style="color:#d2d2d2;max-width:760px;">This checker mirrors the curriculum access gate. Full access requires participant email, agreement accepted, and status in Approved or In Progress.</p>
+<div class="eligibility-grid">
+<div>
+<h3 style="margin:0 0 8px;">Eligible Now</h3>
+<div id="eligibleCases" class="eligibility-list"></div>
+</div>
+<div>
+<h3 style="margin:0 0 8px;">Blocked Cases</h3>
+<div id="blockedCases" class="eligibility-list"></div>
+</div>
 </div>
 </div>
 
@@ -295,6 +345,7 @@ caseID: row.case_number || row.caseID || "BUSI-UNASSIGNED",
 project: row.need_type || row.project || "General Assistance",
 location: row.city || row.location || "San Antonio",
 status: normalizeStatus(row.status),
+email: row.contact_email || row.email || row.contactEmail || "",
 volunteersNeeded: Number(row.volunteers_needed ?? row.volunteersNeeded ?? 0),
 fundingGoal: Number(row.funding_goal ?? row.fundingGoal ?? 0),
 fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0),
@@ -327,7 +378,7 @@ localStorage.setItem("busiCases",JSON.stringify(cases));
 }
 
 function caseSelectColumns(){
-const base = "id, case_number, need_type, city, status, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at";
+const base = "id, case_number, need_type, city, status, contact_email, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at";
 return hasPublicColumn ? `${base}, is_public` : base;
 }
 
@@ -493,6 +544,53 @@ ${statusOptionsMarkup(c.status)}
 
 });
 
+renderEligibilityPanel();
+
+}
+
+function caseEligibility(c){
+const blockers = [];
+if(!String(c.email || "").trim()) blockers.push("Missing participant email");
+if(!Boolean(c.agreementAccepted)) blockers.push("Agreement not accepted");
+if(!["Approved", "In Progress"].includes(normalizeStatus(c.status))) blockers.push("Status must be Approved or In Progress");
+return {
+ready: blockers.length === 0,
+blockers
+};
+}
+
+function renderEligibilityPanel(){
+const eligibleContainer = document.getElementById("eligibleCases");
+const blockedContainer = document.getElementById("blockedCases");
+if(!eligibleContainer || !blockedContainer) return;
+
+const eligible = [];
+const blocked = [];
+
+cases.forEach((c) => {
+const result = caseEligibility(c);
+if(result.ready){
+eligible.push(c);
+}else{
+blocked.push({ case: c, blockers: result.blockers });
+}
+});
+
+eligibleContainer.innerHTML = eligible.length ? eligible.map((c) => `
+<div class="eligibility-item">
+<div><strong>${c.caseID}</strong> - ${c.project}</div>
+<div style="font-size:13px;color:#cfd6e5;">${c.email || "No email"} | ${c.status}</div>
+<div class="eligibility-ready">Ready for full curriculum access</div>
+</div>
+`).join("") : '<div class="eligibility-item">No cases are currently eligible.</div>';
+
+blockedContainer.innerHTML = blocked.length ? blocked.map((entry) => `
+<div class="eligibility-item">
+<div><strong>${entry.case.caseID}</strong> - ${entry.case.project}</div>
+<div style="font-size:13px;color:#cfd6e5;">${entry.case.email || "No email"} | ${entry.case.status}</div>
+<div class="eligibility-blocked">${entry.blockers.join("; ")}</div>
+</div>
+`).join("") : '<div class="eligibility-item">No blocked cases. All visible cases are access-ready.</div>';
 }
 
 async function persistCase(index){
