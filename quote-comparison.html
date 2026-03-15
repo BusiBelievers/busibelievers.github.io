@@ -33,13 +33,15 @@ display:block;
 font-weight:bold;
 margin-bottom:6px;
 }
-input, textarea{
+input, textarea, select{
 width:100%;
 padding:10px;
 border:none;
 border-radius:8px;
 box-sizing:border-box;
 margin-bottom:12px;
+background:#1a2335;
+color:white;
 }
 .summary{
 font-size:18px;
@@ -107,7 +109,17 @@ and audit-ready records for community assistance projects.
 </div>
 <div>
 <label for="serviceType">Service Type</label>
-<input id="serviceType" type="text" placeholder="Example: Vehicle Repair">
+<select id="serviceType">
+<option value="">-- Select Service Type --</option>
+<option>Vehicle Repair</option>
+<option>Home Repair</option>
+<option>Tree Removal</option>
+<option>Lawn Care</option>
+<option>Plumbing</option>
+<option>Property Maintenance</option>
+<option>General Assistance</option>
+<option>Other</option>
+</select>
 </div>
 <div>
 <label for="serviceDate">Review Date</label>
@@ -164,7 +176,7 @@ and audit-ready records for community assistance projects.
 <div class="grid">
 <div>
 <label for="directorName">Program Director Name</label>
-<input id="directorName" type="text" placeholder="Director full name">
+<input id="directorName" type="text" value="Bernard Mitchell">
 <label for="directorDate">Director Approval Date</label>
 <input id="directorDate" type="date">
 </div>
