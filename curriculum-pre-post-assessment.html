@@ -68,6 +68,7 @@ footer{border-top:1px solid #bbb !important;color:black !important;}
 <div><strong>Post Total:</strong> <span id="printPostTotal">0</span></div>
 <div><strong>Growth Delta:</strong> <span id="printGrowthDelta">0</span></div>
 <div><strong>Overall Rating:</strong> <span id="printOverallRating">Stable</span></div>
+<div><strong>Recommended Action:</strong> <span id="printRecommendedAction">Maintain current support plan and monitor progress.</span></div>
 </div>
 </div>
 
@@ -140,6 +141,7 @@ footer{border-top:1px solid #bbb !important;color:black !important;}
 <span>Overall Rating</span>
 <strong id="overallRating">Stable</strong>
 <small id="ratingNote">Little or no measurable change recorded yet.</small>
+<small id="recommendedAction">Maintain current support plan and monitor progress.</small>
 </div>
 </div>
 </div>
@@ -170,7 +172,7 @@ const value = Number(document.getElementById(id).value || 0);
 return Number.isFinite(value) ? value : 0;
 }
 
-function syncPrintSummary(preTotal, postTotal, delta, ratingLabel){
+function syncPrintSummary(preTotal, postTotal, delta, ratingLabel, actionLabel){
 document.getElementById("printParticipantName").textContent = document.getElementById("participantName").value || "Not entered";
 document.getElementById("printCaseId").textContent = document.getElementById("caseId").value || "Not entered";
 document.getElementById("printProgramTrack").textContent = document.getElementById("programTrack").value || "Not selected";
@@ -179,13 +181,14 @@ document.getElementById("printPreTotal").textContent = String(preTotal);
 document.getElementById("printPostTotal").textContent = String(postTotal);
 document.getElementById("printGrowthDelta").textContent = String(delta);
 document.getElementById("printOverallRating").textContent = ratingLabel;
+document.getElementById("printRecommendedAction").textContent = actionLabel;
 }
 
 function ratingFromDelta(delta){
-if(delta <= -2) return { label: "Declining", note: "Scores show meaningful regression and may require intervention.", className: "rating-declining" };
-if(delta <= 1) return { label: "Stable", note: "Scores show limited movement from baseline.", className: "rating-stable" };
-if(delta <= 5) return { label: "Improving", note: "Scores show positive measurable growth.", className: "rating-improving" };
-return { label: "Strong Improvement", note: "Scores show substantial growth across categories.", className: "rating-strong" };
+if(delta <= -2) return { label: "Declining", note: "Scores show meaningful regression and may require intervention.", action: "Escalate review, increase coaching, and reassess barriers immediately.", className: "rating-declining" };
+if(delta <= 1) return { label: "Stable", note: "Scores show limited movement from baseline.", action: "Maintain current support plan and monitor progress.", className: "rating-stable" };
+if(delta <= 5) return { label: "Improving", note: "Scores show positive measurable growth.", action: "Continue coaching plan and reinforce successful habits.", className: "rating-improving" };
+return { label: "Strong Improvement", note: "Scores show substantial growth across categories.", action: "Advance participant goals and consider step-down support planning.", className: "rating-strong" };
 }
 
 function updateScores(){
@@ -216,8 +219,9 @@ const rating = ratingFromDelta(delta);
 document.getElementById("growthDelta").textContent = String(delta);
 document.getElementById("overallRating").textContent = rating.label;
 document.getElementById("ratingNote").textContent = rating.note;
+document.getElementById("recommendedAction").textContent = rating.action;
 document.getElementById("overallRatingBox").className = `summary-box ${rating.className}`;
-syncPrintSummary(preTotal, postTotal, delta, rating.label);
+syncPrintSummary(preTotal, postTotal, delta, rating.label, rating.action);
 }
 
 document.querySelectorAll(".score-input").forEach((input) => {
