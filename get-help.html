@@ -101,6 +101,16 @@ background:rgba(241,196,15,0.18);
 color:#ffe08a;
 }
 
+.helper-text{
+color:#d7d7d7;
+font-size:14px;
+margin:-4px 0 12px;
+}
+
+.hidden-field{
+display:none;
+}
+
 </style>
 
 </head>
@@ -138,6 +148,25 @@ including scheduling expectations, stewardship, and referral commitment.
 <input type="email" name="email" placeholder="Email Address" required>
 
 <input type="text" name="phone" placeholder="Phone Number">
+
+<select name="citySelect" id="citySelect" required>
+<option value="">Select Texas City</option>
+<option>San Antonio</option>
+<option>Houston</option>
+<option>Dallas</option>
+<option>Austin</option>
+<option>Fort Worth</option>
+<option>El Paso</option>
+<option>Arlington</option>
+<option>Corpus Christi</option>
+<option>Lubbock</option>
+<option>Waco</option>
+<option>Other</option>
+</select>
+
+<input type="text" name="cityOther" id="cityOther" class="hidden-field" placeholder="Enter Other Texas City / Area">
+
+<p class="helper-text">Choose the closest Texas city. If your area is not listed, choose Other and type it in.</p>
 
 <select name="assistance">
 
@@ -185,6 +214,17 @@ setSyncStatus(supabaseClient ? "Supabase configured. Submission will attempt liv
 
 let cases = JSON.parse(localStorage.getItem("busiCases")) || [];
 
+function getSelectedCity(form){
+if(form.citySelect.value === "Other"){
+return form.cityOther.value.trim();
+}
+return form.citySelect.value.trim();
+}
+
+document.getElementById("citySelect").addEventListener("change", function(){
+document.getElementById("cityOther").style.display = this.value === "Other" ? "block" : "none";
+});
+
 function generateCase(){
 
 let number = cases.length + 1;
@@ -204,11 +244,12 @@ return;
 }
 
 let caseID = generateCase();
+let selectedCity = getSelectedCity(form) || "San Antonio";
 
 let newCase = {
 caseID: caseID,
 project: form.assistance.value,
-location: "San Antonio",
+location: selectedCity,
 status: "Pending Review",
 agreementAccepted: true,
 agreementAcceptedAt: new Date().toISOString()
@@ -225,7 +266,7 @@ const { error } = await supabaseClient
 .insert({
 case_number: newCase.caseID,
 person_name: form.name.value,
-city: "San Antonio",
+city: selectedCity,
 need_type: form.assistance.value || "General Assistance",
 status: "Pending Review",
 agreement_accepted: true,

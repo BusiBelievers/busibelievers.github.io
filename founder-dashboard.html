@@ -38,12 +38,27 @@ border-radius:16px;
 border:1px solid rgba(255,255,255,0.1);
 }
 
-input,select{
+input,select,textarea{
 width:100%;
 padding:10px;
 margin-bottom:10px;
 border-radius:8px;
 border:none;
+}
+
+textarea{
+min-height:88px;
+resize:vertical;
+}
+
+.helper-text{
+color:#d2d2d2;
+font-size:14px;
+margin:-2px 0 10px;
+}
+
+.hidden-field{
+display:none;
 }
 
 .btn{
@@ -254,9 +269,35 @@ funding goals, volunteers, and project progress across the BUSI platform.
 
 <input id="projectName" placeholder="Project Name">
 
-<input id="location" placeholder="Location">
+<select id="locationSelect">
+<option value="">Select Texas City</option>
+<option>San Antonio</option>
+<option>Houston</option>
+<option>Dallas</option>
+<option>Austin</option>
+<option>Fort Worth</option>
+<option>El Paso</option>
+<option>Arlington</option>
+<option>Corpus Christi</option>
+<option>Lubbock</option>
+<option>Waco</option>
+<option>Other</option>
+</select>
+<input id="locationOther" class="hidden-field" placeholder="Enter Other Texas City / Area">
 
-<input id="volunteersNeeded" placeholder="Volunteers Needed">
+<select id="volunteersNeededSelect">
+<option value="">Volunteers Needed</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="Other">Other</option>
+</select>
+<input id="volunteersNeededOther" class="hidden-field" type="number" min="0" placeholder="Enter Other Volunteer Count">
+
+<p class="helper-text">Optional photo links are easiest when pasted from Google Drive, Dropbox, iCloud, or another shareable image URL.</p>
+<input id="beforePhotoUrl" placeholder="Before Photo Link (optional)">
+<input id="afterPhotoUrl" placeholder="After Photo Link (optional)">
+<textarea id="storySummary" placeholder="Community Story Summary (optional)"></textarea>
 
 <select id="status">
 <option>Pending Review</option>
@@ -289,9 +330,34 @@ into projects here.
 
 <input id="intakeProject" placeholder="Type of Assistance (Example: Vehicle Repair)">
 
-<input id="intakeLocation" placeholder="City / Area">
+<select id="intakeLocationSelect">
+<option value="">Select Texas City</option>
+<option>San Antonio</option>
+<option>Houston</option>
+<option>Dallas</option>
+<option>Austin</option>
+<option>Fort Worth</option>
+<option>El Paso</option>
+<option>Arlington</option>
+<option>Corpus Christi</option>
+<option>Lubbock</option>
+<option>Waco</option>
+<option>Other</option>
+</select>
+<input id="intakeLocationOther" class="hidden-field" placeholder="Enter Other Texas City / Area">
 
-<input id="intakeVolunteers" placeholder="Volunteers Needed">
+<select id="intakeVolunteersSelect">
+<option value="">Volunteers Needed</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="Other">Other</option>
+</select>
+<input id="intakeVolunteersOther" class="hidden-field" type="number" min="0" placeholder="Enter Other Volunteer Count">
+
+<input id="intakeBeforePhotoUrl" placeholder="Before Photo Link (optional)">
+<input id="intakeAfterPhotoUrl" placeholder="After Photo Link (optional)">
+<textarea id="intakeStorySummary" placeholder="Community Story Summary (optional)"></textarea>
 
 <select id="intakeStatus">
 <option>Pending Review</option>
@@ -320,7 +386,61 @@ const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient(
 
 let cases = [];
 let hasPublicColumn = true;
+let hasPhotoColumns = true;
+let hasStoryColumns = true;
 const STATUS_OPTIONS = ["Pending Review", "Approved", "In Progress", "On Hold", "Completed"];
+
+function isMissingColumnError(error, pattern){
+return Boolean(error) && pattern.test(String(error.message || ""));
+}
+
+async function runCasesQuery(operation){
+let result = await operation();
+
+if(isMissingColumnError(result.error, /story_summary|community_story|column/i) && hasStoryColumns){
+hasStoryColumns = false;
+result = await operation();
+}
+
+if(isMissingColumnError(result.error, /before_photo_url|after_photo_url|column/i) && hasPhotoColumns){
+hasPhotoColumns = false;
+result = await operation();
+}
+
+if(isMissingColumnError(result.error, /is_public|column/i) && hasPublicColumn){
+hasPublicColumn = false;
+result = await operation();
+}
+
+return result;
+}
+
+function toggleConditionalField(selectId, wrapperId){
+const select = document.getElementById(selectId);
+const wrapper = document.getElementById(wrapperId);
+if(!select || !wrapper) return;
+wrapper.style.display = select.value === "Other" ? "block" : "none";
+}
+
+function getSelectedLocation(selectId, otherId){
+const select = document.getElementById(selectId);
+const other = document.getElementById(otherId);
+if(!select) return "";
+if(select.value === "Other"){
+return String(other?.value || "").trim();
+}
+return String(select.value || "").trim();
+}
+
+function getVolunteerCount(selectId, otherId){
+const select = document.getElementById(selectId);
+const other = document.getElementById(otherId);
+if(!select) return 0;
+if(select.value === "Other"){
+return Number(other?.value || 0) || 0;
+}
+return Number(select.value || 0) || 0;
+}
 
 function normalizeStatus(value){
 const raw = String(value || "Pending Review").trim().toLowerCase();
@@ -346,12 +466,16 @@ project: row.need_type || row.project || "General Assistance",
 location: row.city || row.location || "San Antonio",
 status: normalizeStatus(row.status),
 email: row.contact_email || row.email || row.contactEmail || "",
+beforePhotoUrl: row.before_photo_url || row.beforePhotoUrl || "",
+afterPhotoUrl: row.after_photo_url || row.afterPhotoUrl || "",
+storySummary: row.story_summary || row.storySummary || "",
 volunteersNeeded: Number(row.volunteers_needed ?? row.volunteersNeeded ?? 0),
 fundingGoal: Number(row.funding_goal ?? row.fundingGoal ?? 0),
 fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0),
 agreementAccepted: Boolean(row.agreement_accepted ?? row.agreementAccepted ?? false),
 agreementAcceptedAt: row.agreement_accepted_at || row.agreementAcceptedAt || null,
-isPublic: Boolean(row.is_public ?? row.isPublic ?? false)
+isPublic: Boolean(row.is_public ?? row.isPublic ?? false),
+communityStory: Boolean(row.community_story ?? row.communityStory ?? false)
 };
 }
 
@@ -379,7 +503,11 @@ localStorage.setItem("busiCases",JSON.stringify(cases));
 
 function caseSelectColumns(){
 const base = "id, case_number, need_type, city, status, contact_email, volunteers_needed, funding_goal, funding_raised, agreement_accepted, agreement_accepted_at";
-return hasPublicColumn ? `${base}, is_public` : base;
+const optional = [];
+if(hasPublicColumn) optional.push("is_public");
+if(hasPhotoColumns) optional.push("before_photo_url", "after_photo_url");
+if(hasStoryColumns) optional.push("story_summary", "community_story");
+return optional.length ? `${base}, ${optional.join(", ")}` : base;
 }
 
 function buildCasePayload(c){
@@ -398,6 +526,16 @@ if(hasPublicColumn){
 payload.is_public = Boolean(c.isPublic);
 }
 
+if(hasPhotoColumns){
+payload.before_photo_url = c.beforePhotoUrl || null;
+payload.after_photo_url = c.afterPhotoUrl || null;
+}
+
+if(hasStoryColumns){
+payload.story_summary = c.storySummary || null;
+payload.community_story = Boolean(c.communityStory);
+}
+
 return payload;
 }
 
@@ -410,20 +548,11 @@ return;
 }
 
 try{
-let { data, error } = await supabaseClient
-.from("cases")
-.select(caseSelectColumns())
-.order("created_at", { ascending: false })
-.limit(300);
-
-if(error && hasPublicColumn && /is_public|column/i.test(String(error.message || ""))){
-hasPublicColumn = false;
-({ data, error } = await supabaseClient
+const { data, error } = await runCasesQuery(() => supabaseClient
 .from("cases")
 .select(caseSelectColumns())
 .order("created_at", { ascending: false })
 .limit(300));
-}
 
 if(error){
 setSyncStatus("Supabase read failed. Founder dashboard is showing local fallback data.", false);
@@ -448,9 +577,12 @@ async function createCase(){
 let caseID = nextCaseID();
 
 let project = document.getElementById("projectName").value;
-let location = document.getElementById("location").value;
-let volunteers = Number(document.getElementById("volunteersNeeded").value) || 0;
+let location = getSelectedLocation("locationSelect", "locationOther");
+let volunteers = getVolunteerCount("volunteersNeededSelect", "volunteersNeededOther");
 let status = document.getElementById("status").value;
+let beforePhotoUrl = document.getElementById("beforePhotoUrl").value.trim();
+let afterPhotoUrl = document.getElementById("afterPhotoUrl").value.trim();
+let storySummary = document.getElementById("storySummary").value.trim();
 
 if(!project || !location){
 alert("Please enter both Project Name and Location.");
@@ -463,23 +595,27 @@ project:project,
 location:location,
 status:status,
 volunteersNeeded:volunteers,
+beforePhotoUrl:beforePhotoUrl,
+afterPhotoUrl:afterPhotoUrl,
+storySummary:storySummary,
 fundingGoal:0,
 fundingRaised:0,
 agreementAccepted:false,
 agreementAcceptedAt:null,
-isPublic:false
+isPublic:false,
+communityStory:false
 });
 
 if(supabaseClient){
 try{
-const { data, error } = await supabaseClient
+const { data, error } = await runCasesQuery(() => supabaseClient
 .from("cases")
 .insert({
 case_number: newCase.caseID,
 ...buildCasePayload(newCase)
 })
 .select(caseSelectColumns())
-.single();
+.single());
 
 if(!error && data){
 cases.unshift(normalizeCase(data));
@@ -515,11 +651,18 @@ container.innerHTML+=`
 Location: ${c.location}<br>
 Status: ${c.status}<br>
 Agreement: ${c.agreementAccepted ? "Accepted" : "Not Captured"}${c.agreementAcceptedAt ? ` (${new Date(c.agreementAcceptedAt).toLocaleDateString()})` : ""}<br>
+${c.beforePhotoUrl ? `<a href="${c.beforePhotoUrl}" target="_blank" rel="noopener noreferrer">Before Photo</a><br>` : ""}
+${c.afterPhotoUrl ? `<a href="${c.afterPhotoUrl}" target="_blank" rel="noopener noreferrer">After Photo</a><br>` : ""}
 
 ${hasPublicColumn ? `<label style="display:block;margin:8px 0;">
 <input type="checkbox" ${c.isPublic ? "checked" : ""} onchange="updatePublic(${index},this.checked)">
 Public Listing (show on public pages)
 </label>` : `<p style="margin:8px 0;color:#ffe08a">Public Listing toggle unavailable until schema update is applied.</p>`}
+
+${hasStoryColumns ? `<label style="display:block;margin:8px 0;">
+<input type="checkbox" ${c.communityStory ? "checked" : ""} onchange="updateCommunityStory(${index},this.checked)">
+Feature In Community Stories
+</label>` : `<p style="margin:8px 0;color:#ffe08a">Community Stories publishing fields are local-only until schema update is applied.</p>`}
 
 Funding Goal:
 <input type="number" value="${c.fundingGoal}" onchange="updateGoal(${index},this.value)">
@@ -530,12 +673,23 @@ Funding Raised:
 Volunteers Needed:
 <input type="number" value="${c.volunteersNeeded}" onchange="updateVolunteers(${index},this.value)">
 
+Before Photo Link:
+<input type="text" value="${c.beforePhotoUrl || ""}" onchange="updateBeforePhoto(${index},this.value)">
+
+After Photo Link:
+<input type="text" value="${c.afterPhotoUrl || ""}" onchange="updateAfterPhoto(${index},this.value)">
+
+Community Story Summary:
+<textarea onchange="updateStorySummary(${index},this.value)" placeholder="Short public story summary for Community Stories">${c.storySummary || ""}</textarea>
+
 <select onchange="updateStatus(${index},this.value)">
 ${statusOptionsMarkup(c.status)}
 </select>
 
 <br><br>
 
+<button class="btn" onclick="publishStory(${index})" style="margin-right:8px;">Publish Story</button>
+<a class="btn" href="project-story.html?case=${encodeURIComponent(c.caseID)}" style="display:inline-block;text-decoration:none;color:black;margin-right:8px;">View Story</a>
 <button class="btn" onclick="deleteCase(${index})">Delete</button>
 
 </div>
@@ -606,10 +760,10 @@ return;
 }
 
 try{
-await supabaseClient
+await runCasesQuery(() => supabaseClient
 .from("cases")
 .update(buildCasePayload(c))
-.eq("id", c.id);
+.eq("id", c.id));
 }catch(_){
 }
 }
@@ -629,6 +783,28 @@ cases[index].volunteersNeeded=Number(value);
 persistCase(index);
 }
 
+function updateBeforePhoto(index,value){
+cases[index].beforePhotoUrl=String(value || "").trim();
+persistCase(index);
+renderCases();
+}
+
+function updateAfterPhoto(index,value){
+cases[index].afterPhotoUrl=String(value || "").trim();
+persistCase(index);
+renderCases();
+}
+
+function updateStorySummary(index,value){
+cases[index].storySummary=String(value || "").trim();
+persistCase(index);
+}
+
+function updateCommunityStory(index,value){
+cases[index].communityStory=Boolean(value);
+persistCase(index);
+}
+
 function updateStatus(index,value){
 cases[index].status=value;
 persistCase(index);
@@ -638,6 +814,16 @@ renderCases();
 function updatePublic(index,value){
 cases[index].isPublic=Boolean(value);
 persistCase(index);
+}
+
+function publishStory(index){
+cases[index].status="Completed";
+cases[index].communityStory=true;
+if(hasPublicColumn){
+cases[index].isPublic=true;
+}
+persistCase(index);
+renderCases();
 }
 
 async function deleteCase(index){
@@ -663,9 +849,12 @@ async function convertRequest(){
 let caseID = nextCaseID();
 
 let project = document.getElementById("intakeProject").value;
-let location = document.getElementById("intakeLocation").value;
-let volunteers = Number(document.getElementById("intakeVolunteers").value) || 0;
+let location = getSelectedLocation("intakeLocationSelect", "intakeLocationOther");
+let volunteers = getVolunteerCount("intakeVolunteersSelect", "intakeVolunteersOther");
 let status = document.getElementById("intakeStatus").value;
+let beforePhotoUrl = document.getElementById("intakeBeforePhotoUrl").value.trim();
+let afterPhotoUrl = document.getElementById("intakeAfterPhotoUrl").value.trim();
+let storySummary = document.getElementById("intakeStorySummary").value.trim();
 
 if(!project || !location){
 alert("Please enter both assistance type and city/area.");
@@ -678,23 +867,27 @@ project:project,
 location:location,
 status:status,
 volunteersNeeded:volunteers,
+beforePhotoUrl:beforePhotoUrl,
+afterPhotoUrl:afterPhotoUrl,
+storySummary:storySummary,
 fundingGoal:0,
 fundingRaised:0,
 agreementAccepted:false,
 agreementAcceptedAt:null,
-isPublic:false
+isPublic:false,
+communityStory:false
 });
 
 if(supabaseClient){
 try{
-const { data, error } = await supabaseClient
+const { data, error } = await runCasesQuery(() => supabaseClient
 .from("cases")
 .insert({
 case_number: newCase.caseID,
 ...buildCasePayload(newCase)
 })
 .select(caseSelectColumns())
-.single();
+.single());
 
 if(!error && data){
 cases.unshift(normalizeCase(data));
@@ -716,6 +909,22 @@ renderCases();
 alert("Assistance request converted to BUSI project.");
 
 }
+
+["locationSelect","intakeLocationSelect","volunteersNeededSelect","intakeVolunteersSelect"].forEach((id) => {
+const element = document.getElementById(id);
+if(!element) return;
+element.addEventListener("change", () => {
+if(id === "locationSelect") toggleConditionalField("locationSelect", "locationOther");
+if(id === "intakeLocationSelect") toggleConditionalField("intakeLocationSelect", "intakeLocationOther");
+if(id === "volunteersNeededSelect") toggleConditionalField("volunteersNeededSelect", "volunteersNeededOther");
+if(id === "intakeVolunteersSelect") toggleConditionalField("intakeVolunteersSelect", "intakeVolunteersOther");
+});
+});
+
+toggleConditionalField("locationSelect", "locationOther");
+toggleConditionalField("intakeLocationSelect", "intakeLocationOther");
+toggleConditionalField("volunteersNeededSelect", "volunteersNeededOther");
+toggleConditionalField("intakeVolunteersSelect", "intakeVolunteersOther");
 
 loadCases();
   
