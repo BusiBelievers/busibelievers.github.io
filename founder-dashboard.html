@@ -184,6 +184,16 @@ color:#ffe08a;
 font-weight:bold;
 }
 
+.certificate-ready{
+color:#7dffb1;
+font-weight:bold;
+}
+
+.certificate-hold{
+color:#ffd76a;
+font-weight:bold;
+}
+
 @media (max-width: 760px){
 .track-grid{
 grid-template-columns:1fr;
@@ -396,6 +406,7 @@ let cases = [];
 let hasPublicColumn = true;
 let hasPhotoColumns = true;
 let hasStoryColumns = true;
+let hasCertificateColumns = true;
 const STATUS_OPTIONS = ["Pending Review", "Approved", "In Progress", "On Hold", "Completed"];
 
 function isMissingColumnError(error, pattern){
@@ -407,6 +418,11 @@ let result = await operation();
 
 if(isMissingColumnError(result.error, /story_summary|community_story|column/i) && hasStoryColumns){
 hasStoryColumns = false;
+result = await operation();
+}
+
+if(isMissingColumnError(result.error, /payment_arrangement_documented|sliding_scale_approved|column/i) && hasCertificateColumns){
+hasCertificateColumns = false;
 result = await operation();
 }
 
@@ -483,8 +499,14 @@ fundingRaised: Number(row.funding_raised ?? row.fundingRaised ?? 0),
 agreementAccepted: Boolean(row.agreement_accepted ?? row.agreementAccepted ?? false),
 agreementAcceptedAt: row.agreement_accepted_at || row.agreementAcceptedAt || null,
 isPublic: Boolean(row.is_public ?? row.isPublic ?? false),
-communityStory: Boolean(row.community_story ?? row.communityStory ?? false)
+communityStory: Boolean(row.community_story ?? row.communityStory ?? false),
+paymentArrangementDocumented: Boolean(row.payment_arrangement_documented ?? row.paymentArrangementDocumented ?? false),
+slidingScaleApproved: Boolean(row.sliding_scale_approved ?? row.slidingScaleApproved ?? false)
 };
+}
+
+function certificateEligible(c){
+return Boolean(c.paymentArrangementDocumented) || Boolean(c.slidingScaleApproved);
 }
 
 function setSyncStatus(message,isLive){
@@ -515,6 +537,7 @@ const optional = [];
 if(hasPublicColumn) optional.push("is_public");
 if(hasPhotoColumns) optional.push("before_photo_url", "after_photo_url");
 if(hasStoryColumns) optional.push("story_summary", "community_story");
+if(hasCertificateColumns) optional.push("payment_arrangement_documented", "sliding_scale_approved");
 return optional.length ? `${base}, ${optional.join(", ")}` : base;
 }
 
@@ -543,6 +566,11 @@ payload.after_photo_url = c.afterPhotoUrl || null;
 if(hasStoryColumns){
 payload.story_summary = c.storySummary || null;
 payload.community_story = Boolean(c.communityStory);
+}
+
+if(hasCertificateColumns){
+payload.payment_arrangement_documented = Boolean(c.paymentArrangementDocumented);
+payload.sliding_scale_approved = Boolean(c.slidingScaleApproved);
 }
 
 return payload;
@@ -614,7 +642,9 @@ fundingRaised:0,
 agreementAccepted:false,
 agreementAcceptedAt:null,
 isPublic:false,
-communityStory:false
+communityStory:false,
+paymentArrangementDocumented:false,
+slidingScaleApproved:false
 });
 
 if(supabaseClient){
@@ -676,6 +706,20 @@ ${hasStoryColumns ? `<label style="display:block;margin:8px 0;">
 <input type="checkbox" ${c.communityStory ? "checked" : ""} onchange="updateCommunityStory(${index},this.checked)">
 Feature In Community Stories
 </label>` : `<p style="margin:8px 0;color:#ffe08a">Community Stories publishing fields are local-only until schema update is applied.</p>`}
+
+<div style="display:block;margin:8px 0;padding:10px;border:1px solid rgba(212,175,55,0.35);border-radius:10px;background:rgba(212,175,55,0.08);">
+<div style="font-weight:bold;margin-bottom:6px;">Certificate Release Checklist</div>
+<label style="display:block;margin:6px 0;">
+<input type="checkbox" ${c.paymentArrangementDocumented ? "checked" : ""} onchange="updatePaymentArrangement(${index},this.checked)">
+Payment arrangements documented
+</label>
+<label style="display:block;margin:6px 0;">
+<input type="checkbox" ${c.slidingScaleApproved ? "checked" : ""} onchange="updateSlidingScaleApproval(${index},this.checked)">
+Sliding-scale approval completed
+</label>
+<div class="${certificateEligible(c) ? "certificate-ready" : "certificate-hold"}">${certificateEligible(c) ? "Certificate Eligible" : "Certificate Hold: document payment arrangement or complete sliding-scale approval"}</div>
+${hasCertificateColumns ? "" : `<p style="margin:6px 0 0;color:#ffe08a;font-size:13px;">Checklist is local-only until schema update is applied.</p>`}
+</div>
 
 Funding Goal:
 <input type="number" value="${c.fundingGoal}" onchange="updateGoal(${index},this.value)">
@@ -824,6 +868,18 @@ cases[index].communityStory=Boolean(value);
 persistCase(index);
 }
 
+function updatePaymentArrangement(index,value){
+cases[index].paymentArrangementDocumented=Boolean(value);
+persistCase(index);
+renderCases();
+}
+
+function updateSlidingScaleApproval(index,value){
+cases[index].slidingScaleApproved=Boolean(value);
+persistCase(index);
+renderCases();
+}
+
 function updateStatus(index,value){
 cases[index].status=value;
 persistCase(index);
@@ -896,7 +952,9 @@ fundingRaised:0,
 agreementAccepted:false,
 agreementAcceptedAt:null,
 isPublic:false,
-communityStory:false
+communityStory:false,
+paymentArrangementDocumented:false,
+slidingScaleApproved:false
 });
 
 if(supabaseClient){

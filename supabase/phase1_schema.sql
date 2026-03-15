@@ -33,6 +33,8 @@ create table if not exists public.cases (
   after_photo_url text,
   story_summary text,
   community_story boolean not null default false,
+  payment_arrangement_documented boolean not null default false,
+  sliding_scale_approved boolean not null default false,
   priority text default 'Normal' check (priority in ('Low', 'Normal', 'High', 'Urgent')),
   assigned_to uuid references public.users(id),
   created_by uuid references public.users(id),
@@ -49,6 +51,8 @@ alter table public.cases add column if not exists before_photo_url text;
 alter table public.cases add column if not exists after_photo_url text;
 alter table public.cases add column if not exists story_summary text;
 alter table public.cases add column if not exists community_story boolean not null default false;
+alter table public.cases add column if not exists payment_arrangement_documented boolean not null default false;
+alter table public.cases add column if not exists sliding_scale_approved boolean not null default false;
 alter table public.cases add column if not exists is_public boolean not null default false;
 
 do $$
