@@ -222,6 +222,25 @@ create policy volunteers_read_basic on public.volunteers
 for select
 using (public.current_role() in ('founder', 'coordinator'));
 
+-- Website public access (anon key) for live shared pages
+drop policy if exists cases_public_read on public.cases;
+create policy cases_public_read on public.cases
+for select
+to anon
+using (status in ('Pending Review', 'Approved', 'In Progress', 'Completed', 'Pending', 'Active', 'On Hold'));
+
+drop policy if exists cases_public_intake_insert on public.cases;
+create policy cases_public_intake_insert on public.cases
+for insert
+to anon
+with check (
+  case_number is not null
+  and need_type is not null
+  and city is not null
+  and agreement_accepted = true
+  and status in ('Pending Review', 'Approved', 'In Progress', 'Completed', 'Pending', 'Active', 'On Hold')
+);
+
 insert into public.cases (case_number, city, need_type, status)
 values
 ('BUSI-006', 'San Antonio', 'Tree Removal', 'Completed'),
