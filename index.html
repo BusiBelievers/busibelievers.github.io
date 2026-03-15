@@ -1720,6 +1720,19 @@ Volunteer for Project
 
 }
 
+(function prefillVolunteerProjectFromUrl(){
+const params = new URLSearchParams(window.location.search);
+const projectId = params.get("project");
+if(!projectId){
+return;
+}
+
+const projectInput = document.getElementById("project");
+if(projectInput && !projectInput.value){
+projectInput.value = projectId;
+}
+})();
+
 </script>
 
 

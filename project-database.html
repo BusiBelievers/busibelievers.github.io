@@ -86,10 +86,8 @@ Busi Believers Incorporated.
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
-
-const SUPABASE_URL = "";
-const SUPABASE_ANON_KEY = "";
 
 const sampleCases = [
 { case_number: "BUSI-006", need_type: "Tree Removal", status: "Completed", city: "San Antonio" },
@@ -161,15 +159,14 @@ return sampleCases.map(normalizeRow);
 }
 
 async function loadCases(){
-const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+const client = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
 
-if(!hasSupabaseConfig || !window.supabase){
+if(!client){
 renderCases(loadLocalCases());
 return;
 }
 
 try{
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const { data, error } = await client
 .from("cases")
 .select("case_number, need_type, status, city")
