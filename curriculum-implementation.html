@@ -24,11 +24,17 @@ input[type="number"]{padding:10px;border:none;border-radius:8px;width:140px;}
 .access-full{background:rgba(46,204,113,0.18);color:#7dffb1;}
 .participant-only.locked{display:none !important;}
 .preview-note{background:rgba(241,196,15,0.14);border:1px solid rgba(241,196,15,0.35);padding:12px;border-radius:12px;margin-top:10px;color:#ffe08a;}
+.action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.action-row .btn{margin:0;}
 hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
+@media (max-width: 760px){
+.action-row{flex-direction:column;align-items:stretch;}
+.action-row .btn{text-align:center;}
+}
 .org-header{display:flex;align-items:center;gap:20px;padding:14px 20px;background:#0b1220;border-bottom:3px solid #d4af37;}
-.org-header img{height:60px;}
-.org-info{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.5;color:white;}
-.org-info strong{font-size:15px;}
+.org-header img{height:92px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px #d4af37);}
+.org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
+.org-info strong{font-size:18px;}
 .org-info em{color:#d4af37;}
 @media print{body{background:white!important;color:black!important;}.org-header{background:white!important;border-bottom:3px solid #d4af37;}.org-info strong,.org-info span{color:black!important;}}.quick-actions-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(212,175,55,0.35);} 
 .quick-actions-strip strong{color:#f4e2a7;font-size:14px;}
@@ -39,7 +45,7 @@ hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
 </style>
 </head>
 <body>
-<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div></div>
+<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div><a href="index.html" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#d4af37;color:#0b1220;font-weight:bold;font-size:14px;border-radius:999px;text-decoration:none;">&#127968; Home</a></div>
 <div class="quick-actions-strip" aria-label="Internal quick actions">
 <strong>Quick Actions:</strong>
 <div class="quick-actions-links">
@@ -63,6 +69,22 @@ hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
 Balanced deployment model: one mission, two distinct program tracks, and three invoice/payment pathways.
 This structure supports court clarity, ministry alignment, donor confidence, and clean audit records.
 </p>
+
+<div class="card">
+<h2>Start Here: Add Participant In 4 Steps</h2>
+<p class="muted">Use this quick flow to avoid guesswork and get participants into the correct curriculum track fast.</p>
+<ol>
+<li>Open Founder Dashboard and complete <strong>Add Participant to Curriculum</strong>.</li>
+<li>Select track: Program A (Anger Management) or Program B (Faith & Community).</li>
+<li>Set participant status to <strong>Approved</strong> or <strong>In Progress</strong> and keep agreement accepted.</li>
+<li>Share case ID and participant email, then verify access in the Curriculum Access panel below.</li>
+</ol>
+<div class="action-row">
+<a class="btn" href="founder-dashboard.html#curriculumEnrollmentPanel">Add Participant to Curriculum</a>
+<a class="btn" href="founder-dashboard.html#curriculumRosterPanel">Open Participant Roster</a>
+<a class="btn" href="get-help.html">Public Enrollment Request Form</a>
+</div>
+</div>
 
 <div class="card" id="curriculumAccessCard">
 <h2>Curriculum Access</h2>

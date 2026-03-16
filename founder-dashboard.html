@@ -187,6 +187,33 @@ margin-top:12px;
 padding:18px;
 }
 
+.resource-actions{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:8px;
+}
+
+.resource-actions .btn{
+display:inline-block;
+text-decoration:none;
+color:black;
+}
+
+.action-row{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-top:8px;
+}
+
+.action-row .btn{
+display:inline-block;
+text-decoration:none;
+color:black;
+margin:0 !important;
+}
+
 .eligibility-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
@@ -218,6 +245,52 @@ color:#ffe08a;
 font-weight:bold;
 }
 
+.enrollment-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+margin-top:10px;
+}
+
+.roster-list{
+max-height:260px;
+overflow:auto;
+padding-right:6px;
+}
+
+.roster-item{
+background:#1c2233;
+border:1px solid rgba(255,255,255,0.12);
+border-radius:10px;
+padding:10px;
+margin-bottom:8px;
+}
+
+.roster-pill{
+display:inline-block;
+padding:3px 8px;
+border-radius:999px;
+font-size:12px;
+font-weight:bold;
+margin-right:6px;
+}
+
+.roster-track-a{
+background:rgba(46,204,113,0.16);
+color:#9dffc0;
+}
+
+.roster-track-b{
+background:rgba(52,152,219,0.18);
+color:#9fd6ff;
+}
+
+.access-message{
+width:100%;
+min-height:96px;
+margin-top:10px;
+}
+
 .certificate-ready{
 color:#7dffb1;
 font-weight:bold;
@@ -237,15 +310,37 @@ grid-template-columns:1fr;
 grid-template-columns:1fr;
 }
 
+.resource-actions{
+flex-direction:column;
+align-items:stretch;
+}
+
+.resource-actions .btn{
+width:100%;
+box-sizing:border-box;
+text-align:center;
+}
+
+.action-row{
+flex-direction:column;
+align-items:stretch;
+}
+
+.action-row .btn{
+width:100%;
+box-sizing:border-box;
+text-align:center;
+}
+
 .eligibility-grid{
 grid-template-columns:1fr;
 }
 }
 
 .org-header{display:flex;align-items:center;gap:20px;padding:14px 20px;background:#0b1220;border-bottom:3px solid #d4af37;}
-.org-header img{height:60px;}
-.org-info{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.5;color:white;}
-.org-info strong{font-size:15px;}
+.org-header img{height:92px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px #d4af37);}
+.org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
+.org-info strong{font-size:18px;}
 .org-info em{color:#d4af37;}
 @media print{body{background:white!important;color:black!important;}.org-header{background:white!important;border-bottom:3px solid #d4af37;}.org-info strong,.org-info span{color:black!important;}}.quick-actions-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(212,175,55,0.35);} 
 .quick-actions-strip strong{color:#f4e2a7;font-size:14px;}
@@ -258,7 +353,7 @@ grid-template-columns:1fr;
 </head>
 
 <body>
-<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div></div>
+<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div><a href="index.html" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#d4af37;color:#0b1220;font-weight:bold;font-size:14px;border-radius:999px;text-decoration:none;">&#127968; Home</a></div>
 <div class="quick-actions-strip" aria-label="Internal quick actions">
 <strong>Quick Actions:</strong>
 <div class="quick-actions-links">
@@ -310,14 +405,18 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <div class="resource-grid">
 <div class="card">
 <h2>Leadership & Policy</h2>
-<a class="btn" href="leadership-dashboard.html" style="display:inline-block;text-decoration:none;color:black;">Leadership Dashboard</a>
-<a class="btn" href="program-operations-policy.html" style="display:inline-block;text-decoration:none;color:black;">Operations Policy</a>
+<div class="resource-actions">
+<a class="btn" href="leadership-dashboard.html">Leadership Dashboard</a>
+<a class="btn" href="program-operations-policy.html">Operations Policy</a>
+</div>
 </div>
 
 <div class="card">
 <h2>Growth & Sponsorship</h2>
-<a class="btn" href="participant-journey-map.html" style="display:inline-block;text-decoration:none;color:black;">Journey Maps</a>
-<a class="btn" href="sponsorship-tiers.html" style="display:inline-block;text-decoration:none;color:black;">Sponsorship Tiers</a>
+<div class="resource-actions">
+<a class="btn" href="participant-journey-map.html">Journey Maps</a>
+<a class="btn" href="sponsorship-tiers.html">Sponsorship Tiers</a>
+</div>
 </div>
 </div>
 
@@ -334,6 +433,75 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <div id="blockedCases" class="eligibility-list"></div>
 </div>
 </div>
+</div>
+
+<div class="card" id="curriculumEnrollmentPanel">
+<h2>Add Participant to Curriculum</h2>
+<p style="color:#d2d2d2;max-width:760px;">Use this form instead of general project creation when enrolling participants into Program A or Program B.</p>
+<div class="enrollment-grid">
+<div>
+<label for="curriculumParticipantName">Participant Name</label>
+<input id="curriculumParticipantName" placeholder="Full name">
+</div>
+<div>
+<label for="curriculumParticipantEmail">Participant Email</label>
+<input id="curriculumParticipantEmail" type="email" placeholder="name@example.com">
+</div>
+<div>
+<label for="curriculumTrack">Program Track</label>
+<select id="curriculumTrack">
+<option value="A">Program A - Anger Management</option>
+<option value="B">Program B - Faith & Community</option>
+</select>
+</div>
+<div>
+<label for="curriculumStatus">Access Status</label>
+<select id="curriculumStatus">
+<option>Approved</option>
+<option>In Progress</option>
+<option>Pending Review</option>
+<option>On Hold</option>
+<option>Completed</option>
+</select>
+</div>
+<div>
+<label for="curriculumModule">Course / Module (optional)</label>
+<input id="curriculumModule" placeholder="Example: Stewardship Foundations">
+</div>
+<div>
+<label for="curriculumCitySelect">Participant City</label>
+<select id="curriculumCitySelect">
+<option>San Antonio</option>
+<option>Houston</option>
+<option>Dallas</option>
+<option>Austin</option>
+<option>Fort Worth</option>
+<option>El Paso</option>
+<option>Arlington</option>
+<option>Corpus Christi</option>
+<option>Lubbock</option>
+<option>Waco</option>
+<option>Other</option>
+</select>
+<input id="curriculumCityOther" class="hidden-field" placeholder="Enter Other Texas City / Area">
+</div>
+</div>
+<label style="display:block;margin:10px 0 0;">
+<input id="curriculumAgreementAccepted" type="checkbox" checked>
+Participant responsibility agreement accepted
+</label>
+<div class="action-row">
+<button class="btn" onclick="enrollParticipant()">Add Participant</button>
+<button class="btn" onclick="copyEnrollmentMessage()">Copy Access Instructions</button>
+<a class="btn" href="curriculum-implementation.html">Open Curriculum Center</a>
+</div>
+<textarea id="curriculumAccessMessage" class="access-message" readonly placeholder="Enrollment access instructions will appear here after you add a participant."></textarea>
+</div>
+
+<div class="card" id="curriculumRosterPanel">
+<h2>Curriculum Participant Roster</h2>
+<p id="curriculumRosterSummary" style="color:#d2d2d2;font-size:14px;">Showing 0 participants</p>
+<div id="curriculumRosterList" class="roster-list"></div>
 </div>
 
 <div class="card">
@@ -381,10 +549,12 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <option>Completed</option>
 </select>
 
+<div class="action-row">
 <button class="btn" onclick="createCase()">Create Project</button>
-<a class="btn" href="quote-comparison.html" style="display:inline-block;text-decoration:none;color:black;margin-left:8px;">Quote Approval Tool</a>
-<a class="btn" href="invoice-center.html" style="display:inline-block;text-decoration:none;color:black;margin-left:8px;">Invoice Center</a>
-<a class="btn" href="curriculum-implementation.html" style="display:inline-block;text-decoration:none;color:black;margin-left:8px;">Program Implementation</a>
+<a class="btn" href="quote-comparison.html">Quote Approval Tool</a>
+<a class="btn" href="invoice-center.html">Invoice Center</a>
+<a class="btn" href="curriculum-implementation.html">Program Implementation</a>
+</div>
 
 </div>
 
@@ -452,6 +622,9 @@ into projects here.
 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
 <button id="certificateHoldOnly" class="filter-toggle-btn" type="button">🔒 Certificate Hold Only</button>
 <button id="certificateEligibleOnly" class="filter-toggle-btn" type="button">✅ Certificate Eligible Only</button>
+<button id="hideArchivedCases" class="filter-toggle-btn" type="button">📦 Hide Archived</button>
+<button id="showArchivedOnly" class="filter-toggle-btn" type="button">🗂 Archived Only</button>
+<button id="deleteArchivedCases" class="filter-toggle-btn" type="button">🧹 Delete Archived Cases</button>
 </div>
 <span id="caseCountSummary" style="color:#d2d2d2;font-size:14px;">Showing 0 cases</span>
 </div>
@@ -466,6 +639,14 @@ into projects here.
 <script src="supabase-config.js"></script>
 <script>
 const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
+const staffParam = new URLSearchParams(window.location.search).get("staff");
+if(staffParam === "1") localStorage.setItem("busiStaffMode", "1");
+if(staffParam === "0") localStorage.removeItem("busiStaffMode");
+const SHOW_SYNC_STATUS = staffParam === "1" || (staffParam !== "0" && localStorage.getItem("busiStaffMode") === "1");
+const syncStatusElement = document.getElementById("syncStatus");
+if(syncStatusElement && !SHOW_SYNC_STATUS){
+syncStatusElement.style.display = "none";
+}
 
 let cases = [];
 let hasPublicColumn = true;
@@ -473,7 +654,32 @@ let hasPhotoColumns = true;
 let hasStoryColumns = true;
 let hasCertificateColumns = true;
 let certificateFilterMode = "all";
+let archivedFilterMode = "all";
+const ARCHIVE_KEY = "busiArchivedCaseIds";
 const STATUS_OPTIONS = ["Pending Review", "Approved", "In Progress", "On Hold", "Completed"];
+
+function getArchivedCaseIds(){
+try{
+const parsed = JSON.parse(localStorage.getItem(ARCHIVE_KEY) || "[]");
+return Array.isArray(parsed) ? parsed : [];
+}catch(_){
+return [];
+}
+}
+
+function setArchivedCase(caseID,isArchived){
+const ids = new Set(getArchivedCaseIds());
+if(isArchived){
+ids.add(caseID);
+}else{
+ids.delete(caseID);
+}
+localStorage.setItem(ARCHIVE_KEY, JSON.stringify(Array.from(ids)));
+}
+
+function isArchivedCase(caseID){
+return getArchivedCaseIds().includes(caseID);
+}
 
 function isMissingColumnError(error, pattern){
 return Boolean(error) && pattern.test(String(error.message || ""));
@@ -567,7 +773,8 @@ agreementAcceptedAt: row.agreement_accepted_at || row.agreementAcceptedAt || nul
 isPublic: Boolean(row.is_public ?? row.isPublic ?? false),
 communityStory: Boolean(row.community_story ?? row.communityStory ?? false),
 paymentArrangementDocumented: Boolean(row.payment_arrangement_documented ?? row.paymentArrangementDocumented ?? false),
-slidingScaleApproved: Boolean(row.sliding_scale_approved ?? row.slidingScaleApproved ?? false)
+slidingScaleApproved: Boolean(row.sliding_scale_approved ?? row.slidingScaleApproved ?? false),
+archived: Boolean(row.archived ?? row.isArchived ?? isArchivedCase(row.case_number || row.caseID || ""))
 };
 }
 
@@ -577,20 +784,54 @@ return Boolean(c.paymentArrangementDocumented) || Boolean(c.slidingScaleApproved
 
 function setSyncStatus(message,isLive){
 const status = document.getElementById("syncStatus");
-if(!status) return;
+if(!status || !SHOW_SYNC_STATUS) return;
 status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
 status.textContent = message;
 }
 
 function nextCaseID(){
-let max = 0;
+const used = new Set();
 cases.forEach((c) => {
-const m = String(c.caseID).match(/^BUSI-(\d+)$/);
+const m = String(c.caseID).match(/^BUSI-(\d{1,3})$/);
 if(m){
-max = Math.max(max, Number(m[1]));
+const value = Number(m[1]);
+if(value >= 1 && value <= 999){
+used.add(value);
+}
 }
 });
-return "BUSI-" + String(max + 1).padStart(3, "0");
+
+for(let value = 1; value <= 999; value += 1){
+if(!used.has(value)){
+return "BUSI-" + String(value).padStart(3, "0");
+}
+}
+
+return null;
+}
+
+function setEnrollmentMessage(caseID,email,track,moduleName){
+const target = document.getElementById("curriculumAccessMessage");
+if(!target) return;
+const moduleLine = moduleName ? `Module: ${moduleName}\n` : "";
+target.value = `Participant Curriculum Access Instructions\nCase ID: ${caseID}\nEmail: ${email}\nTrack: ${track}\n${moduleLine}1) Open curriculum-implementation.html\n2) Enter Case ID and Email in Curriculum Access\n3) Click Verify Participant Access\n4) If access is denied, contact BUSI support.`;
+}
+
+async function copyEnrollmentMessage(){
+const target = document.getElementById("curriculumAccessMessage");
+if(!target || !target.value.trim()){
+alert("Add a participant first so access instructions can be generated.");
+return;
+}
+
+try{
+await navigator.clipboard.writeText(target.value);
+alert("Access instructions copied.");
+}catch(_){
+target.focus();
+target.select();
+alert("Copy failed automatically. Press Ctrl+C to copy the selected text.");
+}
 }
 
 function saveCases(){
@@ -678,6 +919,10 @@ renderCases();
 async function createCase(){
 
 let caseID = nextCaseID();
+if(!caseID){
+alert("All BUSI-001 to BUSI-999 IDs are currently in use. Please archive or remove older records before adding new ones.");
+return;
+}
 
 let project = document.getElementById("projectName").value;
 let email = document.getElementById("projectEmail").value.trim();
@@ -747,17 +992,24 @@ function renderCases(){
 let container=document.getElementById("caseManager");
 const summary = document.getElementById("caseCountSummary");
 
-const filteredCases = certificateFilterMode === "hold"
-? cases.filter((c) => !certificateEligible(c))
-: certificateFilterMode === "eligible"
-? cases.filter((c) => certificateEligible(c))
+const archiveFilteredCases = archivedFilterMode === "hide"
+? cases.filter((c) => !Boolean(c.archived))
+: archivedFilterMode === "only"
+? cases.filter((c) => Boolean(c.archived))
 : cases;
+
+const filteredCases = certificateFilterMode === "hold"
+? archiveFilteredCases.filter((c) => !certificateEligible(c))
+: certificateFilterMode === "eligible"
+? archiveFilteredCases.filter((c) => certificateEligible(c))
+: archiveFilteredCases;
 
 container.innerHTML="";
 
 if(summary){
 const modeLabel = certificateFilterMode === "hold" ? " (Certificate Hold)" : certificateFilterMode === "eligible" ? " (Certificate Eligible)" : "";
-summary.textContent = `Showing ${filteredCases.length} case${filteredCases.length === 1 ? "" : "s"}${modeLabel}`;
+const archiveLabel = archivedFilterMode === "hide" ? " (Hidden Archived)" : archivedFilterMode === "only" ? " (Archived Only)" : "";
+summary.textContent = `Showing ${filteredCases.length} case${filteredCases.length === 1 ? "" : "s"}${modeLabel}${archiveLabel}`;
 }
 
 filteredCases.forEach((c)=>{
@@ -770,7 +1022,7 @@ container.innerHTML+=`
 
 <strong>${c.caseID}</strong> — ${c.project}<br>
 Location: ${c.location}<br>
-Status: ${c.status}<br>
+Status: ${c.status}${c.archived ? " (Archived)" : ""}<br>
 Agreement: ${c.agreementAccepted ? "Accepted" : "Not Captured"}${c.agreementAcceptedAt ? ` (${new Date(c.agreementAcceptedAt).toLocaleDateString()})` : ""}<br>
 Participant Email:
 <input type="email" value="${c.email || ""}" placeholder="Enter participant email" onchange="updateEmail(${index},this.value)"><br>
@@ -825,9 +1077,12 @@ ${statusOptionsMarkup(c.status)}
 
 <br><br>
 
-<button class="btn" onclick="publishStory(${index})" style="margin-right:8px;">Publish Story</button>
-<a class="btn" href="project-story.html?case=${encodeURIComponent(c.caseID)}" style="display:inline-block;text-decoration:none;color:black;margin-right:8px;">View Story</a>
+<div class="action-row">
+<button class="btn" onclick="publishStory(${index})">Publish Story</button>
+<a class="btn" href="project-story.html?case=${encodeURIComponent(c.caseID)}">View Story</a>
+<button class="btn" onclick="toggleArchive(${index})">${c.archived ? "Unarchive" : "Archive"}</button>
 <button class="btn" onclick="deleteCase(${index})">Delete</button>
+</div>
 
 </div>
 
@@ -884,6 +1139,126 @@ blockedContainer.innerHTML = blocked.length ? blocked.map((entry) => `
 `).join("") : '<div class="eligibility-item">No blocked cases. All visible cases are access-ready.</div>';
 }
 
+function curriculumTrackLabel(projectName){
+const text = String(projectName || "");
+if(/Program A|Anger Management/i.test(text)) return "Program A";
+if(/Program B|Faith & Community/i.test(text)) return "Program B";
+return "Other";
+}
+
+function isCurriculumParticipantCase(c){
+const text = String(c.project || "");
+return /Program A|Program B|Anger Management|Faith & Community|Curriculum/i.test(text);
+}
+
+function renderCurriculumRoster(){
+const list = document.getElementById("curriculumRosterList");
+const summary = document.getElementById("curriculumRosterSummary");
+if(!list || !summary) return;
+
+const roster = cases.filter(isCurriculumParticipantCase);
+summary.textContent = `Showing ${roster.length} participant${roster.length === 1 ? "" : "s"}`;
+
+if(!roster.length){
+list.innerHTML = '<div class="roster-item">No curriculum participants yet. Use Add Participant to Curriculum above.</div>';
+return;
+}
+
+list.innerHTML = roster.map((c) => {
+const track = curriculumTrackLabel(c.project);
+const trackClass = track === "Program A" ? "roster-track-a" : track === "Program B" ? "roster-track-b" : "";
+return `
+<div class="roster-item">
+<div><span class="roster-pill ${trackClass}">${track}</span><strong>${c.caseID}</strong></div>
+<div style="font-size:13px;color:#cfd6e5;margin-top:6px;">${c.project}</div>
+<div style="font-size:13px;color:#cfd6e5;">${c.email || "No email"} | ${c.status}</div>
+</div>`;
+}).join("");
+}
+
+async function enrollParticipant(){
+const participantName = String(document.getElementById("curriculumParticipantName").value || "").trim();
+const participantEmail = String(document.getElementById("curriculumParticipantEmail").value || "").trim();
+const track = String(document.getElementById("curriculumTrack").value || "A");
+const moduleName = String(document.getElementById("curriculumModule").value || "").trim();
+const status = String(document.getElementById("curriculumStatus").value || "Approved");
+const agreementAccepted = Boolean(document.getElementById("curriculumAgreementAccepted").checked);
+const location = getSelectedLocation("curriculumCitySelect", "curriculumCityOther") || "San Antonio";
+
+if(!participantEmail){
+alert("Participant email is required to add enrollment and verify curriculum access.");
+return;
+}
+
+const baseTrack = track === "A" ? "Program A - Anger Management" : "Program B - Faith & Community";
+const projectLabel = moduleName ? `${baseTrack} (${moduleName})` : baseTrack;
+const caseID = nextCaseID();
+if(!caseID){
+alert("All BUSI-001 to BUSI-999 IDs are currently in use. Please archive or remove older records before adding new ones.");
+return;
+}
+const agreementAcceptedAt = agreementAccepted ? new Date().toISOString() : null;
+
+const newCase = normalizeCase({
+caseID: caseID,
+project: projectLabel,
+email: participantEmail,
+location: location,
+status: status,
+volunteersNeeded: 0,
+beforePhotoUrl: "",
+afterPhotoUrl: "",
+storySummary: participantName ? `Participant: ${participantName}` : "",
+fundingGoal: 0,
+fundingRaised: 0,
+agreementAccepted: agreementAccepted,
+agreementAcceptedAt: agreementAcceptedAt,
+isPublic: false,
+communityStory: false,
+paymentArrangementDocumented: false,
+slidingScaleApproved: false
+});
+
+if(supabaseClient){
+try{
+const payload = {
+case_number: newCase.caseID,
+...buildCasePayload(newCase),
+person_name: participantName || null,
+request_notes: moduleName ? `Curriculum module: ${moduleName}` : null
+};
+
+const { data, error } = await runCasesQuery(() => supabaseClient
+.from("cases")
+.insert(payload)
+.select(caseSelectColumns())
+.single());
+
+if(!error && data){
+cases.unshift(normalizeCase(data));
+saveCases();
+renderCases();
+setEnrollmentMessage(newCase.caseID, participantEmail, baseTrack, moduleName);
+alert(`Participant enrolled. Case ID: ${newCase.caseID}`);
+document.getElementById("curriculumParticipantName").value = "";
+document.getElementById("curriculumParticipantEmail").value = "";
+document.getElementById("curriculumModule").value = "";
+return;
+}
+}catch(_){
+}
+}
+
+cases.unshift(newCase);
+saveCases();
+renderCases();
+setEnrollmentMessage(newCase.caseID, participantEmail, baseTrack, moduleName);
+alert(`Participant enrolled locally. Case ID: ${newCase.caseID}`);
+document.getElementById("curriculumParticipantName").value = "";
+document.getElementById("curriculumParticipantEmail").value = "";
+document.getElementById("curriculumModule").value = "";
+}
+
 async function persistCase(index){
 const c = cases[index];
 if(!c){
@@ -909,6 +1284,7 @@ function updateEmail(index,value){
 cases[index].email=String(value || "").trim();
 persistCase(index);
 renderEligibilityPanel();
+renderCurriculumRoster();
 }
 
 function updateGoal(index,value){
@@ -994,14 +1370,71 @@ await supabaseClient.from("cases").delete().eq("id", c.id);
 }
 }
 
+setArchivedCase(c.caseID, false);
 cases.splice(index,1);
 saveCases();
 renderCases();
 }
 
+function toggleArchive(index){
+const c = cases[index];
+if(!c){
+return;
+}
+
+const nextValue = !Boolean(c.archived);
+c.archived = nextValue;
+setArchivedCase(c.caseID, nextValue);
+saveCases();
+renderCases();
+}
+
+async function deleteArchivedCases(){
+const archivedCases = cases.filter((c) => Boolean(c.archived));
+if(!archivedCases.length){
+alert("No archived cases to delete.");
+return;
+}
+
+const confirmed = window.confirm(`Delete ${archivedCases.length} archived case(s)? This cannot be undone.`);
+if(!confirmed){
+return;
+}
+
+let liveDeleteFailures = 0;
+if(supabaseClient){
+for(const c of archivedCases){
+if(!c.id) continue;
+try{
+await supabaseClient.from("cases").delete().eq("id", c.id);
+}catch(_){
+liveDeleteFailures += 1;
+}
+}
+}
+
+const removedIds = new Set(archivedCases.map((c) => c.caseID));
+cases = cases.filter((c) => !removedIds.has(c.caseID));
+const remainingArchivedIds = getArchivedCaseIds().filter((id) => !removedIds.has(id));
+localStorage.setItem(ARCHIVE_KEY, JSON.stringify(remainingArchivedIds));
+saveCases();
+renderCases();
+
+if(liveDeleteFailures > 0){
+alert(`Archived cases deleted locally. ${liveDeleteFailures} live delete operation(s) may not have completed.`);
+return;
+}
+
+alert("Archived cases deleted.");
+}
+
 async function convertRequest(){
 
 let caseID = nextCaseID();
+if(!caseID){
+alert("All BUSI-001 to BUSI-999 IDs are currently in use. Please archive or remove older records before adding new ones.");
+return;
+}
 
 let project = document.getElementById("intakeProject").value;
 let email = document.getElementById("intakeEmail").value.trim();
@@ -1069,7 +1502,7 @@ alert("Assistance request converted to BUSI project.");
 
 }
 
-["locationSelect","intakeLocationSelect","volunteersNeededSelect","intakeVolunteersSelect"].forEach((id) => {
+["locationSelect","intakeLocationSelect","volunteersNeededSelect","intakeVolunteersSelect","curriculumCitySelect"].forEach((id) => {
 const element = document.getElementById(id);
 if(!element) return;
 element.addEventListener("change", () => {
@@ -1077,6 +1510,7 @@ if(id === "locationSelect") toggleConditionalField("locationSelect", "locationOt
 if(id === "intakeLocationSelect") toggleConditionalField("intakeLocationSelect", "intakeLocationOther");
 if(id === "volunteersNeededSelect") toggleConditionalField("volunteersNeededSelect", "volunteersNeededOther");
 if(id === "intakeVolunteersSelect") toggleConditionalField("intakeVolunteersSelect", "intakeVolunteersOther");
+if(id === "curriculumCitySelect") toggleConditionalField("curriculumCitySelect", "curriculumCityOther");
 });
 });
 
@@ -1084,9 +1518,13 @@ toggleConditionalField("locationSelect", "locationOther");
 toggleConditionalField("intakeLocationSelect", "intakeLocationOther");
 toggleConditionalField("volunteersNeededSelect", "volunteersNeededOther");
 toggleConditionalField("intakeVolunteersSelect", "intakeVolunteersOther");
+toggleConditionalField("curriculumCitySelect", "curriculumCityOther");
 
 const certificateHoldOnly = document.getElementById("certificateHoldOnly");
 const certificateEligibleOnly = document.getElementById("certificateEligibleOnly");
+const hideArchivedCases = document.getElementById("hideArchivedCases");
+const showArchivedOnly = document.getElementById("showArchivedOnly");
+const deleteArchivedCasesButton = document.getElementById("deleteArchivedCases");
 
 if(certificateHoldOnly && certificateEligibleOnly){
 certificateHoldOnly.addEventListener("click", function(){
@@ -1112,6 +1550,36 @@ certificateHoldOnly.classList.remove("active");
 }
 renderCases();
 });
+}
+
+if(hideArchivedCases && showArchivedOnly){
+hideArchivedCases.addEventListener("click", function(){
+if(archivedFilterMode === "hide"){
+archivedFilterMode = "all";
+hideArchivedCases.classList.remove("active");
+}else{
+archivedFilterMode = "hide";
+hideArchivedCases.classList.add("active");
+showArchivedOnly.classList.remove("active");
+}
+renderCases();
+});
+
+showArchivedOnly.addEventListener("click", function(){
+if(archivedFilterMode === "only"){
+archivedFilterMode = "all";
+showArchivedOnly.classList.remove("active");
+}else{
+archivedFilterMode = "only";
+showArchivedOnly.classList.add("active");
+hideArchivedCases.classList.remove("active");
+}
+renderCases();
+});
+}
+
+if(deleteArchivedCasesButton){
+deleteArchivedCasesButton.addEventListener("click", deleteArchivedCases);
 }
 
 loadCases();

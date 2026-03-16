@@ -80,16 +80,16 @@ color:#ffe08a;
 }
 
 .org-header{display:flex;align-items:center;gap:20px;padding:14px 20px;background:#0b1220;border-bottom:3px solid #d4af37;}
-.org-header img{height:60px;}
-.org-info{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.5;color:white;}
-.org-info strong{font-size:15px;}
+.org-header img{height:92px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px #d4af37);}
+.org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
+.org-info strong{font-size:18px;}
 .org-info em{color:#d4af37;}
 @media print{body{background:white!important;color:black!important;}.org-header{background:white!important;border-bottom:3px solid #d4af37;}.org-info strong,.org-info span{color:black!important;}}</style>
 
 </head>
 
 <body>
-<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div></div>
+<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div><a href="index.html" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#d4af37;color:#0b1220;font-weight:bold;font-size:14px;border-radius:999px;text-decoration:none;">&#127968; Home</a></div>
 
 <div class="container">
 
@@ -126,6 +126,15 @@ const sampleCases = [
 { case_number: "BUSI-007", need_type: "Lawn Care", status: "In Progress", city: "San Antonio", is_public: true },
 { case_number: "BUSI-008", need_type: "Vehicle Assistance", status: "Approved", city: "San Antonio", is_public: true }
 ];
+
+const staffParam = new URLSearchParams(window.location.search).get("staff");
+if(staffParam === "1") localStorage.setItem("busiStaffMode", "1");
+if(staffParam === "0") localStorage.removeItem("busiStaffMode");
+const SHOW_SYNC_STATUS = staffParam === "1" || (staffParam !== "0" && localStorage.getItem("busiStaffMode") === "1");
+const syncStatusElement = document.getElementById("syncStatus");
+if(syncStatusElement && !SHOW_SYNC_STATUS){
+syncStatusElement.style.display = "none";
+}
 
 const PUBLIC_STATUSES = ["Approved", "In Progress", "Completed", "Active"];
 
@@ -176,7 +185,7 @@ is_public: Boolean(row.is_public ?? row.isPublic ?? false)
 
 function setSyncStatus(message,isLive){
 const status = document.getElementById("syncStatus");
-if(!status) return;
+if(!status || !SHOW_SYNC_STATUS) return;
 status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
 status.textContent = message;
 }

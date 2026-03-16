@@ -112,16 +112,16 @@ display:none;
 }
 
 .org-header{display:flex;align-items:center;gap:20px;padding:14px 20px;background:#0b1220;border-bottom:3px solid #d4af37;}
-.org-header img{height:60px;}
-.org-info{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.5;color:white;}
-.org-info strong{font-size:15px;}
+.org-header img{height:92px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px #d4af37);}
+.org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
+.org-info strong{font-size:18px;}
 .org-info em{color:#d4af37;}
 @media print{body{background:white!important;color:black!important;}.org-header{background:white!important;border-bottom:3px solid #d4af37;}.org-info strong,.org-info span{color:black!important;}}</style>
 
 </head>
 
 <body>
-<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div></div>
+<div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div><a href="index.html" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#d4af37;color:#0b1220;font-weight:bold;font-size:14px;border-radius:999px;text-decoration:none;">&#127968; Home</a></div>
 
 <div class="container">
 
@@ -229,10 +229,18 @@ and understand participant responsibilities.
 <script>
 
 const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
+const staffParam = new URLSearchParams(window.location.search).get("staff");
+if(staffParam === "1") localStorage.setItem("busiStaffMode", "1");
+if(staffParam === "0") localStorage.removeItem("busiStaffMode");
+const SHOW_SYNC_STATUS = staffParam === "1" || (staffParam !== "0" && localStorage.getItem("busiStaffMode") === "1");
+const syncStatusElement = document.getElementById("syncStatus");
+if(syncStatusElement && !SHOW_SYNC_STATUS){
+syncStatusElement.style.display = "none";
+}
 
 function setSyncStatus(message,isLive){
 const status = document.getElementById("syncStatus");
-if(!status) return;
+if(!status || !SHOW_SYNC_STATUS) return;
 status.className = `sync-status ${isLive ? "sync-live" : "sync-fallback"}`;
 status.textContent = message;
 }
@@ -253,10 +261,24 @@ document.getElementById("cityOther").style.display = this.value === "Other" ? "b
 });
 
 function generateCase(){
+const used = new Set();
+cases.forEach((c) => {
+const m = String(c.caseID || "").match(/^BUSI-(\d{1,3})$/);
+if(m){
+const value = Number(m[1]);
+if(value >= 1 && value <= 999){
+used.add(value);
+}
+}
+});
 
-let number = cases.length + 1;
-return "BUSI-" + number.toString().padStart(3,"0");
+for(let value = 1; value <= 999; value += 1){
+if(!used.has(value)){
+return "BUSI-" + String(value).padStart(3, "0");
+}
+}
 
+return null;
 }
 
 document.getElementById("busiHelpForm").addEventListener("submit", async function(e){
@@ -271,6 +293,10 @@ return;
 }
 
 let caseID = generateCase();
+if(!caseID){
+alert("All BUSI-001 to BUSI-999 IDs are currently in use on this device. Please contact BUSI support.");
+return;
+}
 let selectedCity = getSelectedCity(form) || "San Antonio";
 
 let newCase = {
@@ -304,16 +330,17 @@ request_notes: form.description.value || null
 });
 
 if(error){
-setSyncStatus("Live sync failed. Request saved locally only.", false);
-alert("Request submitted locally only. Live sharing was not confirmed.");
+const reason = error.message ? ` (${error.message})` : "";
+setSyncStatus(`Live sync failed${reason}. Request saved locally only.`, false);
+alert(`Request submitted locally only. Live sharing was not confirmed${reason}.`);
 form.reset();
 return;
 }
 
 setSyncStatus("Request synced to Supabase live database.", true);
 }catch(_){
-setSyncStatus("Live sync failed. Request saved locally only.", false);
-alert("Request submitted locally only. Live sharing was not confirmed.");
+setSyncStatus("Live sync failed due to a network or configuration error. Request saved locally only.", false);
+alert("Request submitted locally only. Live sharing was not confirmed due to a network or configuration error.");
 form.reset();
 return;
 }

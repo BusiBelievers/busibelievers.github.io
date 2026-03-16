@@ -64,6 +64,18 @@ margin-top:10px;
 .quick-links{
 margin:0 0 12px;
 }
+
+.action-row{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-top:10px;
+}
+
+.action-row .btn{
+margin-right:0;
+margin-top:0;
+}
 ul{
 padding-left:20px;
 }
@@ -80,6 +92,17 @@ margin-bottom:8px;
   .print-header{padding-bottom:14px;border-bottom:3px solid #d4af37;}
   .card{background:white!important;border:1px solid #ccc;color:black!important;}
   input,textarea,select{background:#f5f5f5!important;color:black!important;border:1px solid #bbb;}
+}
+@media (max-width: 760px){
+  .action-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .action-row .btn{
+    width:100%;
+    box-sizing:border-box;
+    text-align:center;
+  }
 }
 .quick-actions-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(212,175,55,0.35);} 
 .quick-actions-strip strong{color:#f4e2a7;font-size:14px;}
@@ -111,7 +134,7 @@ margin-bottom:8px;
     <em style="color:#a08020;">"No voice nor invoice will go unheard."</em>
   </div>
 </div>
-<div class="quick-links">
+<div class="quick-links action-row">
 <a class="btn" href="founder-dashboard.html">Back to Founder Dashboard</a>
 <a class="btn" href="invoice-center.html">Go to Invoice Center</a>
 <a class="btn" href="operations-hub.html">Operations Hub</a>
@@ -227,9 +250,11 @@ and audit-ready records for community assistance projects.
 <label for="notes">Internal Notes</label>
 <textarea id="notes" rows="5" placeholder="Add key decision notes, stewardship rationale, or documentation references."></textarea>
 
+<div class="action-row">
 <button class="btn" onclick="window.print()">Print / Save PDF</button>
 <a class="btn" href="quote-comparison-template.csv" download>Download CSV Template</a>
 <a class="btn" href="founder-dashboard.html">Back to Founder Dashboard</a>
+</div>
 
 <p style="margin-top:20px;font-style:italic;color:#d4af37;">
 "No voice nor invoice will go unheard."
