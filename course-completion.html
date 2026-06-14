@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Completion & Certificate Request | Busi Believers Incorporated</title>
+<meta name="description" content="Request BUSI course completion review and certificates after participant access and completion requirements are verified.">
+<link rel="canonical" href="https://busib.net/course-completion.html">
+<link rel="icon" href="/logo.png">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="container header-inner">
+<a class="brand" href="index.html" aria-label="Busi Believers Incorporated home">
+<img src="logo.png" alt="Busi Believers Incorporated logo">
+<span>
+<strong>Busi Believers Incorporated</strong>
+<small>Bonding Using Stewardship and Integrity</small>
+</span>
+</a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu">Menu</button>
+<nav id="main-menu" class="main-nav" aria-label="Main navigation">
+<a href="curriculum-implementation.html">Curriculum</a>
+<a href="participant-intake.html">Intake</a>
+<a href="resources.html">Resources</a>
+<a href="get-help.html">Get Help</a>
+<a class="button button-small" href="support.html">Donate</a>
+</nav>
+</div>
+</header>
+
+<main id="main">
+<section class="credential-hero">
+<div class="container split">
+<div>
+<p class="eyebrow">Completion gate</p>
+<h1>Course Completion & Certificate Request</h1>
+</div>
+<div class="prose">
+<p>BUSI keeps the beginning of the curriculum easy to access, but certificates require verified participation. Complete the access check below before requesting certificate review.</p>
+<p><strong>Certificate requests are not automatic.</strong> BUSI must confirm attendance, assignments, assessments, payment or sliding-scale documentation, and facilitator approval.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container split">
+<div class="card">
+<h2>Verify participant access</h2>
+<p>Enter the same case ID and email used for curriculum access. The request form will open only after a verified participant record is found.</p>
+<label><span>Case ID</span><input id="accessCaseId" type="text" placeholder="Example: BUSI-012"></label>
+<label><span>Participant email</span><input id="accessEmail" type="email" placeholder="name@example.com"></label>
+<div class="button-row">
+<button class="button" id="verifyAccessBtn" type="button">Verify Access</button>
+<button class="button button-quiet" id="clearAccessBtn" type="button">Clear</button>
+</div>
+<p id="accessStatus" class="status-note warning">Certificate request is locked until participant access is verified.</p>
+</div>
+
+<div class="card">
+<h2>Completion requirements</h2>
+<ul class="requirement-list">
+<li>Participant intake and agreement completed.</li>
+<li>Correct course track assigned by BUSI.</li>
+<li>Required sessions or hours completed.</li>
+<li>Workbook/reflection assignments reviewed.</li>
+<li>Pre/post assessment or outcomes form completed when required.</li>
+<li>Payment, sponsorship, or sliding-scale record documented.</li>
+<li>Facilitator or BUSI representative approval recorded.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="certificateFormSection" class="section section-alt locked-section" aria-hidden="true">
+<div class="container form-shell">
+<div class="section-heading">
+<p class="eyebrow">Certificate review</p>
+<h2>Submit completion review request</h2>
+<p>This form sends BUSI the completion review request. A certificate should only be issued after BUSI confirms the records.</p>
+</div>
+<form class="detail-form" action="https://formspree.io/f/mykkygdo" method="POST">
+<input type="hidden" name="form_type" value="Course Completion Certificate Request">
+<input type="hidden" name="_subject" value="BUSI Certificate Completion Request">
+<input type="hidden" id="verifiedCaseId" name="verified_case_id">
+<input type="hidden" id="verifiedEmail" name="verified_email">
+
+<fieldset>
+<legend>Participant and Course</legend>
+<div class="form-grid">
+<label><span>Participant full name</span><input type="text" name="participant_name" required></label>
+<label><span>Course track</span><select name="course_track" required><option value="">Choose one</option><option>Program A - Anger Management</option><option>Program B - Faith & Community Curriculum</option><option>Other BUSI course</option></select></label>
+<label><span>Facilitator / BUSI representative</span><input type="text" name="facilitator_name" required></label>
+<label><span>Completion date</span><input type="date" name="completion_date" required></label>
+<label><span>Sessions or hours completed</span><input type="text" name="sessions_or_hours" placeholder="Example: 8 sessions / 12 hours" required></label>
+<label><span>Preferred certificate delivery</span><select name="certificate_delivery" required><option value="">Choose one</option><option>Email PDF</option><option>Printed copy pickup</option><option>Mail if approved</option></select></label>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Required Completion Checklist</legend>
+<div class="check-list">
+<label><input type="checkbox" name="intake_completed" required> Intake and participant agreement are complete.</label>
+<label><input type="checkbox" name="attendance_complete" required> Attendance or required hours are complete.</label>
+<label><input type="checkbox" name="assignments_reviewed" required> Workbook/reflection assignments have been reviewed.</label>
+<label><input type="checkbox" name="assessment_complete" required> Pre/post assessment or outcomes form is complete when required.</label>
+<label><input type="checkbox" name="payment_documented" required> Payment, sponsorship, or sliding-scale approval is documented.</label>
+<label><input type="checkbox" name="facilitator_review" required> Facilitator or BUSI representative review is complete.</label>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Notes and Signature</legend>
+<label><span>Completion notes</span><textarea name="completion_notes" rows="4"></textarea></label>
+<div class="form-grid">
+<label><span>Typed signature</span><input type="text" name="typed_signature" required></label>
+<label><span>Date submitted</span><input type="date" name="date_submitted" required></label>
+</div>
+</fieldset>
+
+<button class="button" type="submit">Submit Certificate Review Request</button>
+</form>
+</div>
+</section>
+</main>
+
+<footer class="site-footer">
+<div class="container footer-grid">
+<div>
+<strong>Busi Believers&trade; Incorporated</strong>
+<p>Bonding Using Stewardship and Integrity&trade;</p>
+</div>
+<nav aria-label="Footer navigation">
+<a href="index.html">Home</a>
+<a href="resources.html">Resources</a>
+<a href="curriculum-implementation.html">Curriculum</a>
+<a href="participant-intake.html">Intake</a>
+</nav>
+</div>
+<p class="copyright">&copy; 2026 Busi Believers Incorporated. All rights reserved. Busi Believers, BUSI, Bonding Using Stewardship and Integrity, and No voice nor invoice will go unheard are claimed marks and service marks of Busi Believers Incorporated. Website content, curriculum, forms, and original materials are protected by copyright.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const menuToggle = document.querySelector(".menu-toggle");
+const menu = document.querySelector("#main-menu");
+if (menuToggle && menu) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("is-open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+}
+
+const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
+const formSection = document.getElementById("certificateFormSection");
+const accessStatus = document.getElementById("accessStatus");
+
+function setCertificateAccess(isAllowed, message, caseId = "", email = "") {
+  accessStatus.className = `status-note ${isAllowed ? "success" : "warning"}`;
+  accessStatus.textContent = message;
+  formSection.classList.toggle("locked-section", !isAllowed);
+  formSection.setAttribute("aria-hidden", String(!isAllowed));
+  document.getElementById("verifiedCaseId").value = isAllowed ? caseId : "";
+  document.getElementById("verifiedEmail").value = isAllowed ? email : "";
+}
+
+async function verifyAccess() {
+  const caseId = String(document.getElementById("accessCaseId").value || "").trim();
+  const email = String(document.getElementById("accessEmail").value || "").trim();
+  if (!caseId || !email) {
+    setCertificateAccess(false, "Enter both Case ID and participant email before requesting certificate review.");
+    return;
+  }
+  if (!supabaseClient) {
+    setCertificateAccess(false, "Live verification is not available right now. BUSI must verify records before certificate review.");
+    return;
+  }
+  try {
+    const { data, error } = await supabaseClient.rpc("verify_curriculum_access", {
+      p_case_number: caseId,
+      p_email: email
+    });
+    if (error) {
+      setCertificateAccess(false, "Verification service is not configured yet. BUSI must verify records manually.");
+      return;
+    }
+    const result = Array.isArray(data) ? data[0] : data;
+    if (result && result.allowed) {
+      setCertificateAccess(true, "Participant access verified. You may submit a certificate review request.", caseId, email);
+      return;
+    }
+    setCertificateAccess(false, result && result.message ? result.message : "No approved participant access found for that case ID and email.");
+  } catch (_) {
+    setCertificateAccess(false, "Verification failed. BUSI must verify records manually before certificate review.");
+  }
+}
+
+document.getElementById("verifyAccessBtn").addEventListener("click", verifyAccess);
+document.getElementById("clearAccessBtn").addEventListener("click", () => {
+  document.getElementById("accessCaseId").value = "";
+  document.getElementById("accessEmail").value = "";
+  setCertificateAccess(false, "Certificate request is locked until participant access is verified.");
+});
+</script>
+</body>
+</html>
