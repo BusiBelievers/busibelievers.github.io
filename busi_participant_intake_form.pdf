@@ -1,74 +1,296 @@
-%PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+%PDF-1.3
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R
+/PageMode /UseNone
+/Pages 2 0 R
+/Type /Catalog
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Count 1
+/Kids [ 3 0 R ]
+/Type /Pages
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Contents 4 0 R
+/MediaBox [ 0 0 612 792 ]
+/Parent 2 0 R
+/Resources <<
+/Font 5 0 R
+/ProcSet [ /ImageB /ImageC /ImageI /PDF /Text ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
 >>
 endobj
 4 0 obj
-<<
-/Contents 8 0 R /MediaBox [ 0 0 612 792 ] /Parent 7 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
->>
+[ 10 0 R 11 0 R ]
 endobj
 5 0 obj
 <<
-/PageMode /UseNone /Pages 7 0 R /Type /Catalog
+/F1 6 0 R
+/F1-0 9 0 R
+/F2 7 0 R
 >>
 endobj
 6 0 obj
 <<
-/Author (\(anonymous\)) /CreationDate (D:20260226162003+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260226162003+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
-  /Subject (\(unspecified\)) /Title (\(anonymous\)) /Trapped /False
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 7 0 obj
 <<
-/Count 1 /Kids [ 4 0 R ] /Type /Pages
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 1100
+/Author (\050anonymous\051)
+/CreationDate (D\07220260226162003\05300\04700\047)
+/Creator (\050unspecified\051)
+/Keywords ()
+/ModDate (D\07220260226162003\05300\04700\047)
+/Producer (ReportLab PDF Library \055 www\056reportlab\056com)
+/Subject (\050unspecified\051)
+/Title (\050anonymous\051)
+/Trapped /False
+>>
+endobj
+9 0 obj
+<<
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
+>>
+endobj
+10 0 obj
+<<
+/Length 3092
 >>
 stream
-Gau0B?#S1G'RelB\5-c\aD*Zu#B(PkU(SAUFDmA)S(sfo`6N1s;u]#4Bc=+T9=?%5W_sklp\:9=@l"tK_s6-h!4Z.HfbFV/@?CU!K+Jf*iUc'ire*-l`tK:a3H_2WlHS#hW+uEB'SI]+rtYo[mK]@iEF9GE>qh']'-9KU3/^7)#WNo]&He65l,E%N)9deS17"b5%VEk?h["/Y4>Vcs;U^mh`EQIBK#KhHn@0%gqbGI$`\@ij*p);Hd<+,lIkms,9t%eFm[$dl0W7"1(NK9gg/XF$E%MFp#X;\dfg.iYG'F_$9ApG($5_.#eKHb'?YS&EZP+$7$In6*a;iKh`1XNAUZb.NU?POZ^?>Xu-`V0El7!S$m"?CT*H"XgRLE3/JPV^S+1p6/AG\RL?ARl+[suhkEG'?fQbl=ri!*+:7c\N4.T6miREJ\`F1ckSM6IZHEK:'bVD:Wi\,G4t7?Yj3%!KKsj+&5-NG&k,quq'8?a4$]Ajc[/.R@R8:l/.S=8d*VHKpG!nhPit/HL!]8ddu52^>a<TgZ<u;,"!7.r*aFo-9KCi)XMZ\H,G'W@+[Y6BSn1%dp;P.%Gc%^^PmWAT/Q@F%A)hg/^$\'t%H0'pZlqWTT:a;<CD8AamEsL0CFZc;_&=iN&'n/1`O+#2<;cA!CaQ$NuRJ:6OrXG!RL"@39[u27gSg=A)h?Hd[!O),.Z#Yd!QrYu"ENd>Fp+B>p/R]9Eej9`UO.R]:IMNUKFM:H0h5iOr<h;HBU'*Tur.@cKs[\KaRJjq;A9Be9qo+<>If*q;aRG;;.J[#98p`;#N-Ru:#.XZ(BY)7ch`K:U&tQ$shpA::6`U[_3Wm^YN1<82`5/=JGM"f-t8af6o"ENSPL8T(^<JK9,(&Z<(l`/egSV7\U1mG1GOpU+\[7R9Re>knEm[PV;)g(B>'4U&$^Ib7$(@Inr5@OZB_2K5e??eAMU0>jAm=gUfLQ=!LpCr<*o&i*\/CZ',FqtU9FS8j^&R#ro`p(TH@h<rgj-+abk(/P"%1T5+aY$Oba\s#KFNXjqAph9H+GJ5.S;o2P3pIGL<-en+>#rt*X>3"T]/1CT^gHIC(Z1T>oP<VAE=QK~>endstream
+q
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 78 692 cm
+q
+BT 1 0 0 1 0 4 Tm 45.462 0 Td 22 TL /F2 18 Tf .058824 .121569 .227451 rg (BUSI Participant Intake & Agreement Form) Tj T* -45.462 0 Td ET
+Q
+Q
+q
+1 0 0 1 78 671.6 cm
+Q
+q
+1 0 0 1 78 659.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Participant Full Name: ____________________________________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 639.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Date of Birth: __________________ Phone: _________________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 619.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Email Address: _____________________________________________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 599.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Home Address: _____________________________________________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 579.6 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Emergency Contact Name & Phone: ___________________________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 559.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Court/Probation Referral \(if applicable\): ___________________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 539.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Officer Name: _________________________ Deadline: __________________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 517.2 cm
+Q
+q
+1 0 0 1 78 505.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (Program Understanding) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 461.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 26 Tm /F1 10 Tf 12 TL (I understand BUSI is an anger management education program and not therapy or mental health) Tj T* (treatment. I agree to attend sessions as scheduled and complete required instructional hours before) Tj T* (receiving a certificate.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 441.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (Behavior Agreement) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 409.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL (Participants must behave respectfully. Disruptive, threatening, or unsafe behavior may result in) Tj T* (dismissal without certification.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 389.2 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (Payment & Contribution Acknowledgment) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 357.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL (I understand contributions or service fees support program operation. Payment arrangements or) Tj T* (approved assistance must be documented prior to completion certification.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 337.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (Liability Notice) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 305.2 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL (I acknowledge this is an educational program. For mental health emergencies I will contact emergency) Tj T* (services or a licensed provider.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 275.6 cm
+Q
+q
+1 0 0 1 78 263.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Participant Signature: ______________________________ Date: ____________) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 243.6 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Program Representative: ____________________________ Date: ____________) Tj T* ET
+Q
+Q
+ 
+
+Q
+
+endstream
+endobj
+11 0 obj
+<<
+/Length 562
+>>
+stream
+q
+0.0 0.0 612 792 re
+W
+n
+1 0 0 1 0 0 cm
+BT
+/F1-0 12 Tf
+14.4 TL
+ET
+0.309804 0.337255 0.388235 rg
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 220.6035 17 Tm
+(\077 2026 Busi Believers Incorporated\056 All rights reserved\056) Tj
+T*
+ET
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 128.221 25.5 Tm
+(Busi Believers\077\054 BUSI\077\054 and related curriculum\057forms are protected by copyright and claimed marks\057service marks\056) Tj
+T*
+ET
+BT
+/F1-0 7 Tf
+8.4 TL
+ET
+BT
+1 0 0 1 205.438 34 Tm
+(Do not copy\054 sell\054 modify\054 or distribute without written permission\056) Tj
+T*
+ET
+Q
+
+endstream
 endobj
 xref
-0 9
+0 12
 0000000000 65535 f 
-0000000073 00000 n 
-0000000114 00000 n 
-0000000221 00000 n 
-0000000333 00000 n 
-0000000526 00000 n 
-0000000594 00000 n 
-0000000877 00000 n 
-0000000936 00000 n 
+0000000015 00000 n 
+0000000083 00000 n 
+0000000142 00000 n 
+0000000331 00000 n 
+0000000364 00000 n 
+0000000417 00000 n 
+0000000524 00000 n 
+0000000636 00000 n 
+0000000965 00000 n 
+0000001072 00000 n 
+0000004217 00000 n 
 trailer
 <<
-/ID 
-[<479092788a9da8de760490bb1f94c2eb><479092788a9da8de760490bb1f94c2eb>]
-% ReportLab generated PDF document -- digest (http://www.reportlab.com)
-
-/Info 6 0 R
-/Root 5 0 R
-/Size 9
+/Size 12
+/Root 1 0 R
+/Info 8 0 R
+/ID [ <479092788a9da8de760490bb1f94c2eb> <479092788a9da8de760490bb1f94c2eb> ]
 >>
 startxref
-2127
+4831
 %%EOF
