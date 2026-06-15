@@ -447,6 +447,24 @@ input[readonly]{
   font-size:14px;
 }
 
+.optional-details{
+  margin:14px 0;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:14px;
+  background:#fbfaf7;
+}
+
+.optional-details summary{
+  cursor:pointer;
+  font-weight:900;
+  color:var(--teal);
+}
+
+.optional-details label{
+  margin-top:14px;
+}
+
 .process-strip{
   display:grid;
   grid-template-columns:repeat(3,1fr);
