@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>BUSI Staff Login</title>
+<style>
+:root{--bg:#0b1220;--card:#101827;--gold:#d4af37;--muted:#d7dce9;--border:rgba(212,175,55,.42);}
+body{margin:0;font-family:Arial,sans-serif;background:radial-gradient(circle at 20% 0%,rgba(212,175,55,.16),transparent 42%),var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.login-card{width:100%;max-width:480px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;box-shadow:0 18px 60px rgba(0,0,0,.36);}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.brand img{width:72px;height:auto;filter:drop-shadow(0 0 8px rgba(212,175,55,.45));}
+.brand strong{font-size:19px;}
+.brand span{display:block;color:var(--gold);font-size:13px;margin-top:3px;}
+h1{margin:0 0 8px;font-size:30px;color:#f6e7b0;}
+p{color:var(--muted);line-height:1.5;}
+label{display:block;margin:14px 0 6px;font-weight:bold;color:#f6e7b0;}
+input{width:100%;box-sizing:border-box;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:#0b1220;color:white;font-size:16px;}
+button,.button{display:inline-block;width:100%;box-sizing:border-box;margin-top:16px;padding:12px 16px;border:0;border-radius:8px;background:var(--gold);color:#08111f;font-weight:bold;font-size:16px;cursor:pointer;text-align:center;text-decoration:none;}
+.secondary{background:rgba(212,175,55,.12);color:#f7e6b0;border:1px solid rgba(212,175,55,.45);}
+.status{min-height:22px;margin-top:12px;font-weight:bold;}
+.status.error{color:#ffb4b4;}
+.status.ok{color:#9af0bd;}
+.note{margin-top:16px;padding:12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);font-size:14px;}
+</style>
+</head>
+<body>
+<main class="login-card">
+<div class="brand">
+<img src="logo.png" alt="Busi Believers Incorporated logo">
+<div><strong>Busi Believers Incorporated</strong><span>Internal Staff Access</span></div>
+</div>
+<h1>Staff Login</h1>
+<p>Sign in with an approved BUSI staff account to open internal dashboards, invoices, and case tools.</p>
+<form id="loginForm">
+<label for="email">Email</label>
+<input id="email" type="email" autocomplete="email" required>
+<label for="password">Password</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<button type="submit">Sign In</button>
+</form>
+<div id="status" class="status" aria-live="polite"></div>
+<a class="button secondary" href="index.html">Return Home</a>
+<div class="note">Staff accounts must be created in Supabase Auth and approved in the BUSI users table before they can open internal tools.</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="busi-auth.js"></script>
+<script>
+const client = window.BUSIAuth ? window.BUSIAuth.getClient() : null;
+const params = new URLSearchParams(window.location.search);
+const redirectParam = params.get("redirect") || "founder-dashboard.html";
+const safeRedirect = /^https?:\/\//i.test(redirectParam) ? "founder-dashboard.html" : redirectParam;
+const statusEl = document.getElementById("status");
+
+function setStatus(message,type){
+statusEl.textContent = message || "";
+statusEl.className = `status ${type || ""}`;
+}
+
+async function maybeForwardSignedIn(){
+if(!client) return;
+const { data } = await client.auth.getSession();
+if(!data.session) return;
+const profile = await window.BUSIAuth.getStaffProfile(client, data.session);
+if(profile && profile.role){
+window.location.replace(safeRedirect);
+}
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (event) => {
+event.preventDefault();
+if(!client){
+setStatus("Supabase is not configured for staff login.", "error");
+return;
+}
+setStatus("Checking account...", "");
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value;
+const { data, error } = await client.auth.signInWithPassword({ email, password });
+if(error){
+setStatus(error.message || "Sign in failed.", "error");
+return;
+}
+const profile = await window.BUSIAuth.getStaffProfile(client, data.session);
+if(!profile || !profile.role){
+await client.auth.signOut();
+setStatus("This email is signed in but has not been approved as BUSI staff yet.", "error");
+return;
+}
+setStatus("Access approved. Opening staff tool...", "ok");
+window.location.replace(safeRedirect);
+});
+
+maybeForwardSignedIn();
+</script>
+</body>
+</html>

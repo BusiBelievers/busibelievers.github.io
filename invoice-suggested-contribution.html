@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="robots" content="noindex,nofollow">
 <title>BUSI Suggested Contribution Invoice</title>
 <style>
 body{font-family:Arial;background:#0b1220;color:white;margin:0;}
@@ -40,6 +42,15 @@ input[readonly]{background:#e8e1cf;font-weight:bold;color:#0b1220;}
 .quick-actions-links a:hover{background:rgba(212,175,55,0.22);} 
 @media print{.quick-actions-strip{display:none!important;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="busi-auth.js"></script>
+<script>
+window.BUSI_AUTH_READY = window.BUSIAuth.requireStaffAccess({
+allowedRoles: ["founder", "coordinator"],
+pageLabel: document.title || "BUSI Staff Tool"
+});
+</script>
 </head>
 <body>
 <div class="quick-actions-strip" aria-label="Internal quick actions">

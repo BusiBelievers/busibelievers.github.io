@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="robots" content="noindex,nofollow">
 <title>BUSI Quote Comparison & Approval Summary</title>
 <style>
 body{
@@ -111,6 +113,15 @@ margin-bottom:8px;
 .quick-actions-links a:hover{background:rgba(212,175,55,0.22);} 
 @media print{.quick-actions-strip{display:none!important;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="busi-auth.js"></script>
+<script>
+window.BUSI_AUTH_READY = window.BUSIAuth.requireStaffAccess({
+allowedRoles: ["founder", "coordinator"],
+pageLabel: document.title || "BUSI Staff Tool"
+});
+</script>
 </head>
 <body>
 <div class="quick-actions-strip" aria-label="Internal quick actions">

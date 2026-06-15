@@ -351,10 +351,19 @@ grid-template-columns:1fr;
 @media print{.quick-actions-strip{display:none!important;}}
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="busi-auth.js"></script>
+<script>
+window.BUSI_AUTH_READY = window.BUSIAuth.requireStaffAccess({
+allowedRoles: ["founder"],
+pageLabel: document.title || "BUSI Staff Tool"
+});
+</script>
 </head>
 
 <body>
-<div style="background:#7a1f1f;color:white;padding:12px 20px;text-align:center;font-weight:bold;">Internal staff tool. This page is public if someone has the URL; do not enter private participant information until staff login protection is added.</div>
+<div style="background:#7a1f1f;color:white;padding:12px 20px;text-align:center;font-weight:bold;">Internal staff tool. Staff login is required before using participant, invoice, or case information.</div>
 
 <div class="org-header"><img src="logo.png" alt="Busi Believers Incorporated"><div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div><a href="index.html" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#d4af37;color:#0b1220;font-weight:bold;font-size:14px;border-radius:999px;text-decoration:none;">&#127968; Home</a></div>
 <div class="quick-actions-strip" aria-label="Internal quick actions">
@@ -641,8 +650,6 @@ into projects here.
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
 <script>
 const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
 const staffParam = new URLSearchParams(window.location.search).get("staff");
@@ -1621,7 +1628,9 @@ if(resetLocalCasesButton){
 resetLocalCasesButton.addEventListener("click", resetLocalCasesAndNumbers);
 }
 
-loadCases();
+(window.BUSI_AUTH_READY || Promise.resolve({})).then((profile) => {
+if(profile) loadCases();
+});
   
 </script>
 

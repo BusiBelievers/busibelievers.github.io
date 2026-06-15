@@ -158,10 +158,31 @@ alter table public.donations_log enable row level security;
 create or replace function public.current_role()
 returns text
 language sql
+security definer
+set search_path = public
 stable
 as $$
   select role from public.users where lower(email) = lower(auth.jwt() ->> 'email') limit 1;
 $$;
+
+revoke all on function public.current_role() from public;
+grant execute on function public.current_role() to authenticated;
+
+create or replace function public.current_staff_profile()
+returns table(full_name text, email text, role text)
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select u.full_name, u.email, u.role
+  from public.users u
+  where lower(u.email) = lower(auth.jwt() ->> 'email')
+  limit 1;
+$$;
+
+revoke all on function public.current_staff_profile() from public;
+grant execute on function public.current_staff_profile() to authenticated;
 
 drop policy if exists users_founder_all on public.users;
 create policy users_founder_all on public.users

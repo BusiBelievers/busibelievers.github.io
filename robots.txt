@@ -5,3 +5,16 @@ Disallow: /dashboard.html
 Disallow: /leadership-dashboard.html
 Disallow: /operations-hub.html
 Disallow: /invoice-center.html
+Disallow: /staff-login.html
+Disallow: /invoice-required-service-fee.html
+Disallow: /invoice-suggested-contribution.html
+Disallow: /invoice-sliding-scale.html
+Disallow: /required-service-invoice.html
+Disallow: /sliding-scale-invoice.html
+Disallow: /community-service-timesheet.html
+Disallow: /quote-comparison.html
+Disallow: /session-case-note-template.html
+Disallow: /facilitator-session-template.html
+Disallow: /curriculum-pre-post-assessment.html
+Disallow: /quarterly-curriculum-review-checklist.html
+Disallow: /program-operations-policy.html
