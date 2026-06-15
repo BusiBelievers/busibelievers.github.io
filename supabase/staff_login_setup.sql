@@ -38,10 +38,14 @@ grant execute on function public.current_staff_profile() to authenticated;
 -- Founder Control Center allows founder only.
 -- Operational tools allow founder and coordinator.
 --
--- Replace the sample values before running.
-insert into public.users (full_name, email, role)
-values ('BUSI Founder Name', 'founder@example.com', 'founder')
+-- Replace the sample values before running. The email must already exist in
+-- Authentication > Users.
+insert into public.users (auth_user_id, full_name, email, role)
+select id, 'BUSI Founder Name', email, 'founder'
+from auth.users
+where lower(email) = lower('founder@example.com')
 on conflict (email) do update
-set full_name = excluded.full_name,
+set auth_user_id = excluded.auth_user_id,
+    full_name = excluded.full_name,
     role = excluded.role,
     updated_at = now();
