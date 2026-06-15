@@ -24,6 +24,37 @@
     return `BUSI-${prefix}-${date}-${pad(next, 4)}`;
   }
 
+  function collectUsedCaseNumbers() {
+    const used = new Set();
+    try {
+      const cases = JSON.parse(localStorage.getItem("busiCases") || "[]");
+      if (Array.isArray(cases)) {
+        cases.forEach((record) => {
+          const value = String(record.caseID || record.case_number || "").match(/^BUSI-(\d{1,3})$/);
+          if (value) used.add(Number(value[1]));
+        });
+      }
+    } catch (_) {
+    }
+    return used;
+  }
+
+  function nextCaseNumber() {
+    const used = collectUsedCaseNumbers();
+    let current = Number(localStorage.getItem("busiCaseSequence") || "0");
+
+    for (let value = 1; value <= 999; value += 1) {
+      const candidate = current + value;
+      const normalized = ((candidate - 1) % 999) + 1;
+      if (!used.has(normalized)) {
+        localStorage.setItem("busiCaseSequence", String(normalized));
+        return `BUSI-${pad(normalized, 3)}`;
+      }
+    }
+
+    return "";
+  }
+
   function assignIfEmpty(id, value) {
     const field = document.getElementById(id);
     if (field && !field.value) {
@@ -32,7 +63,7 @@
   }
 
   function initParticipantReference() {
-    const number = nextNumber("P", "participant");
+    const number = nextCaseNumber();
     assignIfEmpty("participantReference", number);
     assignIfEmpty("participantReferenceDisplay", number);
     assignIfEmpty("dateSigned", todayIso());
@@ -49,6 +80,7 @@
     initParticipantReference,
     initInvoice,
     nextNumber,
+    nextCaseNumber,
     todayIso
   };
 })();

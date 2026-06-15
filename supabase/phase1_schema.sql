@@ -255,13 +255,6 @@ with check (
   and status in ('Pending Review', 'Approved', 'In Progress', 'Completed', 'Pending', 'Active', 'On Hold')
 );
 
-insert into public.cases (case_number, city, need_type, status)
-values
-('BUSI-006', 'San Antonio', 'Tree Removal', 'Completed'),
-('BUSI-007', 'San Antonio', 'Lawn Care', 'Active'),
-('BUSI-008', 'San Antonio', 'Vehicle Assistance', 'Pending')
-on conflict (case_number) do nothing;
-
 -- Curriculum access verification RPC
 -- Allows public-side verification without returning private case details.
 create or replace function public.verify_curriculum_access(
@@ -278,7 +271,7 @@ declare
   matched_agreement boolean;
 begin
   if coalesce(trim(p_case_number), '') = '' or coalesce(trim(p_email), '') = '' then
-    return query select false, 'preview'::text, 'Case ID and email are required.'::text;
+    return query select false, 'preview'::text, 'BUSI reference and email are required.'::text;
     return;
   end if;
 

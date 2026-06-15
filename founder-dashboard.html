@@ -440,7 +440,7 @@ funding goals, volunteers, and project progress across the BUSI platform.
 
 <div class="card" id="curriculumEnrollmentPanel">
 <h2>Add Participant to Curriculum</h2>
-<p style="color:#d2d2d2;max-width:760px;">Use this form instead of general project creation when enrolling participants into Program A or Program B.</p>
+<p style="color:#d2d2d2;max-width:760px;">Use this form instead of general project creation when enrolling participants into a BUSI track or support pathway.</p>
 <div class="enrollment-grid">
 <div>
 <label for="curriculumParticipantName">Participant Name</label>
@@ -455,6 +455,8 @@ funding goals, volunteers, and project progress across the BUSI platform.
 <select id="curriculumTrack">
 <option value="A">Program A - Anger Management</option>
 <option value="B">Program B - Faith & Community</option>
+<option value="C">Community support / assistance</option>
+<option value="U">Unsure / needs review</option>
 </select>
 </div>
 <div>
@@ -628,6 +630,7 @@ into projects here.
 <button id="hideArchivedCases" class="filter-toggle-btn" type="button">📦 Hide Archived</button>
 <button id="showArchivedOnly" class="filter-toggle-btn" type="button">🗂 Archived Only</button>
 <button id="deleteArchivedCases" class="filter-toggle-btn" type="button">🧹 Delete Archived Cases</button>
+<button id="resetLocalCases" class="filter-toggle-btn" type="button">Reset Local Cases & Numbers</button>
 </div>
 <span id="caseCountSummary" style="color:#d2d2d2;font-size:14px;">Showing 0 cases</span>
 </div>
@@ -817,7 +820,7 @@ function setEnrollmentMessage(caseID,email,track,moduleName){
 const target = document.getElementById("curriculumAccessMessage");
 if(!target) return;
 const moduleLine = moduleName ? `Module: ${moduleName}\n` : "";
-target.value = `Participant Curriculum Access Instructions\nCase ID: ${caseID}\nEmail: ${email}\nTrack: ${track}\n${moduleLine}1) Open curriculum-implementation.html\n2) Enter Case ID and Email in Curriculum Access\n3) Click Verify Participant Access\n4) If access is denied, contact BUSI support.`;
+target.value = `Participant Curriculum Access Instructions\nBUSI Reference: ${caseID}\nEmail: ${email}\nTrack: ${track}\n${moduleLine}1) Open curriculum-implementation.html\n2) Enter BUSI Reference and Email in Curriculum Access\n3) Click Verify Participant Access\n4) If access is denied, contact BUSI support.`;
 }
 
 async function copyEnrollmentMessage(){
@@ -1146,12 +1149,14 @@ function curriculumTrackLabel(projectName){
 const text = String(projectName || "");
 if(/Program A|Anger Management/i.test(text)) return "Program A";
 if(/Program B|Faith & Community/i.test(text)) return "Program B";
+if(/Community support|assistance/i.test(text)) return "Community Support";
+if(/Unsure|needs review/i.test(text)) return "Needs Review";
 return "Other";
 }
 
 function isCurriculumParticipantCase(c){
 const text = String(c.project || "");
-return /Program A|Program B|Anger Management|Faith & Community|Curriculum/i.test(text);
+return /Program A|Program B|Anger Management|Faith & Community|Community support|assistance|Unsure|needs review|Curriculum/i.test(text);
 }
 
 function renderCurriculumRoster(){
@@ -1193,7 +1198,13 @@ alert("Participant email is required to add enrollment and verify curriculum acc
 return;
 }
 
-const baseTrack = track === "A" ? "Program A - Anger Management" : "Program B - Faith & Community";
+const trackLabels = {
+A: "Program A - Anger Management",
+B: "Program B - Faith & Community",
+C: "Community support / assistance",
+U: "Unsure / needs review"
+};
+const baseTrack = trackLabels[track] || "Unsure / needs review";
 const projectLabel = moduleName ? `${baseTrack} (${moduleName})` : baseTrack;
 const caseID = nextCaseID();
 if(!caseID){
@@ -1242,7 +1253,7 @@ cases.unshift(normalizeCase(data));
 saveCases();
 renderCases();
 setEnrollmentMessage(newCase.caseID, participantEmail, baseTrack, moduleName);
-alert(`Participant enrolled. Case ID: ${newCase.caseID}`);
+alert(`Participant enrolled. BUSI Reference: ${newCase.caseID}`);
 document.getElementById("curriculumParticipantName").value = "";
 document.getElementById("curriculumParticipantEmail").value = "";
 document.getElementById("curriculumModule").value = "";
@@ -1256,7 +1267,7 @@ cases.unshift(newCase);
 saveCases();
 renderCases();
 setEnrollmentMessage(newCase.caseID, participantEmail, baseTrack, moduleName);
-alert(`Participant enrolled locally. Case ID: ${newCase.caseID}`);
+alert(`Participant enrolled locally. BUSI Reference: ${newCase.caseID}`);
 document.getElementById("curriculumParticipantName").value = "";
 document.getElementById("curriculumParticipantEmail").value = "";
 document.getElementById("curriculumModule").value = "";
@@ -1431,6 +1442,26 @@ return;
 alert("Archived cases deleted.");
 }
 
+function resetLocalCasesAndNumbers(){
+const confirmed = window.confirm("This clears browser-only BUSI cases, archived case markers, and local participant/case numbering so the next local case can start at BUSI-001. It does not delete invoices or any live Supabase records. Continue?");
+if(!confirmed){
+return;
+}
+
+cases = [];
+localStorage.removeItem("busiCases");
+localStorage.removeItem(ARCHIVE_KEY);
+localStorage.removeItem("busiCaseSequence");
+for(let index = localStorage.length - 1; index >= 0; index -= 1){
+const key = localStorage.key(index);
+if(key && key.startsWith("busi:participant")){
+localStorage.removeItem(key);
+}
+}
+renderCases();
+alert("Local browser cases and numbering were reset. The next local case number can start at BUSI-001.");
+}
+
 async function convertRequest(){
 
 let caseID = nextCaseID();
@@ -1528,6 +1559,7 @@ const certificateEligibleOnly = document.getElementById("certificateEligibleOnly
 const hideArchivedCases = document.getElementById("hideArchivedCases");
 const showArchivedOnly = document.getElementById("showArchivedOnly");
 const deleteArchivedCasesButton = document.getElementById("deleteArchivedCases");
+const resetLocalCasesButton = document.getElementById("resetLocalCases");
 
 if(certificateHoldOnly && certificateEligibleOnly){
 certificateHoldOnly.addEventListener("click", function(){
@@ -1585,10 +1617,13 @@ if(deleteArchivedCasesButton){
 deleteArchivedCasesButton.addEventListener("click", deleteArchivedCases);
 }
 
+if(resetLocalCasesButton){
+resetLocalCasesButton.addEventListener("click", resetLocalCasesAndNumbers);
+}
+
 loadCases();
   
 </script>
 
 </body>
 </html>
-
