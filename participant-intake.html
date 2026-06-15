@@ -82,10 +82,12 @@
 <form class="detail-form" action="https://formspree.io/f/mykkygdo" method="POST">
 <input type="hidden" name="form_type" value="Participant Intake and Agreement">
 <input type="hidden" name="_subject" value="BUSI Participant Intake and Agreement">
+<input type="hidden" id="participantReference" name="participant_reference">
 
 <fieldset>
 <legend>Participant Information</legend>
 <div class="form-grid">
+<label><span>Automatic participant reference</span><input type="text" id="participantReferenceDisplay" readonly aria-describedby="participantReferenceHelp"></label>
 <label><span>Full legal name</span><input type="text" name="participant_name" required></label>
 <label><span>Email</span><input type="email" name="email" required></label>
 <label><span>Phone</span><input type="tel" name="phone" required></label>
@@ -93,6 +95,7 @@
 <label><span>Date of birth</span><input type="date" name="date_of_birth"></label>
 <label><span>Preferred contact method</span><select name="preferred_contact" required><option value="">Choose one</option><option>Phone</option><option>Email</option><option>Text message</option></select></label>
 </div>
+<p id="participantReferenceHelp" class="form-help">This reference is created automatically for the intake submission. BUSI may assign or confirm the official case ID after review.</p>
 </fieldset>
 
 <fieldset>
@@ -125,7 +128,7 @@
 </div>
 <div class="form-grid">
 <label><span>Typed participant signature</span><input type="text" name="participant_signature" required></label>
-<label><span>Date signed</span><input type="date" name="date_signed" required></label>
+<label><span>Date signed</span><input type="date" id="dateSigned" name="date_signed" required></label>
 </div>
 </fieldset>
 
@@ -151,6 +154,7 @@
 <p class="copyright">&copy; 2026 Busi Believers Incorporated. All rights reserved. Busi Believers, BUSI, Bonding Using Stewardship and Integrity, and No voice nor invoice will go unheard are claimed marks and service marks of Busi Believers Incorporated. Website content, curriculum, forms, and original materials are protected by copyright.</p>
 </footer>
 
+<script src="busi-numbering.js"></script>
 <script>
 const menuToggle = document.querySelector(".menu-toggle");
 const menu = document.querySelector("#main-menu");
@@ -159,6 +163,10 @@ if (menuToggle && menu) {
     const isOpen = menu.classList.toggle("is-open");
     menuToggle.setAttribute("aria-expanded", String(isOpen));
   });
+}
+
+if (window.BUSINumbering) {
+  window.BUSINumbering.initParticipantReference();
 }
 </script>
 </body>

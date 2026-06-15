@@ -11,6 +11,7 @@ body{font-family:Arial;background:#0b1220;color:white;margin:0;}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
 label{display:block;font-weight:bold;margin-bottom:6px;}
 input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-sizing:border-box;margin-bottom:12px;}
+input[readonly]{background:#e8e1cf;font-weight:bold;color:#0b1220;}
 .btn{display:inline-block;padding:12px 16px;background:#d4af37;color:black;border:none;border-radius:10px;text-decoration:none;font-weight:bold;cursor:pointer;margin-right:8px;}
 .quick-links{margin:0 0 12px;}
 .action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
@@ -72,8 +73,8 @@ input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-
 <div class="card">
 <p class="helper-text">Choose the closest program module and payment method from the lists below. If nothing fits, select <strong>Other</strong> and add a simple custom note.</p>
 <div class="grid">
-<div><label>Invoice Number</label><input type="text" placeholder="BUSI-SC-001"></div>
-<div><label>Invoice Date</label><input type="date"></div>
+<div><label for="invoiceNumber">Invoice Number</label><input id="invoiceNumber" name="invoice_number" type="text" readonly></div>
+<div><label for="invoiceDate">Invoice Date</label><input id="invoiceDate" name="invoice_date" type="date"></div>
 <div><label>Participant Name</label><input type="text" placeholder="Full name"></div>
 <div><label for="programModule">Program Module</label><select id="programModule">
 <option value="">Select Program Module</option>
@@ -121,7 +122,12 @@ input,select,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-
 <p>San Antonio, Texas</p>
 <p style="margin-top:20px;color:#aaa;">&copy; 2026 Busi Believers Incorporated</p>
 </footer>
+<script src="busi-numbering.js"></script>
 <script>
+if (window.BUSINumbering) {
+  window.BUSINumbering.initInvoice("SC");
+}
+
 function toggleConditionalField(selectId, wrapperId){
 const select = document.getElementById(selectId);
 const wrapper = document.getElementById(wrapperId);
