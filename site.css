@@ -756,6 +756,12 @@ input[readonly]{
   font-weight:700;
 }
 
+.resource-note{
+  margin:12px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+
 @media (max-width: 900px){
   .menu-toggle{display:inline-flex}
 

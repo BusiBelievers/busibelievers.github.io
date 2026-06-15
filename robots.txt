@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /founder-dashboard.html
+Disallow: /admin-dashboard.html
+Disallow: /dashboard.html
+Disallow: /leadership-dashboard.html
+Disallow: /operations-hub.html
+Disallow: /invoice-center.html
