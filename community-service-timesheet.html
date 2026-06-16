@@ -24,13 +24,26 @@ th{background:rgba(212,175,55,0.18);}
 .org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
 .org-info strong{font-size:18px;}
 .org-info em{color:#d4af37;}
+.letterhead{display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center;background:white;color:#111;border:2px solid #d4af37;border-radius:14px;padding:18px;margin-bottom:18px;}
+.letterhead img{width:120px;height:auto;display:block;}
+.letterhead h1{margin:0 0 4px;color:#0b1220;}
+.letterhead p{margin:3px 0;color:#222;}
+.letterhead .tagline{font-weight:bold;color:#6b510c;}
+.verification-box{background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);border-radius:12px;padding:14px;margin-top:12px;color:#f7e6b0;}
+.verification-box strong{color:#fff;}
+.verification-box p{margin:6px 0;}
 @media print{
 body{background:white!important;color:black!important;}
-.org-header{background:white!important;border-bottom:3px solid #d4af37;}
+.org-header{display:none!important;}
 .org-info strong,.org-info span{color:black!important;}
 .quick-links,.print-hide{display:none!important;}
 .card{background:white!important;border:1px solid #bcbcbc!important;}
 th{background:#f1f1f1!important;color:black!important;}
+.letterhead{break-inside:avoid;border:2px solid #d4af37!important;}
+.verification-box{background:#fff8da!important;color:black!important;border:1px solid #d4af37!important;break-inside:avoid;}
+.verification-box strong{color:black!important;}
+input,textarea{border:1px solid #999!important;}
+p{color:black!important;}
 }
 .quick-actions-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(212,175,55,0.35);} 
 .quick-actions-strip strong{color:#f4e2a7;font-size:14px;}
@@ -38,6 +51,7 @@ th{background:#f1f1f1!important;color:black!important;}
 .quick-actions-links a{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);color:#f7e6b0;text-decoration:none;font-size:13px;font-weight:bold;}
 .quick-actions-links a:hover{background:rgba(212,175,55,0.22);} 
 @media print{.quick-actions-strip{display:none!important;}}
+@media (max-width: 700px){.letterhead{grid-template-columns:1fr;text-align:center;}.letterhead img{margin:auto;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
@@ -70,8 +84,25 @@ pageLabel: document.title || "BUSI Staff Tool"
 <a class="btn" href="operations-hub.html">Operations Hub</a>
 </div>
 
+<section class="letterhead" aria-label="BUSI official letterhead">
+<img src="logo.png" alt="Busi Believers Incorporated logo">
+<div>
+<h1>Busi Believers Incorporated</h1>
+<p class="tagline">Bonding Using Stewardship and Integrity</p>
+<p>3003 Martin Luther King Drive, San Antonio, TX 78220</p>
+<p>Email: <strong>admin@busib.net</strong> &bull; Phone: <strong>888-287-4215</strong> &bull; Website: <strong>https://busib.net</strong></p>
+<p>Federally recognized 501(c)(3) nonprofit organization &bull; EIN: <strong>88-1788881</strong></p>
+</div>
+</section>
+
 <h1>Community Service Time Sheet</h1>
 <p style="max-width:900px;color:#d7d7d7;">Court-style tracking template aligned to the Texas Municipal Courts community service format for consistent documentation and accountability.</p>
+
+<div class="verification-box">
+<strong>Verification Contact</strong>
+<p>This completed time sheet should be verified through Busi Believers Incorporated using the BUSI reference, participant name, service dates, and supervisor signature.</p>
+<p>For verification, contact BUSI at <strong>admin@busib.net</strong>, call <strong>888-287-4215</strong>, or visit <strong>https://busib.net</strong>.</p>
+</div>
 
 <div class="card">
 <h2>Court and Participant Information</h2>
@@ -116,16 +147,24 @@ pageLabel: document.title || "BUSI Staff Tool"
 
 <div class="card">
 <h2>Certification and Signatures</h2>
-<p>I certify that the hours entered above were completed under supervision and recorded accurately.</p>
+<p>I certify that the hours entered above were completed under BUSI-approved supervision and recorded accurately. This document is not valid for court, agency, or program verification unless signed by the participant and an authorized BUSI supervisor or representative.</p>
 <div class="grid">
 <div><label>Supervisor Name</label><input type="text" placeholder="Supervisor full name"></div>
 <div><label>Supervisor Signature</label><input type="text" placeholder="Type full name"></div>
 <div><label>Supervisor Date</label><input type="date"></div>
+<div><label>Supervisor Phone or Email</label><input type="text" placeholder="Verification contact"></div>
 <div><label>Defendant Signature</label><input type="text" placeholder="Type full name"></div>
 <div><label>Defendant Date</label><input type="date"></div>
+<div><label>BUSI Verification Status</label><input type="text" placeholder="Pending / Verified / Submitted"></div>
+<div><label>Verification Notes</label><input type="text" placeholder="Court, agency, or program notes"></div>
 </div>
 
 <p class="warning" style="margin-top:16px;">Warning: False reporting of community service time may be prosecuted as a Class A misdemeanor.</p>
+
+<div class="verification-box">
+<strong>BUSI Verification Statement</strong>
+<p>Busi Believers Incorporated may confirm this record by matching the BUSI reference, participant identity, service log, supervisor signature, and internal program records. Copies should be submitted only after the hours and signatures are complete.</p>
+</div>
 
 <div class="print-hide" style="margin-top:14px;">
 <button class="btn" onclick="window.print()">Print / Save PDF</button>
