@@ -24,10 +24,19 @@ input[type="number"]{padding:10px;border:none;border-radius:8px;width:140px;}
 .access-full{background:rgba(46,204,113,0.18);color:#7dffb1;}
 .participant-only.locked{display:none !important;}
 .preview-note{background:rgba(241,196,15,0.14);border:1px solid rgba(241,196,15,0.35);padding:12px;border-radius:12px;margin-top:10px;color:#ffe08a;}
+.course-note{background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.32);padding:12px;border-radius:12px;margin-top:10px;color:#baf7cf;}
+.breadcrumb{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;color:#d2d2d2;font-size:14px;}
+.breadcrumb a{color:#f7e6b0;text-decoration:none;font-weight:bold;}
+.orientation-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:16px;}
+.step-card{background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.25);border-radius:12px;padding:14px;}
+.step-card strong{color:#f6e7b0;}
+.course-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px;}
+.course-map .step-card{min-height:150px;}
 .action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
 .action-row .btn{margin:0;}
 hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
 @media (max-width: 760px){
+.orientation-grid{grid-template-columns:1fr;}
 .action-row{flex-direction:column;align-items:stretch;}
 .action-row .btn{text-align:center;}
 }
@@ -64,11 +73,28 @@ hr{border-color:rgba(255,255,255,0.16);margin:26px 0;}
 <a class="btn" href="operations-hub.html">Operations Hub</a>
 <a class="btn" href="leadership-dashboard.html">Leadership Dashboard</a>
 </div>
+<div class="breadcrumb"><a href="operations-hub.html">Operations Hub</a><span>/</span><span>Program Implementation Center</span></div>
 <h1>BUSI Program Implementation Center</h1>
 <p class="muted" style="max-width:850px;">
-Balanced deployment model: one mission, two distinct program tracks, and three invoice/payment pathways.
-This structure supports court clarity, ministry alignment, donor confidence, and clean audit records.
+This is the curriculum command center. Use it to choose the right course, enroll or verify a participant, open facilitator tools, and protect certificate completion.
 </p>
+
+<div class="orientation-grid">
+<div class="card">
+<h2>If You Landed Here Unexpectedly</h2>
+<p class="muted">You likely arrived from the Founder Dashboard, Operations Hub, Resources page, or a curriculum link. This page is not the course itself. It is the control center that points you to the actual courses and the records needed for completion.</p>
+<div class="action-row">
+<a class="btn" href="curriculum-program-a.html">Open Program A Course</a>
+<a class="btn" href="curriculum-program-b.html">Open Program B Course</a>
+<a class="btn" href="curriculum-facilitator-guide.html">Open Facilitator Guide</a>
+</div>
+</div>
+<div class="card">
+<h2>Curriculum Status</h2>
+<p class="course-note"><strong>Primary curriculum pages are now the course source.</strong> The older PDFs are kept as reference drafts and printable support documents, but Program A and Program B pages are the clearer implementation path.</p>
+<p class="muted">Beginning access stays easy. Certificate approval stays strict.</p>
+</div>
+</div>
 
 <div class="grid">
 <div class="card">
@@ -107,11 +133,13 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 
 <div class="card" id="curriculumAccessCard">
 <h2>Curriculum Access</h2>
-<p class="muted">Beginning curriculum materials are available below so participants can start without confusion. Case verification is still used for participant-specific access, payment steps, and certificate review.</p>
+<p class="muted">Beginning curriculum materials are available below so participants and facilitators can start without confusion. BUSI reference verification is still used for participant-specific access, payment steps, and certificate review.</p>
 <div class="action-row">
-<a class="btn" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank" rel="noopener noreferrer">Open Anger Management PDF</a>
-<a class="btn" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank" rel="noopener noreferrer">Open Workbook</a>
-<a class="btn" href="BUSI_Complete_Curriculum_Workbook_Fillable_v2.pdf" target="_blank" rel="noopener noreferrer">Open Fillable Workbook</a>
+<a class="btn" href="curriculum-program-a.html">Open Program A Course</a>
+<a class="btn" href="curriculum-program-b.html">Open Program B Course</a>
+<a class="btn" href="curriculum-facilitator-guide.html">Open Facilitator Guide</a>
+<a class="btn" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank" rel="noopener noreferrer">Legacy Anger PDF</a>
+<a class="btn" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank" rel="noopener noreferrer">Legacy Workbook PDF</a>
 </div>
 <p class="preview-note">Visibility note: busib.net is a public website. Materials linked on this page can be opened by visitors. Certificates and completion records still require BUSI review.</p>
 <div>
@@ -150,8 +178,9 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 <span class="pill">Program A</span>
 <h3>Anger Management Track</h3>
 <p>Court/agency aligned behavioral education with required service fee handling.</p>
-<div class="preview-note">Read-only preview: This track focuses on behavioral accountability, structured exercises, and guided reflection.</div>
-<a class="btn" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank" rel="noopener noreferrer">Download Full Program PDF</a>
+<div class="course-note">Implementation-ready course: 5 modules, 10 recommended instructional hours, facilitator evidence, and certificate review checklist.</div>
+<a class="btn" href="curriculum-program-a.html">Open Program A Course</a>
+<a class="btn" href="BUSI_Anger_Management_Full_Program.pdf" target="_blank" rel="noopener noreferrer">Legacy PDF Draft</a>
 <a class="btn participant-only" href="invoice-required-service-fee.html">Open Required Fee Invoice</a>
 
 <h4 class="participant-only">Pay Required Service Fee</h4>
@@ -170,8 +199,9 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 <span class="pill">Program B</span>
 <h3>Faith & Community Curriculum Track</h3>
 <p>Mentorship and stewardship curriculum for voluntary participants, outreach cohorts, and sponsored participants.</p>
-<div class="preview-note">Read-only preview: This track includes restoration modules, stewardship development, and community accountability practice.</div>
-<a class="btn" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank" rel="noopener noreferrer">Workbook with TOC</a>
+<div class="course-note">Implementation-ready course: 8 core sessions with a 15-topic expansion bank for longer cohorts and partner-agency requirements.</div>
+<a class="btn" href="curriculum-program-b.html">Open Program B Course</a>
+<a class="btn" href="BUSI_Complete_Curriculum_Workbook_With_TOC.pdf" target="_blank" rel="noopener noreferrer">Legacy Workbook with TOC</a>
 <a class="btn" href="BUSI_Complete_Curriculum_Workbook_Fillable_v2.pdf" target="_blank" rel="noopener noreferrer">Fillable Workbook</a>
 <a class="btn" href="BUSI_Complete_Curriculum_Workbook_Branded.pdf" target="_blank" rel="noopener noreferrer">Branded Workbook</a>
 <a class="btn" href="BUSI_Program_Evaluation_and_Outcomes_Form.pdf" target="_blank" rel="noopener noreferrer">Outcomes Form</a>
@@ -209,6 +239,7 @@ This structure supports court clarity, ministry alignment, donor confidence, and
 <div class="card">
 <h2>Curriculum Operations Toolkit</h2>
 <p class="muted">Use these standard templates to maintain program quality, measurable outcomes, and audit-ready records each quarter.</p>
+<a class="btn" href="curriculum-facilitator-guide.html">Facilitator Guide</a>
 <a class="btn" href="curriculum-standards.html">Curriculum Standards</a>
 <a class="btn" href="curriculum-pre-post-assessment.html">Pre/Post Assessment Form</a>
 <a class="btn" href="facilitator-session-template.html">Facilitator Session Template</a>
