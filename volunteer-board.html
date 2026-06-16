@@ -119,7 +119,7 @@ ${c.status}
 <p><strong>Volunteers Needed:</strong> ${c.volunteersNeeded}</p>
 
 let volunteerButton = `
-<a class="btn" href="index.html#volunteer?project=${c.caseID}">
+<a class="btn" href="index.html?project=${encodeURIComponent(c.caseID)}#volunteer">
 Volunteer
 </a>
 `;

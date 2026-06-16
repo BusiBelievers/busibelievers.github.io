@@ -40,7 +40,7 @@
 <h1>Course Completion & Certificate Request</h1>
 </div>
 <div class="prose">
-<p>BUSI keeps the beginning of the curriculum easy to access, but certificates require verified participation. Complete the access check below before requesting certificate review.</p>
+<p>BUSI keeps the beginning of the curriculum easy to access, but certificates require verified participation. Use the check below after a BUSI participant record exists.</p>
 <p><strong>Certificate requests are not automatic.</strong> BUSI must confirm attendance, assignments, assessments, payment or sliding-scale documentation, and facilitator approval.</p>
 <div class="button-row">
 <a class="button button-quiet" href="curriculum-program-a.html#response-workbook">Program A Responses</a>
@@ -54,15 +54,15 @@
 <section class="section">
 <div class="container split">
 <div class="card">
-<h2>Verify participant access</h2>
-<p>Enter the same approved BUSI reference and email used for curriculum access. The request form will open only after a verified participant record is found.</p>
-<label><span>Approved BUSI reference</span><input id="accessCaseId" type="text" placeholder="Example: BUSI-001"></label>
+<h2>Unlock certificate review</h2>
+<p>Enter the BUSI reference and participant email tied to the intake or curriculum record. The request form opens only after BUSI can verify the participant record.</p>
+<label><span>BUSI reference</span><input id="accessCaseId" type="text" placeholder="Example: BUSI-001"></label>
 <label><span>Participant email</span><input id="accessEmail" type="email" placeholder="name@example.com"></label>
 <div class="button-row">
-<button class="button" id="verifyAccessBtn" type="button">Verify Access</button>
+<button class="button" id="verifyAccessBtn" type="button">Unlock Certificate Review</button>
 <button class="button button-quiet" id="clearAccessBtn" type="button">Clear</button>
 </div>
-<p id="accessStatus" class="status-note warning">Certificate request is locked until participant access is verified.</p>
+<p id="accessStatus" class="status-note warning">Certificate review is protected until participant access is verified.</p>
 </div>
 
 <div class="card">
@@ -178,7 +178,7 @@ async function verifyAccess() {
   const caseId = String(document.getElementById("accessCaseId").value || "").trim();
   const email = String(document.getElementById("accessEmail").value || "").trim();
   if (!caseId || !email) {
-    setCertificateAccess(false, "Enter both BUSI reference and participant email before requesting certificate review.");
+    setCertificateAccess(false, "Enter both BUSI reference and participant email to unlock certificate review.");
     return;
   }
   if (!supabaseClient) {
@@ -209,7 +209,7 @@ document.getElementById("verifyAccessBtn").addEventListener("click", verifyAcces
 document.getElementById("clearAccessBtn").addEventListener("click", () => {
   document.getElementById("accessCaseId").value = "";
   document.getElementById("accessEmail").value = "";
-  setCertificateAccess(false, "Certificate request is locked until participant access is verified.");
+  setCertificateAccess(false, "Certificate review is protected until participant access is verified.");
 });
 </script>
 </body>
