@@ -588,6 +588,52 @@ input[readonly]{
   color:#145c33;
 }
 
+.response-workbook{
+  display:grid;
+  gap:18px;
+}
+
+.response-panel{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:18px;
+  background:#fff;
+}
+
+.section-alt .response-panel{background:#fbfaf7}
+
+.response-panel h3,
+.response-panel h4{
+  margin-top:0;
+}
+
+.response-panel textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.response-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+
+.response-status{
+  width:100%;
+  margin:4px 0 0;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.response-note{
+  background:#fff7d6;
+  border:1px solid #d4af37;
+  border-radius:8px;
+  padding:14px;
+  color:#312500;
+}
+
 .locked-section{
   display:none;
 }
