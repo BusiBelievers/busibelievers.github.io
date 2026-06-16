@@ -89,13 +89,13 @@ pageLabel: document.title || "BUSI Staff Tool"
 <div class="card">
 <h3 style="margin:0 0 8px;color:#f6e7b0;">Primary Rule Gate</h3>
 <p style="margin:0;color:var(--muted);">No certificate is issued until payment arrangements are documented or sliding-scale approval is completed.</p>
-<a class="btn" href="founder-dashboard.html" style="margin-top:12px;">Open Certificate Queue</a>
+<a class="btn" href="founder-dashboard.html?certificateFilter=all#certificateQueuePanel" style="margin-top:12px;">Open Certificate Gate</a>
 </div>
 </div>
 
 <div class="queue-grid">
-<div class="queue-item"><h3>Certificate Hold Queue</h3><p>Cases missing payment arrangement or sliding-scale approval.</p><a class="btn" href="founder-dashboard.html">Review Queue</a></div>
-<div class="queue-item"><h3>Certificate Eligible Queue</h3><p>Cases ready for closeout and release steps.</p><a class="btn" href="founder-dashboard.html">Open Ready Cases</a></div>
+<div class="queue-item"><h3>Certificate Hold Queue</h3><p>Cases missing payment arrangement or sliding-scale approval.</p><a class="btn" href="founder-dashboard.html?certificateFilter=hold#certificateQueuePanel">Review Hold Queue</a></div>
+<div class="queue-item"><h3>Certificate Eligible Queue</h3><p>Cases ready for closeout and release steps.</p><a class="btn" href="founder-dashboard.html?certificateFilter=eligible#certificateQueuePanel">Open Eligible Queue</a></div>
 <div class="queue-item"><h3>Court Service Hours</h3><p>Track time logs, initials, and signatures.</p><a class="btn" href="community-service-timesheet.html">Time Sheet</a></div>
 <div class="queue-item"><h3>Invoice Routing</h3><p>Apply required fee, contribution, or sliding scale.</p><a class="btn" href="invoice-center.html">Invoice Center</a></div>
 </div>
@@ -110,7 +110,7 @@ pageLabel: document.title || "BUSI Staff Tool"
 <div id="founder" class="role-panel active card">
 <h3 style="margin-top:0;">Founder View</h3>
 <div class="task-grid">
-<div class="task-card"><h4>Daily Priorities</h4><p>Clear Certificate Hold queue, verify documentation, then finalize closeout.</p><a class="btn" href="founder-dashboard.html">Open Founder Dashboard</a></div>
+<div class="task-card"><h4>Daily Priorities</h4><p>Clear Certificate Hold queue, verify documentation, then finalize closeout.</p><a class="btn" href="founder-dashboard.html?certificateFilter=hold#certificateQueuePanel">Open Hold Queue</a></div>
 <div class="task-card"><h4>Policy Controls</h4><p>Use policy, journey maps, and quarterly review to enforce standards.</p><a class="btn" href="program-operations-policy.html">Policy Suite</a></div>
 <div class="task-card"><h4>Public Visibility</h4><p>Only approved/public cases should appear on shared pages.</p><a class="btn" href="project-database.html">Project Database</a></div>
 </div>
@@ -141,7 +141,7 @@ pageLabel: document.title || "BUSI Staff Tool"
 <div class="task-grid">
 <div class="task-card"><h4>Invoice Selection</h4><p>Apply the correct invoice type for each participant context.</p><a class="btn" href="invoice-center.html">Invoice Center</a></div>
 <div class="task-card"><h4>Sliding Scale Records</h4><p>Document hardship approvals before certificate release.</p><a class="btn" href="invoice-sliding-scale.html">Sliding Scale Form</a></div>
-<div class="task-card"><h4>Closeout Rule</h4><p>No certificate release without documented payment arrangement or approved sliding scale.</p><a class="btn" href="founder-dashboard.html">Check Release Gate</a></div>
+<div class="task-card"><h4>Closeout Rule</h4><p>No certificate release without documented payment arrangement or approved sliding scale.</p><a class="btn" href="founder-dashboard.html?certificateFilter=hold#certificateQueuePanel">Check Release Gate</a></div>
 </div>
 </div>
 </div>

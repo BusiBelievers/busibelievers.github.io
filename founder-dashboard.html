@@ -112,6 +112,13 @@ color:#1a1a2e;
 border-color:#d4af37;
 }
 
+.certificate-rule-note{
+color:#f4e2a7;
+font-size:14px;
+line-height:1.45;
+margin:0 0 10px;
+}
+
 .sync-status{
 display:inline-block;
 margin:18px auto 0;
@@ -635,7 +642,8 @@ into projects here.
 
 </div>
   
-<h2>Active BUSI Projects</h2>
+<h2 id="certificateQueuePanel">Active BUSI Projects</h2>
+<p class="certificate-rule-note"><strong>Primary rule gate:</strong> certificates remain on hold until payment arrangements are documented or sliding-scale approval is completed.</p>
 
 <div class="case-filter-bar">
 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -657,7 +665,9 @@ into projects here.
 
 <script>
 const supabaseClient = window.BUSI_SUPABASE ? window.BUSI_SUPABASE.createClient() : null;
-const staffParam = new URLSearchParams(window.location.search).get("staff");
+const dashboardParams = new URLSearchParams(window.location.search);
+const staffParam = dashboardParams.get("staff");
+const requestedCertificateFilter = (dashboardParams.get("certificateFilter") || "").toLowerCase();
 if(staffParam === "1") localStorage.setItem("busiStaffMode", "1");
 if(staffParam === "0") localStorage.removeItem("busiStaffMode");
 const SHOW_SYNC_STATUS = staffParam === "1" || (staffParam !== "0" && localStorage.getItem("busiStaffMode") === "1");
@@ -1573,31 +1583,43 @@ const showArchivedOnly = document.getElementById("showArchivedOnly");
 const deleteArchivedCasesButton = document.getElementById("deleteArchivedCases");
 const resetLocalCasesButton = document.getElementById("resetLocalCases");
 
+function setCertificateFilterMode(mode){
+if(!["all","hold","eligible"].includes(mode)) return;
+certificateFilterMode = mode;
+if(certificateHoldOnly) certificateHoldOnly.classList.toggle("active", mode === "hold");
+if(certificateEligibleOnly) certificateEligibleOnly.classList.toggle("active", mode === "eligible");
+}
+
+function scrollToCertificateQueueIfRequested(){
+if(!["all","hold","eligible"].includes(requestedCertificateFilter)) return;
+const target = document.getElementById("certificateQueuePanel");
+if(!target) return;
+window.setTimeout(() => {
+target.scrollIntoView({ behavior: "smooth", block: "start" });
+}, 250);
+}
+
 if(certificateHoldOnly && certificateEligibleOnly){
 certificateHoldOnly.addEventListener("click", function(){
 if(certificateFilterMode === "hold"){
-certificateFilterMode = "all";
-certificateHoldOnly.classList.remove("active");
+setCertificateFilterMode("all");
 }else{
-certificateFilterMode = "hold";
-certificateHoldOnly.classList.add("active");
-certificateEligibleOnly.classList.remove("active");
+setCertificateFilterMode("hold");
 }
 renderCases();
 });
 
 certificateEligibleOnly.addEventListener("click", function(){
 if(certificateFilterMode === "eligible"){
-certificateFilterMode = "all";
-certificateEligibleOnly.classList.remove("active");
+setCertificateFilterMode("all");
 }else{
-certificateFilterMode = "eligible";
-certificateEligibleOnly.classList.add("active");
-certificateHoldOnly.classList.remove("active");
+setCertificateFilterMode("eligible");
 }
 renderCases();
 });
 }
+
+setCertificateFilterMode(requestedCertificateFilter || "all");
 
 if(hideArchivedCases && showArchivedOnly){
 hideArchivedCases.addEventListener("click", function(){
@@ -1633,8 +1655,9 @@ if(resetLocalCasesButton){
 resetLocalCasesButton.addEventListener("click", resetLocalCasesAndNumbers);
 }
 
-(window.BUSI_AUTH_READY || Promise.resolve({})).then((profile) => {
-if(profile) loadCases();
+(window.BUSI_AUTH_READY || Promise.resolve({})).then(async (profile) => {
+if(profile) await loadCases();
+scrollToCertificateQueueIfRequested();
 });
   
 </script>
