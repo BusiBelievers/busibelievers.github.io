@@ -634,6 +634,26 @@ input[readonly]{
   color:#312500;
 }
 
+.rights-notice{
+  background:#0b1220;
+  color:#fff;
+  border:2px solid var(--gold);
+  border-radius:8px;
+  padding:22px;
+}
+
+.rights-notice h2{
+  margin-top:0;
+}
+
+.rights-notice p{
+  color:#e7edf6;
+}
+
+.rights-notice strong{
+  color:#f6e7b0;
+}
+
 .locked-section{
   display:none;
 }
