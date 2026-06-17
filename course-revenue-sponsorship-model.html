@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>BUSI Course Revenue &amp; Sponsorship Model</title>
+<link rel="icon" href="/logo.png">
+<link rel="stylesheet" href="site.css">
+<style>
+:root{--ops-bg:#0b1220;--ops-card:rgba(255,255,255,0.06);--ops-border:rgba(255,255,255,0.14);}
+body{background:radial-gradient(circle at 20% 0%,rgba(212,175,55,.12),transparent 34%),var(--ops-bg);color:white;}
+.ops-header{background:#7a1f1f;color:white;padding:12px 20px;text-align:center;font-weight:bold;}
+.org-header{display:flex;align-items:center;gap:20px;padding:14px 20px;background:#0b1220;border-bottom:3px solid var(--gold);}
+.org-header img{height:92px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px #d4af37);}
+.org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
+.org-info strong{font-size:18px;}
+.org-info em{color:var(--gold);}
+.quick-actions-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(212,175,55,.35);}
+.quick-actions-strip strong{color:#f4e2a7;font-size:14px;}
+.quick-actions-links{display:flex;flex-wrap:wrap;gap:8px;}
+.quick-actions-links a{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.45);color:#f7e6b0;text-decoration:none;font-size:13px;font-weight:bold;}
+.ops-container{max-width:1120px;margin:auto;padding:34px 20px 46px;}
+.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px;}
+.ops-card{background:var(--ops-card);border:1px solid var(--ops-border);border-radius:8px;padding:18px;}
+.ops-card h2,.ops-card h3{margin-top:0;color:#f6e7b0;}
+.ops-card p,.ops-card li{color:#d7dce9;}
+.btn{display:inline-block;padding:12px 16px;background:var(--gold);color:#0b1220;border-radius:8px;text-decoration:none;font-weight:bold;margin:6px 8px 6px 0;border:none;cursor:pointer;}
+.btn.quiet{background:transparent;color:#f7e6b0;border:1px solid rgba(212,175,55,.55);}
+.ops-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.04);border:1px solid var(--ops-border);margin-top:12px;font-size:14px;}
+.ops-table th,.ops-table td{border:1px solid var(--ops-border);padding:10px;text-align:left;vertical-align:top;color:#eef3fb;}
+.ops-table th{background:rgba(212,175,55,.22);color:#fff;}
+.notice-box{background:#fff7d6;border:1px solid var(--gold);border-radius:8px;padding:14px;color:#312500;}
+.notice-box p{color:#312500;margin:0;}
+.calculator{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:12px;}
+.calculator label span{display:block;color:#f6e7b0;font-weight:bold;margin-bottom:5px;}
+.calculator input{background:#fff;color:#101827;}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:14px;}
+.result-box{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.4);border-radius:8px;padding:12px;}
+.result-box strong{display:block;color:#f6e7b0;}
+@media(max-width:760px){
+.org-header{align-items:flex-start;flex-direction:column;}
+.org-header a{margin-left:0!important;}
+}
+@media print{body{background:white!important;color:black!important;}.ops-header,.quick-actions-strip,.btn{display:none!important;}.ops-card,.ops-table{border-color:#999;color:black;background:white;}.ops-card p,.ops-card li,.ops-table td,.ops-table th{color:black;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="busi-auth.js"></script>
+<script>
+window.BUSI_AUTH_READY = window.BUSIAuth.requireStaffAccess({
+allowedRoles: ["founder", "coordinator"],
+pageLabel: document.title || "BUSI Staff Tool"
+});
+</script>
+</head>
+<body>
+<div class="ops-header">Internal staff tool. Staff login is required before using participant, invoice, or case information.</div>
+<div class="org-header">
+<img src="logo.png" alt="Busi Believers Incorporated">
+<div class="org-info"><strong>Busi Believers Incorporated</strong><span>Bonding Using Stewardship and Integrity</span><span>San Antonio, Texas</span><em>"No voice nor invoice will go unheard."</em></div>
+<a href="index.html" style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#d4af37;color:#0b1220;font-weight:bold;font-size:14px;border-radius:999px;text-decoration:none;">Home</a>
+</div>
+<div class="quick-actions-strip" aria-label="Internal quick actions">
+<strong>Quick Actions:</strong>
+<div class="quick-actions-links">
+<a href="operations-hub.html">Operations Hub</a>
+<a href="founder-dashboard.html">Founder Dashboard</a>
+<a href="invoice-center.html">Invoice Center</a>
+<a href="curriculum-implementation.html">Curriculum</a>
+<a href="court-referral-courses.html">Referral Courses</a>
+<a href="court-course-requirements.html">Requirements Tracker</a>
+</div>
+</div>
+
+<main class="ops-container">
+<div>
+<a class="btn quiet" href="operations-hub.html">Back to Operations Hub</a>
+<a class="btn quiet" href="court-referral-courses.html">Public Course Page</a>
+<a class="btn quiet" href="invoice-center.html">Invoice Center</a>
+</div>
+
+<section class="ops-card">
+<p class="eyebrow">Internal model</p>
+<h1>Course Revenue &amp; Sponsorship Model</h1>
+<p>This page translates the first three BUSI course recommendations into a working model: standard fees, hardship ranges, sponsored seats, participant-worker opportunities, and how income should be stewarded.</p>
+<div class="notice-box">
+<p><strong>Public placement decision:</strong> publish course descriptions, standard fees, hardship access, and sponsor-seat options on the public course page. Keep allocation percentages, margin planning, staff decisions, and participant-worker pay rules on this internal page.</p>
+</div>
+</section>
+
+<section class="ops-grid">
+<article class="ops-card">
+<h2>1. Anger Management</h2>
+<p><strong>Public name:</strong> BUSI Anger Management &amp; Conflict Accountability</p>
+<ul>
+<li>Standard fee: $195</li>
+<li>Hardship range: $75 to $125</li>
+<li>Sponsor seat: $195</li>
+<li>Recommended cohort: 8 to 12 participants</li>
+<li>Best use: court/referral education when accepted, agency referrals, self-referral, employer/family accountability.</li>
+</ul>
+</article>
+<article class="ops-card">
+<h2>2. Responsible Choices</h2>
+<p><strong>Public name:</strong> Responsible Choices, Anti-Theft &amp; Restitution Stewardship</p>
+<ul>
+<li>Standard fee: $95</li>
+<li>Hardship range: $40 to $75</li>
+<li>Sponsor seat: $95</li>
+<li>Recommended cohort: 8 to 15 participants</li>
+<li>Best use: diversion-style education, integrity, restitution, decision-making, community accountability.</li>
+</ul>
+</article>
+<article class="ops-card">
+<h2>3. Service + Job Readiness</h2>
+<p><strong>Public name:</strong> Community Service Orientation &amp; Job Readiness Track</p>
+<ul>
+<li>Standard fee: $75</li>
+<li>Hardship range: $25 to $50</li>
+<li>Sponsor seat: $75</li>
+<li>Recommended cohort: 10 to 20 participants</li>
+<li>Best use: community service preparation, verified hours, work-readiness bridge, supervised helper pathway.</li>
+</ul>
+</article>
+</section>
+
+<section class="ops-card">
+<h2>Recommended Allocation Rule</h2>
+<p>Use this as a starting policy until BUSI adopts a board-approved budget. The rule keeps the mission visible: paid seats help sponsor hardship access and participant work opportunities.</p>
+<table class="ops-table">
+<thead><tr><th>Allocation</th><th>Suggested Percent</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>Course operations and facilitator/admin time</td><td>45%</td><td>Teaching, preparation, intake review, response review, certificate review, and administrative labor.</td></tr>
+<tr><td>Hardship and sponsor-seat reserve</td><td>20%</td><td>Helps cover reduced-fee or no-fee participants when funds allow.</td></tr>
+<tr><td>Participant-worker stipend reserve</td><td>10%</td><td>Supports approved supervised helper roles after training and policy review.</td></tr>
+<tr><td>BUSI mission reserve</td><td>15%</td><td>Supports nonprofit operations, outreach, tools, and program stability.</td></tr>
+<tr><td>Materials, verification, and compliance reserve</td><td>10%</td><td>Printing, forms, staff tools, recordkeeping, certificate supplies, and court/referral packet maintenance.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="ops-card">
+<h2>Starter Cohort Examples</h2>
+<table class="ops-table">
+<thead><tr><th>Course</th><th>Paid Seats</th><th>Gross</th><th>Operations 45%</th><th>Hardship 20%</th><th>Stipend 10%</th><th>Mission 15%</th><th>Materials 10%</th></tr></thead>
+<tbody>
+<tr><td>Anger Management</td><td>8 x $195</td><td>$1,560</td><td>$702</td><td>$312</td><td>$156</td><td>$234</td><td>$156</td></tr>
+<tr><td>Responsible Choices</td><td>10 x $95</td><td>$950</td><td>$427.50</td><td>$190</td><td>$95</td><td>$142.50</td><td>$95</td></tr>
+<tr><td>Service + Job Readiness</td><td>12 x $75</td><td>$900</td><td>$405</td><td>$180</td><td>$90</td><td>$135</td><td>$90</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="ops-card">
+<h2>Quick Revenue Calculator</h2>
+<p>Use this for rough planning. It does not replace bookkeeping, invoices, or board-approved budgeting.</p>
+<div class="calculator">
+<label><span>Course fee</span><input id="calcFee" type="number" min="0" step="1" value="195"></label>
+<label><span>Paid seats</span><input id="calcSeats" type="number" min="0" step="1" value="8"></label>
+<label><span>Sponsored hardship seats</span><input id="calcSponsorSeats" type="number" min="0" step="1" value="1"></label>
+</div>
+<div class="result-grid" aria-live="polite">
+<div class="result-box"><strong>Gross paid revenue</strong><span id="grossRevenue">$1,560</span></div>
+<div class="result-box"><strong>Operations 45%</strong><span id="opsAllocation">$702</span></div>
+<div class="result-box"><strong>Hardship reserve 20%</strong><span id="hardshipAllocation">$312</span></div>
+<div class="result-box"><strong>Stipend reserve 10%</strong><span id="stipendAllocation">$156</span></div>
+<div class="result-box"><strong>Mission reserve 15%</strong><span id="missionAllocation">$234</span></div>
+<div class="result-box"><strong>Materials 10%</strong><span id="materialsAllocation">$156</span></div>
+<div class="result-box"><strong>Estimated sponsor value</strong><span id="sponsorValue">$195</span></div>
+</div>
+</section>
+
+<section class="ops-grid">
+<article class="ops-card">
+<h2>Public Sponsorship Promise</h2>
+<p>Recommended wording for public pages:</p>
+<p>"When feasible, BUSI uses paid course income and sponsor seats to help provide hardship seats, materials, documentation, and supervised service opportunities."</p>
+<p>Avoid promising a fixed scholarship for every paid seat unless BUSI has the cash reserve to honor it every time.</p>
+</article>
+<article class="ops-card">
+<h2>Participant-Worker Safeguards</h2>
+<ul>
+<li>No participant worker should access private participant records, payment data, passwords, or certificate approval decisions.</li>
+<li>Use supervised roles: setup assistant, reminder call/text assistant using approved scripts, service crew helper, peer ambassador, cleanup helper, packet prep without private records.</li>
+<li>Pay or stipend must be documented separately from court/community service hours.</li>
+<li>Any helper role should require conduct standards, confidentiality notice, and supervisor sign-off.</li>
+</ul>
+</article>
+<article class="ops-card">
+<h2>Court and Referral Control</h2>
+<ul>
+<li>Never advertise "court-approved" without written acceptance or required licensing.</li>
+<li>Save each acceptance email or letter with the BUSI reference and referral source.</li>
+<li>Keep a sample certificate, attendance sheet, course outline, and facilitator credentials ready for referral review.</li>
+<li>Use the requirements tracker before launching any new court-facing course.</li>
+</ul>
+</article>
+</section>
+
+<section class="ops-card">
+<h2>Where This Belongs On The Website</h2>
+<table class="ops-table">
+<thead><tr><th>Information</th><th>Best Placement</th><th>Reason</th></tr></thead>
+<tbody>
+<tr><td>Course names, outcomes, modules, careful court/referral wording</td><td>Public page: court-referral-courses.html</td><td>Participants, families, attorneys, agencies, and donors need to understand the offering.</td></tr>
+<tr><td>Standard fee, hardship range, sponsor-seat amount</td><td>Public page plus invoice center</td><td>Transparent pricing improves trust and reduces confusion.</td></tr>
+<tr><td>Allocation percentages, cohort estimates, stipend reserve</td><td>Internal staff page only</td><td>This is operational planning and can change with budget, staffing, and board decisions.</td></tr>
+<tr><td>Participant-worker role rules</td><td>Internal staff page and later a signed helper agreement</td><td>Protects privacy, records, payments, and certificate integrity.</td></tr>
+<tr><td>Licensing and court approval notes</td><td>Public requirements tracker and internal review process</td><td>Public caution builds trust; internal process prevents overpromising.</td></tr>
+</tbody>
+</table>
+</section>
+</main>
+
+<script>
+function money(value){
+  return new Intl.NumberFormat("en-US", {style:"currency", currency:"USD", maximumFractionDigits:2}).format(value || 0);
+}
+function updateCalculator(){
+  const fee = Number(document.querySelector("#calcFee").value) || 0;
+  const seats = Number(document.querySelector("#calcSeats").value) || 0;
+  const sponsorSeats = Number(document.querySelector("#calcSponsorSeats").value) || 0;
+  const gross = fee * seats;
+  document.querySelector("#grossRevenue").textContent = money(gross);
+  document.querySelector("#opsAllocation").textContent = money(gross * 0.45);
+  document.querySelector("#hardshipAllocation").textContent = money(gross * 0.20);
+  document.querySelector("#stipendAllocation").textContent = money(gross * 0.10);
+  document.querySelector("#missionAllocation").textContent = money(gross * 0.15);
+  document.querySelector("#materialsAllocation").textContent = money(gross * 0.10);
+  document.querySelector("#sponsorValue").textContent = money(fee * sponsorSeats);
+}
+document.querySelectorAll("#calcFee,#calcSeats,#calcSponsorSeats").forEach((input) => {
+  input.addEventListener("input", updateCalculator);
+});
+updateCalculator();
+</script>
+</body>
+</html>
