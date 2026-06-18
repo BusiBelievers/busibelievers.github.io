@@ -868,34 +868,39 @@ input[readonly]{
     grid-template-columns:1fr;
   }
 
-  .hero{padding:48px 0 54px}
+  .hero{
+    background:var(--navy);
+    padding:48px 0 54px;
+  }
 
   .hero-copy{
-    background:transparent;
+    background:var(--navy);
+    border:1px solid rgba(212,175,55,.34);
+    border-radius:8px;
+    padding:16px;
   }
 
   .hero-copy .eyebrow,
   .hero-copy h1,
   .hero-copy .lead{
-    background:rgba(11,18,32,.96);
+    background:transparent;
     color:#fff;
-    border-radius:8px;
   }
 
   .hero-copy .eyebrow{
     display:inline-block;
     color:#e8d48a;
-    padding:6px 10px;
+    padding:0;
   }
 
   .hero-copy h1{
-    padding:12px;
+    padding:0;
     line-height:1.12;
   }
 
   .hero-copy .lead{
-    padding:12px;
-    border:1px solid rgba(212,175,55,.34);
+    padding:0;
+    border:0;
   }
 
   .mini-gallery{
