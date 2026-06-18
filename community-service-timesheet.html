@@ -8,8 +8,8 @@
 <title>BUSI Community Service Time Sheet</title>
 <style>
 body{font-family:Arial;background:#0b1220;color:white;margin:0;}
-.container{max-width:1050px;margin:auto;padding:36px 20px;}
-.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:22px;margin-top:16px;}
+.container{max-width:1050px;margin:auto;padding:28px 20px;}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:16px;margin-top:12px;}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
 input,textarea{width:100%;padding:10px;border:none;border-radius:8px;box-sizing:border-box;}
 textarea{min-height:110px;resize:vertical;}
@@ -24,26 +24,39 @@ th{background:rgba(212,175,55,0.18);}
 .org-info{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:white;}
 .org-info strong{font-size:18px;}
 .org-info em{color:#d4af37;}
-.letterhead{display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center;background:white;color:#111;border:2px solid #d4af37;border-radius:14px;padding:18px;margin-bottom:18px;}
+.letterhead{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;background:white;color:#111;border:2px solid #d4af37;border-radius:12px;padding:14px;margin-bottom:12px;}
 .letterhead img{width:120px;height:auto;display:block;}
 .letterhead h1{margin:0 0 4px;color:#0b1220;}
 .letterhead p{margin:3px 0;color:#222;}
 .letterhead .tagline{font-weight:bold;color:#6b510c;}
+.document-title{display:inline-block;margin:0 0 6px!important;padding:5px 10px;border-radius:999px;background:#0b1220;color:white!important;font-size:14px;font-weight:bold;letter-spacing:.02em;}
 .verification-box{background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);border-radius:12px;padding:14px;margin-top:12px;color:#f7e6b0;}
 .verification-box strong{color:#fff;}
 .verification-box p{margin:6px 0;}
 @media print{
+@page{size:letter;margin:.35in;}
 body{background:white!important;color:black!important;}
+.container{max-width:none!important;padding:0!important;}
 .org-header{display:none!important;}
 .org-info strong,.org-info span{color:black!important;}
 .quick-links,.print-hide{display:none!important;}
-.card{background:white!important;border:1px solid #bcbcbc!important;}
+.card{background:white!important;border:1px solid #bcbcbc!important;border-radius:6px!important;padding:8px!important;margin-top:7px!important;break-inside:avoid;}
+.card h2{font-size:15px!important;margin:0 0 6px!important;}
+.grid{grid-template-columns:repeat(4,1fr)!important;gap:5px!important;}
+label{font-size:10px!important;font-weight:bold!important;}
+input,textarea{border:1px solid #999!important;border-radius:3px!important;padding:3px!important;font-size:10px!important;min-height:20px!important;}
+table{font-size:10px!important;margin-top:4px!important;}
+th,td{padding:3px!important;}
 th{background:#f1f1f1!important;color:black!important;}
-.letterhead{break-inside:avoid;border:2px solid #d4af37!important;}
+.letterhead{grid-template-columns:70px 1fr!important;gap:10px!important;border:2px solid #d4af37!important;border-radius:6px!important;padding:8px!important;margin-bottom:7px!important;break-inside:avoid;}
+.letterhead img{width:64px!important;}
+.letterhead h1{font-size:18px!important;margin:0 0 2px!important;}
+.letterhead p{font-size:10px!important;line-height:1.25!important;margin:1px 0!important;}
+.document-title{font-size:11px!important;padding:3px 7px!important;}
 .verification-box{background:#fff8da!important;color:black!important;border:1px solid #d4af37!important;break-inside:avoid;}
 .verification-box strong{color:black!important;}
-input,textarea{border:1px solid #999!important;}
-p{color:black!important;}
+p{color:black!important;font-size:10px!important;line-height:1.25!important;margin:3px 0!important;}
+.warning{font-size:10px!important;margin-top:6px!important;}
 }
 .quick-actions-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(212,175,55,0.35);} 
 .quick-actions-strip strong{color:#f4e2a7;font-size:14px;}
@@ -51,7 +64,7 @@ p{color:black!important;}
 .quick-actions-links a{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.45);color:#f7e6b0;text-decoration:none;font-size:13px;font-weight:bold;}
 .quick-actions-links a:hover{background:rgba(212,175,55,0.22);} 
 @media print{.quick-actions-strip{display:none!important;}}
-@media (max-width: 700px){.letterhead{grid-template-columns:1fr;text-align:center;}.letterhead img{margin:auto;}}
+@media (max-width: 700px){.org-header{align-items:flex-start;flex-direction:column;}.org-header a{margin-left:0!important;}.letterhead{grid-template-columns:1fr;text-align:center;}.letterhead img{margin:auto;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
@@ -87,6 +100,7 @@ pageLabel: document.title || "BUSI Staff Tool"
 <section class="letterhead" aria-label="BUSI official letterhead">
 <img src="logo.png" alt="Busi Believers Incorporated logo">
 <div>
+<p class="document-title">Community Service Time Sheet</p>
 <h1>Busi Believers Incorporated</h1>
 <p class="tagline">Bonding Using Stewardship and Integrity</p>
 <p>3003 Martin Luther King Drive, San Antonio, TX 78220</p>
@@ -94,15 +108,6 @@ pageLabel: document.title || "BUSI Staff Tool"
 <p>Federally recognized 501(c)(3) nonprofit organization &bull; EIN: <strong>88-1788881</strong></p>
 </div>
 </section>
-
-<h1>Community Service Time Sheet</h1>
-<p style="max-width:900px;color:#d7d7d7;">Court-style tracking template aligned to the Texas Municipal Courts community service format for consistent documentation and accountability.</p>
-
-<div class="verification-box">
-<strong>Verification Contact</strong>
-<p>This completed time sheet should be verified through Busi Believers Incorporated using the BUSI reference, participant name, service dates, and supervisor signature.</p>
-<p>For verification, contact BUSI at <strong>admin@busib.net</strong>, call <strong>888-287-4215</strong>, or visit <strong>https://busib.net</strong>.</p>
-</div>
 
 <div class="card">
 <h2>Court and Participant Information</h2>
@@ -120,7 +125,6 @@ pageLabel: document.title || "BUSI Staff Tool"
 
 <div class="card">
 <h2>Service Hours Log</h2>
-<p style="color:#d7d7d7;">Enter each service date with sign-in/sign-out and initials.</p>
 <table>
 <thead>
 <tr>
@@ -147,7 +151,6 @@ pageLabel: document.title || "BUSI Staff Tool"
 
 <div class="card">
 <h2>Certification and Signatures</h2>
-<p>I certify that the hours entered above were completed under BUSI-approved supervision and recorded accurately. This document is not valid for court, agency, or program verification unless signed by the participant and an authorized BUSI supervisor or representative.</p>
 <div class="grid">
 <div><label>Supervisor Name</label><input type="text" placeholder="Supervisor full name"></div>
 <div><label>Supervisor Signature</label><input type="text" placeholder="Type full name"></div>
@@ -160,11 +163,6 @@ pageLabel: document.title || "BUSI Staff Tool"
 </div>
 
 <p class="warning" style="margin-top:16px;">Warning: False reporting of community service time may be prosecuted as a Class A misdemeanor.</p>
-
-<div class="verification-box">
-<strong>BUSI Verification Statement</strong>
-<p>Busi Believers Incorporated may confirm this record by matching the BUSI reference, participant identity, service log, supervisor signature, and internal program records. Copies should be submitted only after the hours and signatures are complete.</p>
-</div>
 
 <div class="print-hide" style="margin-top:14px;">
 <button class="btn" onclick="window.print()">Print / Save PDF</button>

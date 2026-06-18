@@ -170,6 +170,7 @@ a{color:inherit}
   color:#fff;
   padding:72px 0 54px;
   border-bottom:6px solid var(--gold);
+  overflow:hidden;
 }
 
 .hero-grid{
@@ -868,7 +869,21 @@ input[readonly]{
     grid-template-columns:1fr;
   }
 
-  .hero{padding:48px 0}
+  .hero{
+    background:var(--navy);
+    padding:48px 0 64px;
+  }
+
+  .hero-copy{
+    background:var(--navy);
+    color:#fff;
+    padding-bottom:4px;
+  }
+
+  .hero-copy p,
+  .hero-copy h1{
+    color:#fff;
+  }
 
   .mini-gallery{
     grid-template-columns:1fr 1fr;
